@@ -6,6 +6,7 @@ it(`Should MainScreen render correctly`, () => {
   const tree = renderer
     .create(<MainScreen
       rentTitles={[`Wood and stone place`, `Canal View Prinsengracht`]}
+      rentCardClickHandler={() => {}}
     />)
     .toJSON();
 

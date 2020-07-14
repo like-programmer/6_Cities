@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const MainScreen = (props) => {
-  const {rentTitles} = props;
+  const {rentTitles, rentCardClickHandler} = props;
 
   const getRentCardMarkup = (titles) => {
     return titles.map((title) => {
@@ -36,7 +36,12 @@ const MainScreen = (props) => {
               </div>
             </div>
             <h2 className="place-card__name">
-              <a href="#">{title}</a>
+              <a
+                href="#"
+                onClick={rentCardClickHandler}
+              >
+                {title}
+              </a>
             </h2>
             <p className="place-card__type">Apartment</p>
           </div>
@@ -146,6 +151,7 @@ const MainScreen = (props) => {
 
 MainScreen.propTypes = {
   rentTitles: PropTypes.array.isRequired,
+  rentCardClickHandler: PropTypes.func.isRequired,
 };
 
 export default MainScreen;

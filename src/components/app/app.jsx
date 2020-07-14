@@ -2,12 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import MainScreen from "../main-screen/main-screen.jsx";
 
+const rentCardClickHandler = () => {};
+
 const App = (props) => {
   const {rentTitles} = props;
 
   return (
     <MainScreen
-      rentTitles={rentTitles} />
+      rentTitles={rentTitles}
+      rentCardClickHandler={rentCardClickHandler} />
   );
 };
 
