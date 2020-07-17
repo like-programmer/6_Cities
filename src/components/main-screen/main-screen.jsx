@@ -2,12 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const MainScreen = (props) => {
-  const {rentTitles, rentCardClickHandler} = props;
+  const {offers, onRentCardHover} = props;
 
   const getRentCardMarkup = (titles) => {
     return titles.map((title) => {
       return (
-        <article className="cities__place-card place-card" key={title}>
+        <article
+          className="cities__place-card place-card"
+          key={title}
+          onPointerEnter={() => {console.log(`mama`);}}
+        >
           <div className="place-card__mark">
             <span>Premium</span>
           </div>
@@ -24,24 +28,19 @@ const MainScreen = (props) => {
               </div>
               <button className="place-card__bookmark-button button" type="button">
                 <svg className="place-card__bookmark-icon" width={18} height={19}>
-                  <use xlinkHref="#icon-bookmark"></use>
+                  <use xlinkHref="#icon-bookmark"/>
                 </svg>
                 <span className="visually-hidden">To bookmarks</span>
               </button>
             </div>
             <div className="place-card__rating rating">
               <div className="place-card__stars rating__stars">
-                <span style={{width: 80 + `%`}}></span>
+                <span style={{width: 80 + `%`}}/>
                 <span className="visually-hidden">Rating</span>
               </div>
             </div>
             <h2 className="place-card__name">
-              <a
-                href="#"
-                onClick={rentCardClickHandler}
-              >
-                {title}
-              </a>
+              <a href="#">{title}</a>
             </h2>
             <p className="place-card__type">Apartment</p>
           </div>
@@ -117,13 +116,13 @@ const MainScreen = (props) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{rentTitles.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
                   Popular
                   <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select"></use>
+                    <use xlinkHref="#icon-arrow-select"/>
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
@@ -135,12 +134,12 @@ const MainScreen = (props) => {
               </form>
               <div className="cities__places-list places__list tabs__content">
 
-                {getRentCardMarkup(rentTitles)}
+                {/*{getRentCardMarkup(offers)}*/}
               </div>
             </section>
 
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map"/>
             </div>
           </div>
         </div>
@@ -150,8 +149,8 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
-  rentTitles: PropTypes.array.isRequired,
-  rentCardClickHandler: PropTypes.func.isRequired,
+  offers: PropTypes.array.isRequired,
+  onRentCardHover: PropTypes.func.isRequired,
 };
 
 export default MainScreen;

@@ -2,20 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import MainScreen from "../main-screen/main-screen.jsx";
 
-const rentCardClickHandler = () => {};
+const onRentCardHover = () => {
+};
 
 const App = (props) => {
-  const {rentTitles} = props;
+  const {offers} = props;
 
   return (
     <MainScreen
-      rentTitles={rentTitles}
-      rentCardClickHandler={rentCardClickHandler} />
+      offers={offers}
+      onRentCardHover={onRentCardHover}
+    />
   );
 };
 
 App.propTypes = {
-  rentTitles: PropTypes.array.isRequired,
+  offers: PropTypes.array.isRequired,
 };
 
 export default App;
