@@ -91,6 +91,7 @@ const MainScreen = (props) => {
 
               <OfferList
                 offers={offers}
+                onCardHover={onRentCardHover}
               />
 
             </section>

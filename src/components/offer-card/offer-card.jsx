@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const OfferCard = (props) => {
-  const {card} = props;
+  const {card, onCardHover} = props;
 
   return (
     <article
       className="cities__place-card place-card"
+      onMouseEnter={onCardHover}
     >
       {card.isPremium ?
         <div className="place-card__mark">
@@ -58,6 +59,7 @@ OfferCard.propTypes = {
     isBookmarked: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
   }).isRequired,
+  onCardHover: PropTypes.func.isRequired,
 };
 
 export default OfferCard;
