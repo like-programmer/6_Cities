@@ -5,7 +5,7 @@ const OfferList = (props) => {
   const {offers} = props;
 
   return (
-    <p>JLJLFjSKLgjdflfjgdkfg</p>
+    <div className="cities__places-list places__list tabs__content"></div>
   );
 };
 
