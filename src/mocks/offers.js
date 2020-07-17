@@ -1,0 +1,38 @@
+export default [
+  {
+    picture: `room.jpg`,
+    price: 140,
+    rating: `60%`,
+    title: `Wood and stone place`,
+    type: `Private room`,
+    isBookmarked: false,
+    isPremium: false,
+  },
+  {
+    picture: `apartment-01.jpg`,
+    price: 230,
+    rating: `40%`,
+    title: `Cozy seaview apartment`,
+    type: `Apartment`,
+    isBookmarked: true,
+    isPremium: true,
+  },
+  {
+    picture: `apartment-02.jpg`,
+    price: 90,
+    rating: `20%`,
+    title: `Beautiful place`,
+    type: `Private room`,
+    isBookmarked: true,
+    isPremium: false,
+  },
+  {
+    picture: `apartment-03.jpg`,
+    price: 300,
+    rating: `80%`,
+    title: `Nice quiet stay with soft bed`,
+    type: `Apartment`,
+    isBookmarked: false,
+    isPremium: true,
+  },
+];
