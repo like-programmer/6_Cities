@@ -8,10 +8,13 @@ const OfferList = (props) => {
   return (
     <div className="cities__places-list places__list tabs__content">
 
-      <OfferCard
-        card={offers[0]}
-        onCardHover={onCardHover}
-      />
+      {offers.map((offer, i) => {
+        return <OfferCard
+          card={offer}
+          key={`${offer.title}-${i}`}
+          onCardHover={onCardHover}
+        />;
+      })}
 
     </div>
   );
