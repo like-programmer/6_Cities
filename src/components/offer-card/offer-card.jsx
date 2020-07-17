@@ -49,7 +49,15 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
-  card: PropTypes.object.isRequired,
+  card: PropTypes.shape({
+    picture: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    isBookmarked: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 export default OfferCard;
