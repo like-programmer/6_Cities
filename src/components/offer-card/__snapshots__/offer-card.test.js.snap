@@ -13,9 +13,10 @@ exports[`Should OfferCard render correctly 1`] = `
       href="#"
     >
       <img
+        alt="Beautiful place"
         className="place-card__image"
         height={200}
-        src="img/undefined"
+        src="img/apartment-02.jpg"
         width={260}
       />
     </a>
@@ -33,6 +34,7 @@ exports[`Should OfferCard render correctly 1`] = `
           className="place-card__price-value"
         >
           €
+          90
         </b>
         <span
           className="place-card__price-text"
@@ -41,7 +43,7 @@ exports[`Should OfferCard render correctly 1`] = `
         </span>
       </div>
       <button
-        className="place-card__bookmark-button  button"
+        className="place-card__bookmark-button place-card__bookmark-button--active button"
         type="button"
       >
         <svg
@@ -56,7 +58,7 @@ exports[`Should OfferCard render correctly 1`] = `
         <span
           className="visually-hidden"
         >
-          To bookmarks
+          In bookmarks
         </span>
       </button>
     </div>
@@ -69,7 +71,7 @@ exports[`Should OfferCard render correctly 1`] = `
         <span
           style={
             Object {
-              "width": undefined,
+              "width": "20%",
             }
           }
         />
@@ -85,11 +87,15 @@ exports[`Should OfferCard render correctly 1`] = `
     >
       <a
         href="#"
-      />
+      >
+        Beautiful place
+      </a>
     </h2>
     <p
       className="place-card__type"
-    />
+    >
+      Private room
+    </p>
   </div>
 </article>
 `;
