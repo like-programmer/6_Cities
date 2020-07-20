@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import OfferList from "../offer-list/offer-list.jsx";
 
 const MainScreen = (props) => {
-  const {offers, onRentCardHover} = props;
+  const {offers} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -91,7 +91,6 @@ const MainScreen = (props) => {
 
               <OfferList
                 offers={offers}
-                onCardHover={onRentCardHover}
               />
 
             </section>
@@ -108,7 +107,6 @@ const MainScreen = (props) => {
 
 MainScreen.propTypes = {
   offers: PropTypes.array.isRequired,
-  onRentCardHover: PropTypes.func.isRequired,
 };
 
 export default MainScreen;

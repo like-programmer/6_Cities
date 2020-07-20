@@ -7,7 +7,9 @@ const OfferCard = (props) => {
   return (
     <article
       className="cities__place-card place-card"
-      onMouseEnter={onCardHover}
+      onMouseEnter={() => {
+        onCardHover(card);
+      }}
     >
       {card.isPremium ?
         <div className="place-card__mark">
