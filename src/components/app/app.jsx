@@ -5,6 +5,10 @@ import MainScreen from "../main-screen/main-screen.jsx";
 class App extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      activeCard: -1,
+    };
   }
 
   render() {
