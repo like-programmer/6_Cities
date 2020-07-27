@@ -7,6 +7,7 @@ export default [
     type: `Private room`,
     isBookmarked: false,
     isPremium: false,
+    coordinates: [52.3909553943508, 4.85309666406198],
   },
   {
     picture: `apartment-01.jpg`,
@@ -16,6 +17,7 @@ export default [
     type: `Apartment`,
     isBookmarked: true,
     isPremium: true,
+    coordinates: [52.369553943508, 4.85309666406198],
   },
   {
     picture: `apartment-02.jpg`,
@@ -25,6 +27,7 @@ export default [
     type: `Private room`,
     isBookmarked: true,
     isPremium: false,
+    coordinates: [52.3909553943508, 4.929309666406198],
   },
   {
     picture: `apartment-03.jpg`,
@@ -34,5 +37,6 @@ export default [
     type: `Apartment`,
     isBookmarked: false,
     isPremium: true,
+    coordinates: [52.3809553943508, 4.939309666406198],
   },
 ];
