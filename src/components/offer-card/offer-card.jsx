@@ -60,6 +60,7 @@ OfferCard.propTypes = {
     type: PropTypes.string.isRequired,
     isBookmarked: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
+    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired,
   onCardHover: PropTypes.func.isRequired,
 };
