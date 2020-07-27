@@ -7,22 +7,18 @@ class Map extends PureComponent {
     super(props);
 
     this._mapRef = createRef();
-
-    this.state = {
-      cityLocation: [52.38333, 4.9],
-    };
   }
 
   _initMap(container) {
-    const city = this.state.cityLocation;
+    const {cityLocation} = this.props;
     const zoom = 12;
     const map = leaflet.map(container, {
-      center: city,
+      center: cityLocation,
       zoom,
       zoomControl: false,
       marker: true
     });
-    map.setView(city, zoom);
+    map.setView(cityLocation, zoom);
 
     return map;
   }
@@ -35,11 +31,25 @@ class Map extends PureComponent {
       .addTo(map);
   }
 
+  _addMarker(pinCoords, map) {
+    const icon = leaflet.icon({
+      iconUrl: `img/pin.svg`,
+      iconSize: [30, 40]
+    });
+
+    leaflet
+      .marker(pinCoords, {icon})
+      .addTo(map);
+  }
+
   componentDidMount() {
+    const {offers} = this.props;
     const container = this._mapRef.current;
     const map = this._initMap(container);
 
     this._addLayer(map);
+
+    offers.forEach((offer) => this._addMarker(offer.coordinates, map));
   }
 
   render() {
@@ -57,6 +67,7 @@ class Map extends PureComponent {
 
 Map.propTypes = {
   offers: PropTypes.array.isRequired,
+  cityLocation: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
 };
 
 export default Map;

@@ -98,9 +98,10 @@ const MainScreen = (props) => {
 
             <div className="cities__right-section">
 
-                <Map
-                  offers={offers}
-                />
+              <Map
+                offers={offers}
+                cityLocation={[52.38333, 4.9]}
+              />
 
             </div>
           </div>
