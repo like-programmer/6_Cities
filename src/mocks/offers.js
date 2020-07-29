@@ -1,6 +1,5 @@
 export default [
   {
-    id: 12,
     picture: `room.jpg`,
     price: 140,
     rating: `60%`,
@@ -11,7 +10,6 @@ export default [
     coordinates: [52.3909553943508, 4.85309666406198],
   },
   {
-    id: 98,
     picture: `apartment-01.jpg`,
     price: 230,
     rating: `40%`,
@@ -22,7 +20,6 @@ export default [
     coordinates: [52.369553943508, 4.85309666406198],
   },
   {
-    id: 44,
     picture: `apartment-02.jpg`,
     price: 90,
     rating: `20%`,
@@ -33,7 +30,6 @@ export default [
     coordinates: [52.3909553943508, 4.929309666406198],
   },
   {
-    id: 56,
     picture: `apartment-03.jpg`,
     price: 300,
     rating: `80%`,
