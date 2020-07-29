@@ -9,8 +9,32 @@ class App extends PureComponent {
     super(props);
 
     this.state = {
-      offerID: -1,
+      offer: undefined,
     };
+  }
+
+  _renderMainScreen() {
+    const {offers} = this.props;
+    const {offer} = this.state;
+
+    if (offer === undefined) {
+      return (
+        <MainScreen
+          offers={offers}
+          onCardClick={(card) => {
+            this.setState({
+              offer: card,
+            });
+          }}
+        />
+      );
+    } else {
+      return (
+        <OfferDetailsScreen
+          offer={offer}
+        />
+      );
+    }
   }
 
   render() {
@@ -20,13 +44,7 @@ class App extends PureComponent {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            {/*{this._renderMainScreen()}*/}
-            <MainScreen
-              offers={offers}
-              onCardClick={(offer) => {
-                console.log(offer);
-              }}
-            />;
+            {this._renderMainScreen()}
           </Route>
 
           <Route exact path="/details">

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const OfferDetailsScreen = (props) => {
   const {offer} = props;
+  console.log(offer.title);
 
   return (
     <div className="page">
