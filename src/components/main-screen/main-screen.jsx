@@ -4,7 +4,7 @@ import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 
 const MainScreen = (props) => {
-  const {offers} = props;
+  const {offers, onCardClick} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -92,6 +92,7 @@ const MainScreen = (props) => {
 
               <OfferList
                 offers={offers}
+                onCardClick={onCardClick}
               />
 
             </section>
@@ -113,6 +114,7 @@ const MainScreen = (props) => {
 
 MainScreen.propTypes = {
   offers: PropTypes.array.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default MainScreen;

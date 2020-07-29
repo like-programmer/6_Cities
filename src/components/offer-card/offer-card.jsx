@@ -2,14 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const OfferCard = (props) => {
-  const {card, onCardHover} = props;
+  const {card, onCardHover, onCardClick} = props;
 
   return (
     <article
       className="cities__place-card place-card"
-      onMouseEnter={() => {
-        onCardHover(card);
-      }}
+      onMouseEnter={() => onCardHover(card)}
+      onClick={() => onCardClick(card)}
     >
       {card.isPremium ?
         <div className="place-card__mark">
@@ -63,6 +62,7 @@ OfferCard.propTypes = {
     coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired,
   onCardHover: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default OfferCard;

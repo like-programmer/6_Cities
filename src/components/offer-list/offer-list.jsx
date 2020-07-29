@@ -12,7 +12,7 @@ class OfferList extends PureComponent {
   }
 
   render() {
-    const {offers} = this.props;
+    const {offers, onCardClick} = this.props;
 
     return <div className="cities__places-list places__list tabs__content">
 
@@ -20,11 +20,10 @@ class OfferList extends PureComponent {
         return <OfferCard
           card={offer}
           key={`${offer.title}-${i}`}
-          onCardHover={(card) => {
-            this.setState({
-              activeCard: card,
-            });
-          }}
+          onCardHover={(card) => this.setState({
+            activeCard: card,
+          })}
+          onCardClick={onCardClick}
         />;
       })}
 
@@ -34,6 +33,7 @@ class OfferList extends PureComponent {
 
 OfferList.propTypes = {
   offers: PropTypes.array.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default OfferList;
