@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 const OfferDetailsScreen = (props) => {
   const {offer} = props;
-  console.log(offer.title);
 
   return (
     <div className="page">
@@ -56,30 +55,34 @@ const OfferDetailsScreen = (props) => {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+
+              {offer.isPremium ?
+                <div className="property__mark">
+                  <span>Premium</span>
+                </div>
+                : ``}
+
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`property__bookmark-button ${offer.isBookmarked ? `property__bookmark-button--active` : ``} button`} type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"/>
                   </svg>
-                  <span className="visually-hidden">To bookmarks</span>
+                  <span className="visually-hidden">{offer.isBookmarked ? `In bookmarks` : `To bookmarks`}</span>
                 </button>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `80%`}}/>
+                  <span style={{width: offer.rating}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">4.8</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  Apartment
+                  {offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   3 Bedrooms
@@ -89,7 +92,7 @@ const OfferDetailsScreen = (props) => {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -348,7 +351,6 @@ const OfferDetailsScreen = (props) => {
 
 OfferDetailsScreen.propTypes = {
   offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
     picture: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     rating: PropTypes.string.isRequired,

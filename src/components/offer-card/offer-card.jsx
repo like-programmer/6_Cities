@@ -52,7 +52,6 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   card: PropTypes.shape({
-    id: PropTypes.number.isRequired,
     picture: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     rating: PropTypes.string.isRequired,
