@@ -347,6 +347,7 @@ const OfferDetailsScreen = (props) => {
 
 OfferDetailsScreen.propTypes = {
   offer: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     picture: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     rating: PropTypes.string.isRequired,

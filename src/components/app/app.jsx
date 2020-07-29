@@ -7,6 +7,10 @@ import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx
 class App extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      offerID: -1,
+    };
   }
 
   render() {
