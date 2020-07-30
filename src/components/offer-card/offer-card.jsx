@@ -8,7 +8,7 @@ const OfferCard = (props) => {
     <article
       className="cities__place-card place-card"
       onMouseEnter={() => onCardHover(card)}
-      onClick={() => onCardClick(card)}
+      onClick={() => onCardClick(card.id)}
     >
       {card.isPremium ?
         <div className="place-card__mark">
@@ -52,6 +52,7 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   card: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     price: PropTypes.number.isRequired,
     rating: PropTypes.number.isRequired,

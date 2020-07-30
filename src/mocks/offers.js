@@ -2,6 +2,7 @@ import {RATING} from "../const.js";
 
 export default [
   {
+    id: 1,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -36,6 +37,7 @@ export default [
     coordinates: [52.3909553943508, 4.85309666406198],
   },
   {
+    id: 12,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -70,6 +72,7 @@ export default [
     coordinates: [52.369553943508, 4.85309666406198],
   },
   {
+    id: 3,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -104,6 +107,7 @@ export default [
     coordinates: [52.3909553943508, 4.929309666406198],
   },
   {
+    id: 56,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
