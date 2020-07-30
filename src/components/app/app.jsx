@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
+import {MapClassNames} from "../../const.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -20,6 +21,7 @@ class App extends PureComponent {
     if (offerID === -1) {
       return (
         <MainScreen
+          mapClassName={MapClassNames.CITY}
           offers={offers}
           onCardClick={(id) => {
             this.setState({
@@ -31,6 +33,7 @@ class App extends PureComponent {
     } else {
       return (
         <OfferDetailsScreen
+          mapClassName={MapClassNames.PROPERTY}
           offerID={offerID}
           offers={offers}
           reviews={reviews}
@@ -51,6 +54,7 @@ class App extends PureComponent {
 
           <Route exact path="/details">
             <OfferDetailsScreen
+              mapClassName={MapClassNames.PROPERTY}
               offerID={1}
               offers={offers}
               reviews={reviews}

@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import ReviewList from "../review-list/review-list.jsx";
-// import Map from "../map/map";
+import Map from "../map/map.jsx";
 
 const getFractionalRating = (relativeRating) => {
   return (relativeRating / 20).toFixed(1);
@@ -26,9 +26,12 @@ class OfferDetailsScreen extends PureComponent {
   }
 
   render() {
-    const {reviews} = this.props;
+    const {mapClassName, offers, reviews} = this.props;
     const offer = this._offerDetails;
     const fractionalRating = getFractionalRating(offer.rating);
+
+    const offerIndex = offers.indexOf(offer);
+    const nearbyOffers = [].concat(offers.slice(0, offerIndex), offers.slice(offerIndex + 1));
 
     return (
       <div className="page">
@@ -238,7 +241,11 @@ class OfferDetailsScreen extends PureComponent {
               </div>
             </div>
 
-            <section className="property__map map"></section>
+            <Map
+              className={mapClassName}
+              offers={nearbyOffers.slice(0, 3)}
+              cityLocation={[52.38333, 4.9]}
+            />
 
           </section>
 
@@ -359,6 +366,7 @@ class OfferDetailsScreen extends PureComponent {
 }
 
 OfferDetailsScreen.propTypes = {
+  mapClassName: PropTypes.string.isRequired,
   offerID: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,

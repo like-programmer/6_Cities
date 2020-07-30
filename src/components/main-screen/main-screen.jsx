@@ -4,7 +4,7 @@ import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 
 const MainScreen = (props) => {
-  const {offers, onCardClick} = props;
+  const {mapClassName, offers, onCardClick} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -100,6 +100,7 @@ const MainScreen = (props) => {
             <div className="cities__right-section">
 
               <Map
+                className={mapClassName}
                 offers={offers}
                 cityLocation={[52.38333, 4.9]}
               />
@@ -113,6 +114,7 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
+  mapClassName: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
   onCardClick: PropTypes.func.isRequired,
 };

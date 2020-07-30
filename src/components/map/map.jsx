@@ -53,11 +53,12 @@ class Map extends PureComponent {
   }
 
   render() {
+    const {className} = this.props;
+
     return (
       <section
-        id="map"
-        className="cities__map map"
-        style={{height: `100%`}}
+        id={`${className}-map`}
+        className={`${className}__map map`}
         ref={this._mapRef}
       >
       </section>
@@ -66,6 +67,7 @@ class Map extends PureComponent {
 }
 
 Map.propTypes = {
+  className: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
   cityLocation: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
 };
