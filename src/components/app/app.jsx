@@ -14,7 +14,7 @@ class App extends PureComponent {
   }
 
   _renderMainScreen() {
-    const {offers} = this.props;
+    const {offers, reviews} = this.props;
     const {offer} = this.state;
 
     if (offer === undefined) {
@@ -32,13 +32,14 @@ class App extends PureComponent {
       return (
         <OfferDetailsScreen
           offer={offer}
+          reviews={reviews}
         />
       );
     }
   }
 
   render() {
-    const {offers} = this.props;
+    const {offers, reviews} = this.props;
 
     return (
       <BrowserRouter>
@@ -50,6 +51,7 @@ class App extends PureComponent {
           <Route exact path="/details">
             <OfferDetailsScreen
               offer={offers[0]}
+              reviews={reviews}
             />;
           </Route>
         </Switch>
@@ -60,6 +62,7 @@ class App extends PureComponent {
 
 App.propTypes = {
   offers: PropTypes.array.isRequired,
+  reviews: PropTypes.array.isRequired,
 };
 
 export default App;

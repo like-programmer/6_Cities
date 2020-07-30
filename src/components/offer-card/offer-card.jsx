@@ -17,7 +17,7 @@ const OfferCard = (props) => {
         : ``}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={`img/${card.picture}`} width={260} height={200} alt={card.title}/>
+          <img className="place-card__image" src={`img/${card.pictures[0]}`} width={260} height={200} alt={card.title}/>
         </a>
       </div>
       <div className="place-card__info">
@@ -37,7 +37,7 @@ const OfferCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: card.rating}}/>
+            <span style={{width: `${card.rating}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -52,9 +52,9 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   card: PropTypes.shape({
-    picture: PropTypes.string.isRequired,
+    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     price: PropTypes.number.isRequired,
-    rating: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     isBookmarked: PropTypes.bool.isRequired,

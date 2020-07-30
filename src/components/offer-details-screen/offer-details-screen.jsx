@@ -2,8 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReviewList from "../review-list/review-list.jsx";
 
+const getFractionalRating = (relativeRating) => {
+  return (relativeRating / 20).toFixed(1);
+};
+
 const OfferDetailsScreen = (props) => {
-  const {offer} = props;
+  const {offer, reviews} = props;
+  const fractionalRating = getFractionalRating(offer.rating);
 
   return (
     <div className="page">
@@ -35,24 +40,16 @@ const OfferDetailsScreen = (props) => {
 
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-              </div>
+
+              {offer.pictures.map((picture, i) => {
+                return (
+                  <div className="property__image-wrapper"
+                    key={`${picture}-${i}`}>
+                    <img className="property__image" src={`img/${picture}`} alt="Photo studio"/>
+                  </div>
+                );
+              })}
+
             </div>
           </div>
 
@@ -81,10 +78,10 @@ const OfferDetailsScreen = (props) => {
 
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: offer.rating}}/>
+                  <span style={{width: `${offer.rating}%`}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{fractionalRating}</span>
               </div>
 
               <ul className="property__features">
@@ -92,10 +89,10 @@ const OfferDetailsScreen = (props) => {
                   {offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedroomsCount} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {offer.guestsCount} adults
                 </li>
               </ul>
 
@@ -107,66 +104,55 @@ const OfferDetailsScreen = (props) => {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
+
+                  {offer.appliances.map((appliance, i) => {
+                    return (
+                      <li className="property__inside-item"
+                        key={`${appliance}-${i}`}
+                      >
+                        {appliance}
+                      </li>
+                    );
+                  })}
+
                 </ul>
               </div>
 
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74"
+                  <div
+                    className={`property__avatar-wrapper ${offer.host.isSuper ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
+                    <img className="property__avatar user__avatar" src={`img/${offer.host.picture}`} width="74"
+                      height="74"
                       alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
-                    Angelina
+                    {offer.host.name}
                   </span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The
-                    building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where
-                    the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
+
+                  {offer.description.map((paragraph, i) => {
+                    return (
+                      <p className="property__text"
+                        key={`${paragraph}-${i}`}
+                      >
+                        {paragraph}
+                      </p>
+                    );
+                  })}
+
                 </div>
               </div>
 
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span
+                  className="reviews__amount">{reviews.length}</span></h2>
 
-                <ReviewList/>
+                <ReviewList
+                  reviews={reviews}
+                />
 
                 <form className="reviews__form form" action="#" method="post">
                   <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -349,15 +335,25 @@ const OfferDetailsScreen = (props) => {
 
 OfferDetailsScreen.propTypes = {
   offer: PropTypes.shape({
-    picture: PropTypes.string.isRequired,
+    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     price: PropTypes.number.isRequired,
-    rating: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    description: PropTypes.arrayOf(PropTypes.string).isRequired,
+    bedroomsCount: PropTypes.number.isRequired,
+    guestsCount: PropTypes.number.isRequired,
+    appliances: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    host: PropTypes.shape({
+      picture: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      isSuper: PropTypes.bool.isRequired,
+    }).isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     isBookmarked: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
     coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired,
+  reviews: PropTypes.array.isRequired,
 };
 
 export default OfferDetailsScreen;
