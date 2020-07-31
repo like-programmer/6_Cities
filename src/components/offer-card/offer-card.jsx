@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const OfferCard = (props) => {
-  const {card, onCardHover, onCardClick} = props;
+  const {className, card, onCardHover, onCardClick} = props;
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={`${className} place-card`}
       onMouseEnter={() => onCardHover(card)}
       onClick={() => onCardClick(card.id)}
     >
@@ -51,6 +51,7 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
+  className: PropTypes.string.isRequired,
   card: PropTypes.shape({
     id: PropTypes.number.isRequired,
     pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

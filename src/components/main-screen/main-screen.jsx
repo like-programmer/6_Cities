@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
+import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 
 const MainScreen = (props) => {
   const {mapClassName, offers, onCardClick} = props;
@@ -91,6 +92,8 @@ const MainScreen = (props) => {
               </form>
 
               <OfferList
+                className={OfferListClassNames.MAIN_PAGE}
+                offerCardClassName={OfferCardClassNames.MAIN_PAGE}
                 offers={offers}
                 onCardClick={onCardClick}
               />
