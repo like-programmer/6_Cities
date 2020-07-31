@@ -9,9 +9,17 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
 
+    this._offerCardClickHandler = this._offerCardClickHandler.bind(this);
+
     this.state = {
       offerID: -1,
     };
+  }
+
+  _offerCardClickHandler(id) {
+    this.setState({
+      offerID: id,
+    });
   }
 
   _renderMainScreen() {
@@ -23,11 +31,7 @@ class App extends PureComponent {
         <MainScreen
           mapClassName={MapClassNames.CITY}
           offers={offers}
-          onCardClick={(id) => {
-            this.setState({
-              offerID: id,
-            });
-          }}
+          onCardClick={this._offerCardClickHandler}
         />
       );
     } else {
@@ -37,6 +41,7 @@ class App extends PureComponent {
           offerID={offerID}
           offers={offers}
           reviews={reviews}
+          onCardClick={this._offerCardClickHandler}
         />
       );
     }
@@ -58,6 +63,7 @@ class App extends PureComponent {
               offerID={1}
               offers={offers}
               reviews={reviews}
+              onCardClick={this._offerCardClickHandler}
             />;
           </Route>
         </Switch>

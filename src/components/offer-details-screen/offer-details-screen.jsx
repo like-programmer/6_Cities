@@ -28,7 +28,7 @@ class OfferDetailsScreen extends PureComponent {
   }
 
   render() {
-    const {mapClassName, offers, reviews} = this.props;
+    const {mapClassName, offers, reviews, onCardClick} = this.props;
     const offer = this._offerDetails;
     const fractionalRating = getFractionalRating(offer.rating);
 
@@ -263,7 +263,7 @@ class OfferDetailsScreen extends PureComponent {
                 className={OfferListClassNames.NEARBY}
                 offerCardClassName={OfferCardClassNames.NEARBY}
                 offers={slicedOffers}
-                onCardClick={() => {}}
+                onCardClick={onCardClick}
               />
 
             </section>
@@ -299,6 +299,7 @@ OfferDetailsScreen.propTypes = {
     coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired),
   reviews: PropTypes.array.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default OfferDetailsScreen;
