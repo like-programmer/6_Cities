@@ -14,21 +14,22 @@ class App extends PureComponent {
     this._offerCardClickHandler = this._offerCardClickHandler.bind(this);
 
     this.state = {
-      offerID: -1,
+      offer: undefined,
     };
   }
 
-  _offerCardClickHandler(id) {
+  _offerCardClickHandler(card) {
     this.setState({
-      offerID: id,
+      offer: card,
     });
   }
 
   _renderMainScreen() {
+    console.log(this.props);
     const {offers, reviews} = this.props;
-    const {offerID} = this.state;
+    const {offer} = this.state;
 
-    if (offerID === -1) {
+    if (offer === undefined) {
       return (
         <MainScreen
           mapClassName={MapClassNames.CITY}
@@ -40,7 +41,7 @@ class App extends PureComponent {
       return (
         <OfferDetailsScreen
           mapClassName={MapClassNames.PROPERTY}
-          offerID={offerID}
+          offerID={offer.id}
           offers={offers}
           reviews={reviews}
           onCardClick={this._offerCardClickHandler}
@@ -75,8 +76,19 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
+  activeCity: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
   reviews: PropTypes.array.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  activeCity: state.city,
+  offers: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

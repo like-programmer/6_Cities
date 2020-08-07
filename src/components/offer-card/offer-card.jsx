@@ -8,7 +8,7 @@ const OfferCard = (props) => {
     <article
       className={`${className} place-card`}
       onMouseEnter={() => onCardHover(card)}
-      onClick={() => onCardClick(card.id)}
+      onClick={() => onCardClick(card)}
     >
       {card.isPremium ?
         <div className="place-card__mark">

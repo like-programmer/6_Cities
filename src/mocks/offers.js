@@ -3,7 +3,7 @@ import {RATING, City} from "../const.js";
 export default [
   {
     id: 1,
-    city: City.AMSTERDAM.name,
+    city: City.AMSTERDAM,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -39,7 +39,7 @@ export default [
   },
   {
     id: 12,
-    city: City.PARIS.name,
+    city: City.PARIS,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -75,7 +75,7 @@ export default [
   },
   {
     id: 3,
-    city: City.COLOGNE.name,
+    city: City.COLOGNE,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -111,7 +111,7 @@ export default [
   },
   {
     id: 56,
-    city: City.BRUSSELS.name,
+    city: City.BRUSSELS,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -147,7 +147,7 @@ export default [
   },
   {
     id: 16,
-    city: City.HAMBURG.name,
+    city: City.HAMBURG,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -183,7 +183,7 @@ export default [
   },
   {
     id: 34,
-    city: City.DUSSELDORF.name,
+    city: City.DUSSELDORF,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
