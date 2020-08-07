@@ -38,9 +38,7 @@ const MainScreen = (props) => {
         <div className="tabs">
           <section className="locations container">
 
-            <CitiesList
-            offers={offers}
-            />
+            <CitiesList/>
 
           </section>
         </div>

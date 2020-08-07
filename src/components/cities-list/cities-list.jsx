@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer.js";
 import CitiesListItem from "../cities-list-item/cities-list-item.jsx";
+import offers from "../../mocks/offers";
 
 const getuniqueArray = (array) => {
   return Array.from(new Set(array));
@@ -41,6 +42,7 @@ CitiesList.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeCity: state.city,
+  offers: state.offers,
 });
 
 const mapDispatchToProps = (dispatch) => ({
