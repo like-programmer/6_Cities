@@ -1,14 +1,43 @@
-const initialState = {};
+import offers from "./mocks/offers.js";
+import {City} from "./const.js";
+import {extend, getFilteredByCityOffers} from "./utils.js";
 
-const ActionType = {};
+const initialState = {
+  city: City.PARIS.name,
+  offers,
+};
 
-const reducer = (state = initialState, actiob) => {
-  // switch (action.type) {
-    // case ActionType. :
-    //   return
-  // }
+const ActionType = {
+  CHANGE_CITY: `CHANGE_CITY`,
+  GET_OFFERS: `GET_OFFERS`,
+};
+
+const ActionCreator = {
+  changeCity: (city) => ({
+    type: ActionType.CHANGE_CITY,
+    payload: city,
+  }),
+
+  getOffers: (city) => ({
+    type: ActionType.GET_OFFERS,
+    payload: city,
+  }),
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionType.CHANGE_CITY:
+      return extend(state, {
+        city: action.payload,
+      });
+
+    case ActionType.GET_OFFERS:
+      return extend(state, {
+        offers: getFilteredByCityOffers(state.offers, action.payload),
+      });
+  }
 
   return state;
 };
 
-export {reducer, ActionType};
+export {reducer, ActionType, ActionCreator};

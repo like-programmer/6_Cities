@@ -1,6 +1,8 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
 import {MapClassNames} from "../../const.js";

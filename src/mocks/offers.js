@@ -1,8 +1,9 @@
-import {RATING} from "../const.js";
+import {RATING, City} from "../const.js";
 
 export default [
   {
     id: 1,
+    city: City.AMSTERDAM.name,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -34,10 +35,11 @@ export default [
     type: `Private room`,
     isBookmarked: false,
     isPremium: false,
-    coordinates: [52.3909553943508, 4.85309666406198],
+    coordinates: City.AMSTERDAM.coordinates,
   },
   {
     id: 12,
+    city: City.PARIS.name,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -69,10 +71,11 @@ export default [
     type: `Apartment`,
     isBookmarked: true,
     isPremium: true,
-    coordinates: [52.369553943508, 4.85309666406198],
+    coordinates: City.PARIS.coordinates,
   },
   {
     id: 3,
+    city: City.COLOGNE.name,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -104,10 +107,11 @@ export default [
     type: `Private room`,
     isBookmarked: true,
     isPremium: false,
-    coordinates: [52.3909553943508, 4.929309666406198],
+    coordinates: City.COLOGNE.coordinates,
   },
   {
     id: 56,
+    city: City.BRUSSELS.name,
     pictures: [
       `room.jpg`,
       `apartment-01.jpg`,
@@ -139,6 +143,78 @@ export default [
     type: `Apartment`,
     isBookmarked: false,
     isPremium: true,
-    coordinates: [52.3809553943508, 4.939309666406198],
+    coordinates: City.BRUSSELS.coordinates,
+  },
+  {
+    id: 16,
+    city: City.HAMBURG.name,
+    pictures: [
+      `room.jpg`,
+      `apartment-01.jpg`,
+      `apartment-02.jpg`,
+      `apartment-03.jpg`,
+      `apartment-small-03.jpg`,
+      `apartment-small-04.jpg`
+    ],
+    price: 300,
+    rating: RATING[1],
+    description: [
+      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
+    ],
+    bedroomsCount: 3,
+    guestsCount: 4,
+    appliances: [
+      `Wifi`,
+      `Heating`,
+      `Kitchen`,
+      `Cable TV`
+    ],
+    host: {
+      picture: `avatar-angelina.jpg`,
+      name: `Adam Smith`,
+      isSuper: true,
+    },
+    title: `Nice quiet stay with soft bed`,
+    type: `Apartment`,
+    isBookmarked: false,
+    isPremium: true,
+    coordinates: City.HAMBURG.coordinates,
+  },
+  {
+    id: 34,
+    city: City.DUSSELDORF.name,
+    pictures: [
+      `room.jpg`,
+      `apartment-01.jpg`,
+      `apartment-02.jpg`,
+      `apartment-03.jpg`,
+      `apartment-small-03.jpg`,
+      `apartment-small-04.jpg`
+    ],
+    price: 300,
+    rating: RATING[1],
+    description: [
+      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
+    ],
+    bedroomsCount: 3,
+    guestsCount: 4,
+    appliances: [
+      `Wifi`,
+      `Heating`,
+      `Kitchen`,
+      `Cable TV`
+    ],
+    host: {
+      picture: `avatar-angelina.jpg`,
+      name: `Adam Smith`,
+      isSuper: true,
+    },
+    title: `Nice quiet stay with soft bed`,
+    type: `Apartment`,
+    isBookmarked: false,
+    isPremium: true,
+    coordinates: City.DUSSELDORF.coordinates,
   },
 ];
