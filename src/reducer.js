@@ -3,7 +3,7 @@ import {City} from "./const.js";
 import {extend, getFilteredByCityOffers} from "./utils.js";
 
 const initialState = {
-  city: City.PARIS.name,
+  city: City.AMSTERDAM.name,
   offers,
 };
 
