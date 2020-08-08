@@ -7,6 +7,7 @@ class Map extends PureComponent {
     super(props);
 
     this._mapRef = createRef();
+    this.map = null;
   }
 
   _addLayer(map) {

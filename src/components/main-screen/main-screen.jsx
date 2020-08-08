@@ -5,19 +5,8 @@ import {ActionCreator} from "../../reducer.js";
 import CitiesList from "../cities-list/cities-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
-import {OfferListClassNames, OfferCardClassNames, City} from "../../const.js";
-import {getFilteredByCityOffers} from "../../utils";
-
-const getCityCoordinates = (activeCity) => {
-  let coordinates;
-
-  for (let city in City) {
-    if (City[city].name === activeCity) {
-      coordinates = City[city].coordinates;
-    }
-  }
-  return coordinates;
-};
+import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
+import {getFilteredByCityOffers, getCityCoordinates} from "../../utils.js";
 
 const MainScreen = (props) => {
   const {

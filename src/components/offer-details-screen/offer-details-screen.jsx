@@ -1,9 +1,11 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
+import {getFilteredByCityOffers, getCityCoordinates} from "../../utils.js";
 
 const getFractionalRating = (relativeRating) => {
   return (relativeRating / 20).toFixed(1);
@@ -28,13 +30,17 @@ class OfferDetailsScreen extends PureComponent {
   }
 
   render() {
-    const {mapClassName, offers, reviews, onCardClick} = this.props;
+    const {mapClassName, offers, activeCity, reviews, onCardClick} = this.props;
     const offer = this._offerDetails;
     const fractionalRating = getFractionalRating(offer.rating);
 
-    const offerIndex = offers.indexOf(offer);
-    const nearbyOffers = [].concat(offers.slice(0, offerIndex), offers.slice(offerIndex + 1));
+    const filteredByCityOffers = getFilteredByCityOffers(offers, activeCity);
+
+    const offerIndex = filteredByCityOffers.indexOf(offer);
+    const nearbyOffers = [].concat(filteredByCityOffers.slice(0, offerIndex), filteredByCityOffers.slice(offerIndex + 1));
     const slicedOffers = nearbyOffers.slice(0, 3);
+
+    const cityCoordinates = getCityCoordinates(activeCity);
 
     return (
       <div className="page">
@@ -250,7 +256,7 @@ class OfferDetailsScreen extends PureComponent {
             <Map
               className={mapClassName}
               offers={slicedOffers}
-              cityLocation={[52.38333, 4.9]}
+              cityLocation={cityCoordinates}
             />
 
           </section>
@@ -300,6 +306,13 @@ OfferDetailsScreen.propTypes = {
   }).isRequired),
   reviews: PropTypes.array.isRequired,
   onCardClick: PropTypes.func.isRequired,
+  activeCity: PropTypes.string.isRequired,
 };
 
-export default OfferDetailsScreen;
+const mapStateToProps = (state) => ({
+  activeCity: state.city,
+  offers: state.offers,
+});
+
+export {OfferDetailsScreen};
+export default connect(mapStateToProps)(OfferDetailsScreen);
