@@ -41,3 +41,22 @@ export const City = {
     coordinates: [51.225969, 6.775428],
   },
 };
+
+export const SortType = {
+  POPULAR: {
+    name: `Popular`,
+    value: `popular`,
+  },
+  LOW_TO_HIGH: {
+    name: `Price: low to high`,
+    value: `to-high`,
+  },
+  HIGH_TO_LOW: {
+    name: `Price: high to low`,
+    value: `to-low`,
+  },
+  TOP_RATED: {
+    name: `Top rated first`,
+    value: `top-rated`,
+  },
+};
