@@ -11,12 +11,7 @@ export const getFilteredByCityOffers = (offers, city) => {
 };
 
 export const getCityCoordinates = (activeCity) => {
-  let coordinates;
+  const [foundedCity] = Object.values(City).filter((city) => city.name === activeCity);
 
-  for (let city in City) {
-    if (City[city].name === activeCity) {
-      coordinates = City[city].coordinates;
-    }
-  }
-  return coordinates;
+  return foundedCity.coordinates;
 };
