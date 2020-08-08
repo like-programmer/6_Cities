@@ -7,19 +7,22 @@ import Sorting from "../sorting/sorting.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
-import {getCityCoordinates} from "../../utils.js";
+import {getCityCoordinates, getSortedOffers} from "../../utils.js";
 
 const MainScreen = (props) => {
   const {
     mapClassName,
     offers,
     activeCity,
+    sortType,
     onCardClick,
     onActiveCityChange,
     onSortTypeChange,
   } = props;
 
   const cityCoordinates = getCityCoordinates(activeCity);
+
+  const sortedOffers = getSortedOffers(offers, sortType);
 
   return (
     <div className="page page--gray page--main">
@@ -71,7 +74,7 @@ const MainScreen = (props) => {
               <OfferList
                 className={OfferListClassNames.MAIN_PAGE}
                 offerCardClassName={OfferCardClassNames.MAIN_PAGE}
-                offers={offers}
+                offers={sortedOffers}
                 onCardClick={onCardClick}
               />
 
@@ -97,6 +100,7 @@ MainScreen.propTypes = {
   mapClassName: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
   activeCity: PropTypes.string.isRequired,
+  sortType: PropTypes.string.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
@@ -105,6 +109,7 @@ MainScreen.propTypes = {
 const mapStateToProps = (state) => ({
   activeCity: state.city,
   offers: state.offers,
+  sortType: state.sortType,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -230,8 +230,8 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
-    price: 230,
-    rating: RATING[2],
+    price: 20,
+    rating: RATING[3],
     description: [
       `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
@@ -266,8 +266,8 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
-    price: 90,
-    rating: RATING[3],
+    price: 1290,
+    rating: RATING[4],
     description: [
       `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
@@ -302,8 +302,8 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
-    price: 300,
-    rating: RATING[1],
+    price: 890,
+    rating: RATING[0],
     description: [
       `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
@@ -338,8 +338,8 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
-    price: 140,
-    rating: RATING[4],
+    price: 190,
+    rating: RATING[2],
     description: [
       `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
@@ -374,8 +374,8 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
-    price: 300,
-    rating: RATING[1],
+    price: 450,
+    rating: RATING[3],
     description: [
       `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
       `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
@@ -410,7 +410,7 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
-    price: 300,
+    price: 10,
     rating: RATING[1],
     description: [
       `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
