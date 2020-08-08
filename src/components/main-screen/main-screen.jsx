@@ -15,9 +15,11 @@ const MainScreen = (props) => {
     offers,
     activeCity,
     sortType,
+    hoveredCard,
     onCardClick,
     onActiveCityChange,
     onSortTypeChange,
+    onCardHover,
   } = props;
 
   const cityCoordinates = getCityCoordinates(activeCity);
@@ -76,6 +78,7 @@ const MainScreen = (props) => {
                 offerCardClassName={OfferCardClassNames.MAIN_PAGE}
                 offers={sortedOffers}
                 onCardClick={onCardClick}
+                onCardHover={onCardHover}
               />
 
             </section>
@@ -86,6 +89,7 @@ const MainScreen = (props) => {
                 className={mapClassName}
                 offers={offers}
                 cityLocation={cityCoordinates}
+                hoveredCard={hoveredCard}
               />
 
             </div>
@@ -101,15 +105,18 @@ MainScreen.propTypes = {
   offers: PropTypes.array.isRequired,
   activeCity: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
+  hoveredCard: PropTypes.object.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
+  onCardHover: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.city,
   offers: state.offers,
   sortType: state.sortType,
+  hoveredCard: state.hoveredCard,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -120,6 +127,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   onSortTypeChange(sortType) {
     dispatch(ActionCreator.changeSortType(sortType));
+  },
+
+  onCardHover(card) {
+    dispatch(ActionCreator.setHoveredCard(card));
   },
 });
 

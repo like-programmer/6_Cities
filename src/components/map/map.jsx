@@ -8,29 +8,34 @@ class Map extends PureComponent {
 
     this._mapRef = createRef();
     this.map = null;
+    // this._pins = [];
   }
 
   _addLayer(map) {
     leaflet
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
       })
       .addTo(map);
   }
 
-  _addMarker(pinCoords, map) {
+  _addMarker(pinCoords, map, isHovered) {
+
     const icon = leaflet.icon({
-      iconUrl: `img/pin.svg`,
+      iconUrl: isHovered ? `img/pin-active.svg` : `img/pin.svg`,
       iconSize: [30, 40]
     });
 
-    leaflet
-      .marker(pinCoords, {icon})
-      .addTo(map);
+    // this._pins.push(
+        leaflet
+        .marker(pinCoords, {icon})
+        .addTo(map);
+    // );
   }
 
   _initMap() {
-    const {offers, cityLocation} = this.props;
+    const {offers, cityLocation, hoveredCard} = this.props;
+    const isEmpty = Object.values(hoveredCard).length === 0;
 
     const container = this._mapRef.current;
 
@@ -47,7 +52,13 @@ class Map extends PureComponent {
 
     this._addLayer(this.map);
 
-    offers.forEach((offer) => this._addMarker(offer.coordinates, this.map));
+    offers.forEach((offer) => {
+      if (!isEmpty && offer.id === hoveredCard.id) {
+        this._addMarker(offer.coordinates, this.map, true);
+      }
+
+      this._addMarker(offer.coordinates, this.map, false);
+    });
   }
 
   componentDidMount() {
@@ -55,6 +66,11 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate() {
+    //TODO: rewrite without map deleting after cursor hovered card
+    // this._pins.forEach((pin) => {
+    //   this.map.removeLayer(pin);
+    // });
+    // this._pins = [];
     this.map.remove();
     this._initMap();
   }
@@ -81,6 +97,7 @@ Map.propTypes = {
   className: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
   cityLocation: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  hoveredCard: PropTypes.object.isRequired,
 };
 
 export default Map;
