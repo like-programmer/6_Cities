@@ -16,6 +16,7 @@ const MainScreen = (props) => {
     activeCity,
     onCardClick,
     onActiveCityChange,
+    onSortTypeChange,
   } = props;
 
   const cityCoordinates = getCityCoordinates(activeCity);
@@ -63,7 +64,9 @@ const MainScreen = (props) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in Amsterdam</b>
 
-              <Sorting/>
+              <Sorting
+                onTypeChange={onSortTypeChange}
+              />
 
               <OfferList
                 className={OfferListClassNames.MAIN_PAGE}
@@ -96,6 +99,7 @@ MainScreen.propTypes = {
   activeCity: PropTypes.string.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
+  onSortTypeChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -107,6 +111,10 @@ const mapDispatchToProps = (dispatch) => ({
   onActiveCityChange(cityName) {
     dispatch(ActionCreator.changeCity(cityName));
     dispatch(ActionCreator.getOffers(cityName));
+  },
+
+  onSortTypeChange(sortType) {
+    dispatch(ActionCreator.changeSortType(sortType));
   },
 });
 
