@@ -5,7 +5,7 @@ import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
-import {getFilteredByCityOffers, getCityCoordinates} from "../../utils.js";
+import {getCityCoordinates} from "../../utils.js";
 
 const getFractionalRating = (relativeRating) => {
   return (relativeRating / 20).toFixed(1);
@@ -34,10 +34,8 @@ class OfferDetailsScreen extends PureComponent {
     const offer = this._offerDetails;
     const fractionalRating = getFractionalRating(offer.rating);
 
-    const filteredByCityOffers = getFilteredByCityOffers(offers, activeCity);
-
-    const offerIndex = filteredByCityOffers.indexOf(offer);
-    const nearbyOffers = [].concat(filteredByCityOffers.slice(0, offerIndex), filteredByCityOffers.slice(offerIndex + 1));
+    const offerIndex = offers.indexOf(offer);
+    const nearbyOffers = [].concat(offers.slice(0, offerIndex), offers.slice(offerIndex + 1));
     const slicedOffers = nearbyOffers.slice(0, 3);
 
     const cityCoordinates = getCityCoordinates(activeCity);

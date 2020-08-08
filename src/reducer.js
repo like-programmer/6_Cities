@@ -1,6 +1,6 @@
 import offers from "./mocks/offers.js";
 import {City} from "./const.js";
-import {extend} from "./utils.js";
+import {extend, getFilteredByCityOffers} from "./utils.js";
 
 const initialState = {
   city: City.AMSTERDAM.name,
@@ -18,8 +18,9 @@ const ActionCreator = {
     payload: city,
   }),
 
-  getOffers: () => ({
+  getOffers: (cityName) => ({
     type: ActionType.GET_OFFERS,
+    payload: getFilteredByCityOffers(offers, cityName),
   }),
 };
 
@@ -31,7 +32,9 @@ const reducer = (state = initialState, action) => {
       });
 
     case ActionType.GET_OFFERS:
-      return extend({}, state);
+      return extend(state, {
+        offers: action.payload,
+      });
   }
 
   return state;
