@@ -4,7 +4,7 @@ import {extend, getFilteredByCityOffers} from "./utils.js";
 
 const initialState = {
   city: City.AMSTERDAM.name,
-  offers,
+  offers: getFilteredByCityOffers(offers, City.AMSTERDAM.name),
 };
 
 const ActionType = {
