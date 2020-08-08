@@ -9,20 +9,6 @@ class Map extends PureComponent {
     this._mapRef = createRef();
   }
 
-  _initMap(container) {
-    const {cityLocation} = this.props;
-    const zoom = 12;
-    const map = leaflet.map(container, {
-      center: cityLocation,
-      zoom,
-      zoomControl: false,
-      marker: true
-    });
-    map.setView(cityLocation, zoom);
-
-    return map;
-  }
-
   _addLayer(map) {
     leaflet
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -42,14 +28,38 @@ class Map extends PureComponent {
       .addTo(map);
   }
 
-  componentDidMount() {
-    const {offers} = this.props;
+  _initMap() {
+    const {offers, cityLocation} = this.props;
+
     const container = this._mapRef.current;
-    const map = this._initMap(container);
 
-    this._addLayer(map);
+    const zoom = 12;
 
-    offers.forEach((offer) => this._addMarker(offer.coordinates, map));
+    this.map = leaflet.map(container, {
+      center: cityLocation,
+      zoom,
+      zoomControl: false,
+      marker: true
+    });
+
+    this.map.setView(cityLocation, zoom);
+
+    this._addLayer(this.map);
+
+    offers.forEach((offer) => this._addMarker(offer.coordinates, this.map));
+  }
+
+  componentDidMount() {
+    this._initMap();
+  }
+
+  componentDidUpdate() {
+    this.map.remove();
+    this._initMap();
+  }
+
+  componentWillUnmount() {
+    this.map.remove();
   }
 
   render() {

@@ -18,15 +18,15 @@ export const OfferCardClassNames = {
 export const City = {
   PARIS: {
     name: `Paris`,
-    coordinates: [48.856663, 2.351556],
+    coordinates: [48.857183, 2.351556],
   },
   COLOGNE: {
     name: `Cologne`,
-    coordinates: [50.930779, 6.938399],
+    coordinates: [50.9391, 6.96089],
   },
   BRUSSELS: {
     name: `Brussels`,
-    coordinates: [50.851309, 4.351718],
+    coordinates: [50.847509, 4.351718],
   },
   AMSTERDAM: {
     name: `Amsterdam`,
@@ -34,10 +34,10 @@ export const City = {
   },
   HAMBURG: {
     name: `Hamburg`,
-    coordinates: [53.552645, 9.966287],
+    coordinates: [53.550645, 9.999287],
   },
   DUSSELDORF: {
     name: `Dusseldorf`,
-    coordinates: [51.230569, 6.787428],
+    coordinates: [51.225969, 6.775428],
   },
 };

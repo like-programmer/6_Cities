@@ -3,5 +3,7 @@ export const extend = (a, b) => {
 };
 
 export const getFilteredByCityOffers = (offers, city) => {
-  return offers.filter((offer) => offer.city === city);
+  return offers.filter((offer) => {
+    return offer.city.name === city;
+  });
 };

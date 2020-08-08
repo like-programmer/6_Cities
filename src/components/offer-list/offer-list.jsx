@@ -12,7 +12,12 @@ class OfferList extends PureComponent {
   }
 
   render() {
-    const {className, offerCardClassName, offers, onCardClick} = this.props;
+    const {
+      className,
+      offerCardClassName,
+      offers,
+      onCardClick,
+    } = this.props;
 
     return <div className={`${className} places__list`}>
 

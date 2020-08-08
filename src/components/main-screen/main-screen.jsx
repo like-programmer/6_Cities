@@ -1,12 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 import CitiesList from "../cities-list/cities-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
-import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
+import {OfferListClassNames, OfferCardClassNames, City} from "../../const.js";
+import {getFilteredByCityOffers} from "../../utils";
+
+const getCityCoordinates = (activeCity) => {
+  let coordinates;
+
+  for (let city in City) {
+    if (City[city].name === activeCity) {
+      coordinates = City[city].coordinates;
+    }
+  }
+  return coordinates;
+};
 
 const MainScreen = (props) => {
-  const {mapClassName, offers, onCardClick} = props;
+  const {
+    mapClassName,
+    offers,
+    activeCity,
+    onCardClick,
+    onActiveCityChange,
+  } = props;
+
+  const cityCoordinates = getCityCoordinates(activeCity);
+
+  const filteredByCityOffers = getFilteredByCityOffers(offers, activeCity);
 
   return (
     <div className="page page--gray page--main">
@@ -38,7 +62,10 @@ const MainScreen = (props) => {
         <div className="tabs">
           <section className="locations container">
 
-            <CitiesList/>
+            <CitiesList
+              activeCity={activeCity}
+              onActiveCityChange={onActiveCityChange}
+            />
 
           </section>
         </div>
@@ -46,7 +73,7 @@ const MainScreen = (props) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{filteredByCityOffers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex="0">
@@ -66,7 +93,7 @@ const MainScreen = (props) => {
               <OfferList
                 className={OfferListClassNames.MAIN_PAGE}
                 offerCardClassName={OfferCardClassNames.MAIN_PAGE}
-                offers={offers}
+                offers={filteredByCityOffers}
                 onCardClick={onCardClick}
               />
 
@@ -76,8 +103,8 @@ const MainScreen = (props) => {
 
               <Map
                 className={mapClassName}
-                offers={offers}
-                cityLocation={[52.38333, 4.9]}
+                offers={filteredByCityOffers}
+                cityLocation={cityCoordinates}
               />
 
             </div>
@@ -91,7 +118,22 @@ const MainScreen = (props) => {
 MainScreen.propTypes = {
   mapClassName: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
+  activeCity: PropTypes.string.isRequired,
   onCardClick: PropTypes.func.isRequired,
+  onActiveCityChange: PropTypes.func.isRequired,
 };
 
-export default MainScreen;
+const mapStateToProps = (state) => ({
+  activeCity: state.city,
+  offers: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onActiveCityChange(cityName) {
+    dispatch(ActionCreator.changeCity(cityName));
+    dispatch(ActionCreator.getOffers());
+  },
+});
+
+export {MainScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
