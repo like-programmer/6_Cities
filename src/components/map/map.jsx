@@ -7,7 +7,8 @@ class Map extends PureComponent {
     super(props);
 
     this._mapRef = createRef();
-    this.map = null;
+    this._map = null;
+    this._markers = [];
   }
 
   _addLayer(map) {
@@ -25,20 +26,27 @@ class Map extends PureComponent {
       iconSize: [30, 40]
     });
 
-    leaflet
-      .marker(pinCoords, {icon})
-      .addTo(map);
+    this._markers.push(
+        leaflet
+        .marker(pinCoords, {icon})
+        .addTo(map)
+    );
   }
+
 
   _addMarkers() {
     const {offers, hoveredCard} = this.props;
     const isEmpty = Object.values(hoveredCard).length === 0;
 
+    this._markers.forEach((marker) => {
+      this._map.removeLayer(marker);
+    });
+
     offers.forEach((offer) => {
       if (!isEmpty && offer.id === hoveredCard.id) {
-        this._addMarker(offer.coordinates, this.map, true);
+        this._addMarker(offer.coordinates, this._map, true);
       } else {
-        this._addMarker(offer.coordinates, this.map, false);
+        this._addMarker(offer.coordinates, this._map, false);
       }
     });
   }
@@ -50,35 +58,37 @@ class Map extends PureComponent {
 
     const zoom = 12;
 
-    this.map = leaflet.map(container, {
+    this._map = leaflet.map(container, {
       center: cityLocation,
       zoom,
       zoomControl: false,
       marker: true
     });
 
-    this.map.setView(cityLocation, zoom);
+    this._map.setView(cityLocation, zoom);
 
-    this._addLayer(this.map);
+    this._addLayer(this._map);
 
-    this._addMarkers();
+    // this._addMarkers();
   }
 
   componentDidMount() {
     this._initMap();
+    this._addMarkers();
   }
 
   componentDidUpdate(prevProps) {
+    // console.log(prevProps, this.props);
     if (this.props.cityLocation !== prevProps.cityLocation) {
-      this.map.remove();
+      this._map.remove();
       this._initMap();
-    } else {
-      this._addMarkers();
     }
+
+    this._addMarkers();
   }
 
   componentWillUnmount() {
-    this.map.remove();
+    this._map.remove();
   }
 
   render() {

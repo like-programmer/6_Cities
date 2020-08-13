@@ -9,10 +9,6 @@ import Map from "../map/map.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates, getSortedOffers} from "../../utils.js";
 
-// import withOfferList from "../../hocs/with-offer-list/with-offer-list.js";
-
-// const OfferListWrapped = withOfferList(OfferList);
-
 const MainScreen = (props) => {
   const {
     mapClassName,

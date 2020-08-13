@@ -51,7 +51,7 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  activeOffer: PropTypes.object.isRequired,
+  activeOffer: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
