@@ -2,7 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const CitiesListItem = (props) => {
-  const {name, isActive, onActiveCityChange} = props;
+  const {
+    name,
+    isActive,
+    onActiveCityChange
+  } = props;
 
   return (
     <li className="locations__item">

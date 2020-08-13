@@ -8,7 +8,6 @@ class Map extends PureComponent {
 
     this._mapRef = createRef();
     this.map = null;
-    // this._pins = [];
   }
 
   _addLayer(map) {
@@ -26,16 +25,26 @@ class Map extends PureComponent {
       iconSize: [30, 40]
     });
 
-    // this._pins.push(
-        leaflet
-        .marker(pinCoords, {icon})
-        .addTo(map);
-    // );
+    leaflet
+      .marker(pinCoords, {icon})
+      .addTo(map);
+  }
+
+  _addMarkers() {
+    const {offers, hoveredCard} = this.props;
+    const isEmpty = Object.values(hoveredCard).length === 0;
+
+    offers.forEach((offer) => {
+      if (!isEmpty && offer.id === hoveredCard.id) {
+        this._addMarker(offer.coordinates, this.map, true);
+      } else {
+        this._addMarker(offer.coordinates, this.map, false);
+      }
+    });
   }
 
   _initMap() {
-    const {offers, cityLocation, hoveredCard} = this.props;
-    const isEmpty = Object.values(hoveredCard).length === 0;
+    const {cityLocation} = this.props;
 
     const container = this._mapRef.current;
 
@@ -52,27 +61,20 @@ class Map extends PureComponent {
 
     this._addLayer(this.map);
 
-    offers.forEach((offer) => {
-      if (!isEmpty && offer.id === hoveredCard.id) {
-        this._addMarker(offer.coordinates, this.map, true);
-      }
-
-      this._addMarker(offer.coordinates, this.map, false);
-    });
+    this._addMarkers();
   }
 
   componentDidMount() {
     this._initMap();
   }
 
-  componentDidUpdate() {
-    //TODO: rewrite without map deleting after cursor hovered card
-    // this._pins.forEach((pin) => {
-    //   this.map.removeLayer(pin);
-    // });
-    // this._pins = [];
-    this.map.remove();
-    this._initMap();
+  componentDidUpdate(prevProps) {
+    if (this.props.cityLocation !== prevProps.cityLocation) {
+      this.map.remove();
+      this._initMap();
+    } else {
+      this._addMarkers();
+    }
   }
 
   componentWillUnmount() {
