@@ -2,7 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const OfferCard = (props) => {
-  const {className, card, onCardHover, onCardClick} = props;
+  const {
+    className,
+    card,
+    onCardHover,
+    onCardClick,
+  } = props;
 
   return (
     <article

@@ -9,6 +9,10 @@ import Map from "../map/map.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates, getSortedOffers} from "../../utils.js";
 
+// import withOfferList from "../../hocs/with-offer-list/with-offer-list.js";
+
+// const OfferListWrapped = withOfferList(OfferList);
+
 const MainScreen = (props) => {
   const {
     mapClassName,
@@ -16,10 +20,10 @@ const MainScreen = (props) => {
     activeCity,
     sortType,
     hoveredCard,
-    onCardClick,
     onActiveCityChange,
     onSortTypeChange,
     onCardHover,
+    onCardClick,
   } = props;
 
   const cityCoordinates = getCityCoordinates(activeCity);
@@ -77,8 +81,8 @@ const MainScreen = (props) => {
                 className={OfferListClassNames.MAIN_PAGE}
                 offerCardClassName={OfferCardClassNames.MAIN_PAGE}
                 offers={sortedOffers}
-                onCardClick={onCardClick}
                 onCardHover={onCardHover}
+                onCardClick={onCardClick}
               />
 
             </section>
@@ -106,10 +110,10 @@ MainScreen.propTypes = {
   activeCity: PropTypes.string.isRequired,
   sortType: PropTypes.string.isRequired,
   hoveredCard: PropTypes.object.isRequired,
-  onCardClick: PropTypes.func.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
   onCardHover: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -131,6 +135,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   onCardHover(card) {
     dispatch(ActionCreator.setHoveredCard(card));
+  },
+
+  onCardClick(card) {
+    dispatch(ActionCreator.setActiveOffer(card));
   },
 });
 

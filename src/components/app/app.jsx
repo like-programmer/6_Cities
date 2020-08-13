@@ -4,50 +4,32 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
 import {MapClassNames} from "../../const.js";
+import {connect} from "react-redux";
+import reviews from "../../mocks/reviews";
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this._offerCardClickHandler = this._offerCardClickHandler.bind(this);
-
-    this.state = {
-      offer: undefined,
-    };
-  }
-
-  _offerCardClickHandler(card) {
-    this.setState({
-      offer: card,
-    });
-  }
-
   _renderMainScreen() {
-    const {reviews} = this.props;
-    const {offer} = this.state;
+    const {activeOffer} = this.props;
 
-    if (offer === undefined) {
+    if (activeOffer === undefined) {
       return (
         <MainScreen
           mapClassName={MapClassNames.CITY}
-          onCardClick={this._offerCardClickHandler}
         />
       );
     } else {
       return (
         <OfferDetailsScreen
           mapClassName={MapClassNames.PROPERTY}
-          offerID={offer.id}
+          offer={activeOffer}
           reviews={reviews}
-          onCardClick={this._offerCardClickHandler}
         />
       );
     }
   }
 
   render() {
-    const {reviews} = this.props;
-
+    const {activeOffer} = this.props;
     return (
       <BrowserRouter>
         <Switch>
@@ -58,9 +40,8 @@ class App extends PureComponent {
           <Route exact path="/details">
             <OfferDetailsScreen
               mapClassName={MapClassNames.PROPERTY}
-              offerID={1}
+              offer={activeOffer}
               reviews={reviews}
-              onCardClick={this._offerCardClickHandler}
             />;
           </Route>
         </Switch>
@@ -70,7 +51,13 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  reviews: PropTypes.array.isRequired,
+  activeOffer: PropTypes.object.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  activeOffer: state.activeOffer,
+  reviews: state.reviews,
+});
+
+export {App};
+export default connect(mapStateToProps)(App);

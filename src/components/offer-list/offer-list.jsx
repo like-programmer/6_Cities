@@ -7,8 +7,8 @@ const OfferList = (props) => {
     className,
     offerCardClassName,
     offers,
-    onCardClick,
     onCardHover,
+    onCardClick,
   } = props;
 
   return <div className={`${className} places__list`}>
@@ -30,8 +30,8 @@ OfferList.propTypes = {
   className: PropTypes.string.isRequired,
   offerCardClassName: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
-  onCardClick: PropTypes.func.isRequired,
   onCardHover: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 export default OfferList;

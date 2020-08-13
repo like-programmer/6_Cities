@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer";
 import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
@@ -15,11 +16,10 @@ class OfferDetailsScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    [this._offerDetails] = this.props.offers.filter((offer) => offer.id === this.props.offerID);
     this._changeBookmarkStateHandler = this._changeBookmarkStateHandler.bind(this);
 
     this.state = {
-      isBookmarked: this._offerDetails.isBookmarked,
+      isBookmarked: this.props.offer.isBookmarked,
     };
   }
 
@@ -30,8 +30,17 @@ class OfferDetailsScreen extends PureComponent {
   }
 
   render() {
-    const {mapClassName, offers, activeCity, reviews, onCardClick} = this.props;
-    const offer = this._offerDetails;
+    const {
+      mapClassName,
+      offer,
+      offers,
+      reviews,
+      activeCity,
+      hoveredCard,
+      onCardHover,
+      onCardClick,
+    } = this.props;
+
     const fractionalRating = getFractionalRating(offer.rating);
 
     const offerIndex = offers.indexOf(offer);
@@ -73,7 +82,8 @@ class OfferDetailsScreen extends PureComponent {
 
                 {offer.pictures.map((picture, i) => {
                   return (
-                    <div className="property__image-wrapper"
+                    <div
+                      className="property__image-wrapper"
                       key={`${picture}-${i}`}>
                       <img className="property__image" src={`img/${picture}`} alt="Photo studio"/>
                     </div>
@@ -101,7 +111,10 @@ class OfferDetailsScreen extends PureComponent {
                     type="button"
                     onClick={this._changeBookmarkStateHandler}
                   >
-                    <svg className="property__bookmark-icon" width="31" height="33"
+                    <svg
+                      className="property__bookmark-icon"
+                      width="31"
+                      height="33"
                       style={{
                         stroke: (this.state.isBookmarked ? `#4481c3` : ``),
                         fill: (this.state.isBookmarked ? `#4481c3` : ``)
@@ -144,7 +157,8 @@ class OfferDetailsScreen extends PureComponent {
 
                     {offer.appliances.map((appliance, i) => {
                       return (
-                        <li className="property__inside-item"
+                        <li
+                          className="property__inside-item"
                           key={`${appliance}-${i}`}
                         >
                           {appliance}
@@ -160,7 +174,10 @@ class OfferDetailsScreen extends PureComponent {
                   <div className="property__host-user user">
                     <div
                       className={`property__avatar-wrapper ${offer.host.isSuper ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
-                      <img className="property__avatar user__avatar" src={`img/${offer.host.picture}`} width="74"
+                      <img
+                        className="property__avatar user__avatar"
+                        src={`img/${offer.host.picture}`}
+                        width="74"
                         height="74"
                         alt="Host avatar"/>
                     </div>
@@ -172,7 +189,8 @@ class OfferDetailsScreen extends PureComponent {
 
                     {offer.description.map((paragraph, i) => {
                       return (
-                        <p className="property__text"
+                        <p
+                          className="property__text"
                           key={`${paragraph}-${i}`}
                         >
                           {paragraph}
@@ -228,8 +246,7 @@ class OfferDetailsScreen extends PureComponent {
 
                       <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star"
                         type="radio"/>
-                      <label htmlFor="1-star" className="reviews__rating-label form__rating-label"
-                        title="terribly">
+                      <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
                         <svg className="form__star-image" width="37" height="33">
                           <use xlinkHref="#icon-star"/>
                         </svg>
@@ -255,6 +272,7 @@ class OfferDetailsScreen extends PureComponent {
               className={mapClassName}
               offers={slicedOffers}
               cityLocation={cityCoordinates}
+              hoveredCard={hoveredCard}
             />
 
           </section>
@@ -268,6 +286,7 @@ class OfferDetailsScreen extends PureComponent {
                 offerCardClassName={OfferCardClassNames.NEARBY}
                 offers={slicedOffers}
                 onCardClick={onCardClick}
+                onCardHover={onCardHover}
               />
 
             </section>
@@ -281,7 +300,29 @@ class OfferDetailsScreen extends PureComponent {
 
 OfferDetailsScreen.propTypes = {
   mapClassName: PropTypes.string.isRequired,
-  offerID: PropTypes.number.isRequired,
+  activeCity: PropTypes.string.isRequired,
+  hoveredCard: PropTypes.object.isRequired,
+  reviews: PropTypes.array.isRequired,
+  offer: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    description: PropTypes.arrayOf(PropTypes.string).isRequired,
+    bedroomsCount: PropTypes.number.isRequired,
+    guestsCount: PropTypes.number.isRequired,
+    appliances: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    host: PropTypes.shape({
+      picture: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      isSuper: PropTypes.bool.isRequired,
+    }).isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    isBookmarked: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  }).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
@@ -302,15 +343,25 @@ OfferDetailsScreen.propTypes = {
     isPremium: PropTypes.bool.isRequired,
     coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   }).isRequired),
-  reviews: PropTypes.array.isRequired,
+  onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
-  activeCity: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeCity: state.city,
   offers: state.offers,
+  hoveredCard: state.hoveredCard,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCardHover(card) {
+    dispatch(ActionCreator.setHoveredCard(card));
+  },
+
+  onCardClick(card) {
+    dispatch(ActionCreator.setActiveOffer(card));
+  },
 });
 
 export {OfferDetailsScreen};
-export default connect(mapStateToProps)(OfferDetailsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferDetailsScreen);
