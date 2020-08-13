@@ -6,6 +6,7 @@ import CitiesList from "../cities-list/cities-list.jsx";
 import Sorting from "../sorting/sorting.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
+import NoOffers from "../no-offers/no-offers.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates, getSortedOffers} from "../../utils.js";
 
@@ -51,8 +52,9 @@ const MainScreen = (props) => {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${offers.length === 0 ? `page__main--index-empty` : ``}`}>
         <h1 className="visually-hidden">Cities</h1>
+
         <div className="tabs">
           <section className="locations container">
 
@@ -63,37 +65,40 @@ const MainScreen = (props) => {
 
           </section>
         </div>
+
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+          {offers.length === 0 ? <NoOffers cityName={activeCity}/> :
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
 
-              <Sorting
-                onTypeChange={onSortTypeChange}
-              />
+                <Sorting
+                  onTypeChange={onSortTypeChange}
+                />
 
-              <OfferList
-                className={OfferListClassNames.MAIN_PAGE}
-                offerCardClassName={OfferCardClassNames.MAIN_PAGE}
-                offers={sortedOffers}
-                onCardHover={onCardHover}
-                onCardClick={onCardClick}
-              />
+                <OfferList
+                  className={OfferListClassNames.MAIN_PAGE}
+                  offerCardClassName={OfferCardClassNames.MAIN_PAGE}
+                  offers={sortedOffers}
+                  onCardHover={onCardHover}
+                  onCardClick={onCardClick}
+                />
 
-            </section>
+              </section>
 
-            <div className="cities__right-section">
+              <div className="cities__right-section">
 
-              <Map
-                className={mapClassName}
-                offers={offers}
-                cityLocation={cityCoordinates}
-                hoveredCard={hoveredCard}
-              />
+                <Map
+                  className={mapClassName}
+                  offers={offers}
+                  cityLocation={cityCoordinates}
+                  hoveredCard={hoveredCard}
+                />
 
+              </div>
             </div>
-          </div>
+          }
         </div>
       </main>
     </div>
