@@ -4,8 +4,8 @@ import {extend} from "../../utils.js";
 const initialState = {
   city: City.PARIS.name,
   sortType: SortType.POPULAR.value,
-  hoveredCard: {},
-  activeOffer: undefined,
+  hoveredCard: null,
+  activeOffer: null,
 };
 
 const ActionType = {
