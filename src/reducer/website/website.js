@@ -1,12 +1,8 @@
-import offers from "./mocks/offers.js";
-import reviews from "./mocks/reviews.js";
-import {City, SortType} from "./const.js";
-import {extend, getFilteredByCityOffers} from "./utils.js";
+import {City, SortType} from "../../const.js";
+import {extend} from "../../utils.js";
 
 const initialState = {
-  city: City.AMSTERDAM.name,
-  reviews,
-  offers: getFilteredByCityOffers(offers, City.AMSTERDAM.name),
+  city: City.PARIS.name,
   sortType: SortType.POPULAR.value,
   hoveredCard: {},
   activeOffer: undefined,
@@ -14,7 +10,6 @@ const initialState = {
 
 const ActionType = {
   CHANGE_CITY: `CHANGE_CITY`,
-  GET_OFFERS: `GET_OFFERS`,
   CHANGE_SORT_TYPE: `CHANGE_SORT_TYPE`,
   SET_ACTIVE_OFFER: `SET_ACTIVE_OFFER`,
   SET_HOVERED_CARD: `SET_HOVERED_CARD`,
@@ -24,11 +19,6 @@ const ActionCreator = {
   changeCity: (city) => ({
     type: ActionType.CHANGE_CITY,
     payload: city,
-  }),
-
-  getOffers: (cityName) => ({
-    type: ActionType.GET_OFFERS,
-    payload: getFilteredByCityOffers(offers, cityName),
   }),
 
   changeSortType: (sortType) => ({
@@ -52,11 +42,6 @@ const reducer = (state = initialState, action) => {
     case ActionType.CHANGE_CITY:
       return extend(state, {
         city: action.payload,
-      });
-
-    case ActionType.GET_OFFERS:
-      return extend(state, {
-        offers: action.payload,
       });
 
     case ActionType.CHANGE_SORT_TYPE:
