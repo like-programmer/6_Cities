@@ -1,11 +1,13 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer";
+import {ActionCreator} from "../../reducer/website/website.js";
 import PageHeader from "../page-header/page-header.jsx";
 import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
+import {getOffers} from "../../reducer/data/selectors.js";
+import {getCityName, getHoveredCard} from "../../reducer/website/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates} from "../../utils.js";
 
@@ -329,9 +331,9 @@ OfferDetailsScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.city,
-  offers: state.offers,
-  hoveredCard: state.hoveredCard,
+  activeCity: getCityName(state),
+  offers: getOffers(state),
+  hoveredCard: getHoveredCard(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

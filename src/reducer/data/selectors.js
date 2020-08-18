@@ -5,3 +5,7 @@ const NAME_SPACE = NameSpace.DATA;
 export const getOffers = (state) => {
   return state[NAME_SPACE].offersInCity;
 };
+
+export const getReviews = (state) => {
+  return state[NAME_SPACE].reviews;
+};

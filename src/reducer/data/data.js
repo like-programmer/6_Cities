@@ -28,7 +28,7 @@ const ActionCreator = {
     };
   },
 
-  getOffers: (cityName) => ({
+  getOffersInCity: (cityName) => ({
     type: ActionType.GET_OFFERS,
     payload: getFilteredByCityOffers(initialState.offers, cityName),
   }),

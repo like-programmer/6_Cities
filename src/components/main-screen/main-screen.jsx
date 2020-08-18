@@ -1,13 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator as WebsiteActionCreator} from "../../reducer/website/website.js";
+import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
 import PageHeader from "../page-header/page-header.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
 import Sorting from "../sorting/sorting.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
+import {getOffers} from "../../reducer/data/selectors.js";
+import {getCityName, getSortType, getHoveredCard} from "../../reducer/website/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates, getSortedOffers} from "../../utils.js";
 
@@ -101,28 +104,28 @@ MainScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.city,
-  offers: state.offers,
-  sortType: state.sortType,
-  hoveredCard: state.hoveredCard,
+  activeCity: getCityName(state),
+  offers: getOffers(state),
+  sortType: getSortType(state),
+  hoveredCard: getHoveredCard(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onActiveCityChange(cityName) {
-    dispatch(ActionCreator.changeCity(cityName));
-    dispatch(ActionCreator.getOffers(cityName));
+    dispatch(WebsiteActionCreator.changeCity(cityName));
+    dispatch(DataActionCreator.getOffersInCity(cityName));
   },
 
   onSortTypeChange(sortType) {
-    dispatch(ActionCreator.changeSortType(sortType));
+    dispatch(WebsiteActionCreator.changeSortType(sortType));
   },
 
   onCardHover(card) {
-    dispatch(ActionCreator.setHoveredCard(card));
+    dispatch(WebsiteActionCreator.setHoveredCard(card));
   },
 
   onCardClick(card) {
-    dispatch(ActionCreator.setActiveOffer(card));
+    dispatch(WebsiteActionCreator.setActiveOffer(card));
   },
 });
 
