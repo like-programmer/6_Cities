@@ -7,10 +7,12 @@ const AuthorizationStatus = {
 
 const initialState = {
   authorizarionStatus: AuthorizationStatus.NO_AUTH,
+  userData: null,
 };
 
 const ActionType = {
   SET_AUTHORIZATION_STATUS: `SET_AUTHORIZATION_STATUS`,
+  SET_USER_DATA: `SET_USER_DATA`,
 };
 
 const ActionCreator = {
@@ -20,6 +22,13 @@ const ActionCreator = {
       payload: status,
     };
   },
+
+  setUserData: (data) => {
+    return {
+      type: ActionType.SET_USER_DATA,
+      payload: data,
+    };
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +36,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_AUTHORIZATION_STATUS:
       return extend(state, {
         authorizarionStatus: action.payload,
+      });
+
+    case ActionType.SET_USER_DATA:
+      return extend(state, {
+        userData: action.payload,
       });
   }
 
@@ -49,8 +63,9 @@ const Operation = {
       email: authData.login,
       password: authData.password,
     })
-      .then(() => {
+      .then((response) => {
         dispatch(ActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
+        dispatch(ActionCreator.setUserData(response));
       });
   },
 };

@@ -57,14 +57,14 @@ const reducer = (state = initialState, action) => {
 
 const Operation = {
   loadOffers: () => (dispatch, getState, api) => {
-    return api.get(`/offers`)
+    return api.get(`/hotels`)
       .then((response) => {
         dispatch(ActionCreator.loadOffers(response.data));
       });
   },
 
   loadReviews: () => (dispatch, getState, api) => {
-    return api.get(`/reviews`)
+    return api.get(`/hotels`)
       .then((response) => {
         dispatch(ActionCreator.loadReviews(response.data));
       });

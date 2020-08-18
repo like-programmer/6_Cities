@@ -6,9 +6,9 @@ import {AuthorizationStatus} from "../../reducer/user/user.js";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
 import AuthScreen from "../auth-screen/auth-screen.jsx";
-import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {getActiveOffer} from "../../reducer/website/selectors.js";
 import {getReviews} from "../../reducer/data/selectors.js";
 
@@ -18,24 +18,34 @@ class App extends PureComponent {
       activeOffer,
       reviews,
       authorizationStatus,
-      login
+      login,
     } = this.props;
 
-    if (activeOffer === undefined) {
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      if (activeOffer === null) {
+        return (
+          <MainScreen
+            mapClassName={MapClassNames.CITY}
+          />
+        );
+      } else {
+        return (
+          <OfferDetailsScreen
+            mapClassName={MapClassNames.PROPERTY}
+            offer={activeOffer}
+            reviews={reviews}
+          />
+        );
+      }
+    } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return (
-        <MainScreen
-          mapClassName={MapClassNames.CITY}
-        />
-      );
-    } else {
-      return (
-        <OfferDetailsScreen
-          mapClassName={MapClassNames.PROPERTY}
-          offer={activeOffer}
-          reviews={reviews}
+        <AuthScreen
+          onSubmit={login}
         />
       );
     }
+
+    return null;
   }
 
   render() {
