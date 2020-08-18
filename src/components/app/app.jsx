@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
+import AuthScreen from "../auth-screen/auth-screen.jsx";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
@@ -54,6 +55,12 @@ class App extends PureComponent {
               mapClassName={MapClassNames.PROPERTY}
               offer={activeOffer}
               reviews={reviews}
+            />;
+          </Route>
+
+          <Route exact path="/dev-auth">
+            <AuthScreen
+              onSubmit={() => {}}
             />;
           </Route>
         </Switch>
