@@ -63,8 +63,8 @@ const Operation = {
       });
   },
 
-  loadReviews: () => (dispatch, getState, api) => {
-    return api.get(`/hotels`)
+  loadReviews: (id) => (dispatch, getState, api) => {
+    return api.get(`/comments/${id}`)
       .then((response) => {
         dispatch(ActionCreator.loadReviews(response.data));
       });

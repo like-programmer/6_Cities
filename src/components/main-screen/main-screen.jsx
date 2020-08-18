@@ -26,6 +26,7 @@ const MainScreen = (props) => {
     onCardHover,
     onCardClick,
   } = props;
+  console.log(offers);
 
   const cityCoordinates = getCityCoordinates(activeCity);
 

@@ -9,8 +9,6 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, `public`),
     open: true,
-    compress: false,
-    inline: false,
     historyApiFallback: true,
   },
   module: {

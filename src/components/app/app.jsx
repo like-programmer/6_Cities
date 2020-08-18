@@ -21,29 +21,28 @@ class App extends PureComponent {
       login,
     } = this.props;
 
-    if (authorizationStatus === AuthorizationStatus.AUTH) {
-      if (activeOffer === null) {
-        return (
-          <MainScreen
-            mapClassName={MapClassNames.CITY}
-          />
-        );
-      } else {
-        return (
-          <OfferDetailsScreen
-            mapClassName={MapClassNames.PROPERTY}
-            offer={activeOffer}
-            reviews={reviews}
-          />
-        );
-      }
-    } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+    // if (authorizationStatus === AuthorizationStatus.AUTH) {
+    if (activeOffer === null) {
       return (
-        <AuthScreen
-          onSubmit={login}
+        <MainScreen
+          mapClassName={MapClassNames.CITY}
+        />
+      );
+    } else {
+      return (
+        <OfferDetailsScreen
+          mapClassName={MapClassNames.PROPERTY}
         />
       );
     }
+    // } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+    //   return (
+    {/*<AuthScreen*/
+    }
+    // onSubmit={login}
+    // />
+    // );
+    // }
 
     return null;
   }
@@ -63,14 +62,13 @@ class App extends PureComponent {
           <Route exact path="/details">
             <OfferDetailsScreen
               mapClassName={MapClassNames.PROPERTY}
-              offer={activeOffer}
-              reviews={reviews}
             />;
           </Route>
 
           <Route exact path="/dev-auth">
             <AuthScreen
-              onSubmit={() => {}}
+              onSubmit={() => {
+              }}
             />;
           </Route>
         </Switch>

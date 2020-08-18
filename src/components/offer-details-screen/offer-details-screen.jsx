@@ -7,7 +7,7 @@ import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {getOffers} from "../../reducer/data/selectors.js";
-import {getCityName, getHoveredCard} from "../../reducer/website/selectors.js";
+import {getCityName, getHoveredCard, getActiveOffer} from "../../reducer/website/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates} from "../../utils.js";
 
@@ -286,46 +286,8 @@ OfferDetailsScreen.propTypes = {
   activeCity: PropTypes.string.isRequired,
   hoveredCard: PropTypes.object.isRequired,
   reviews: PropTypes.array.isRequired,
-  offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
-    bedroomsCount: PropTypes.number.isRequired,
-    guestsCount: PropTypes.number.isRequired,
-    appliances: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    host: PropTypes.shape({
-      picture: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      isSuper: PropTypes.bool.isRequired,
-    }).isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    isBookmarked: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  }).isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
-    bedroomsCount: PropTypes.number.isRequired,
-    guestsCount: PropTypes.number.isRequired,
-    appliances: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    host: PropTypes.shape({
-      picture: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      isSuper: PropTypes.bool.isRequired,
-    }).isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    isBookmarked: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  }).isRequired),
+  offer: PropTypes.array.isRequired,
+  offers: PropTypes.array.isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
 };
@@ -334,6 +296,7 @@ const mapStateToProps = (state) => ({
   activeCity: getCityName(state),
   offers: getOffers(state),
   hoveredCard: getHoveredCard(state),
+  offer: getActiveOffer(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

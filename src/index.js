@@ -24,7 +24,6 @@ const store = createStore(
 );
 
 store.dispatch(DataOperation.loadOffers());
-store.dispatch(DataOperation.loadReviews());
 store.dispatch(UserOperation.checkAuth());
 
 ReactDOM.render(
