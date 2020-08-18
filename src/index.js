@@ -9,13 +9,20 @@ import {Operation as DataOperation} from "./reducer/data/data.js";
 import {Operation as UserOperation, ActionCreator, AuthorizationStatus} from "./reducer/user/user.js";
 import {createAPI} from "./api.js";
 
-const api = createAPI(() => {
-});
+const onUnauthorized = () => {
+  store.dispatch(ActionCreator.setAuthorizationStatus(AuthorizationStatus.NO_AUTH));
+};
+
+const api = createAPI(onUnauthorized);
 
 const store = createStore(
     reducer,
     applyMiddleware(thunk.withExtraArgument(api))
 );
+
+store.dispatch(DataOperation.loadOffers());
+store.dispatch(DataOperation.loadReviews());
+store.dispatch(UserOperation.checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
