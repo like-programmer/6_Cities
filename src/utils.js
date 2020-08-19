@@ -1,4 +1,4 @@
-import {City, SortType} from "./const.js";
+import {SortType} from "./const.js";
 
 export const extend = (a, b) => {
   return Object.assign({}, a, b);
@@ -6,14 +6,14 @@ export const extend = (a, b) => {
 
 export const getFilteredByCityOffers = (offers, city) => {
   return offers.filter((offer) => {
-    return offer.city.name === city;
+    return offer.city.name === city.name;
   });
 };
 
-export const getCityCoordinates = (activeCity) => {
-  const [foundedCity] = Object.values(City).filter((city) => city.name === activeCity);
+export const getCityList = (offers) => {
+  const cityList = offers.map((offer) => offer.city);
 
-  return foundedCity.coordinates;
+  return Object.values(cityList.reduce((acc, it) => Object.assign(acc, {[it[`name`]]: it}), {}));
 };
 
 export const getSortedOffers = (offers, sortType) => {

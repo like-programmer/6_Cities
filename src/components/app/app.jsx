@@ -5,13 +5,12 @@ import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
 import {MapClassNames} from "../../const.js";
 import {connect} from "react-redux";
-import reviews from "../../mocks/reviews";
 
 class App extends PureComponent {
   _renderMainScreen() {
     const {activeOffer} = this.props;
 
-    if (activeOffer === undefined) {
+    if (activeOffer === null) {
       return (
         <MainScreen
           mapClassName={MapClassNames.CITY}
@@ -21,15 +20,12 @@ class App extends PureComponent {
       return (
         <OfferDetailsScreen
           mapClassName={MapClassNames.PROPERTY}
-          offer={activeOffer}
-          reviews={reviews}
         />
       );
     }
   }
 
   render() {
-    const {activeOffer} = this.props;
     return (
       <BrowserRouter>
         <Switch>
@@ -40,8 +36,6 @@ class App extends PureComponent {
           <Route exact path="/details">
             <OfferDetailsScreen
               mapClassName={MapClassNames.PROPERTY}
-              offer={activeOffer}
-              reviews={reviews}
             />;
           </Route>
         </Switch>
@@ -56,7 +50,6 @@ App.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeOffer: state.activeOffer,
-  reviews: state.reviews,
 });
 
 export {App};

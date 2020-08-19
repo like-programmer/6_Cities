@@ -9,6 +9,8 @@ const OfferCard = (props) => {
     onCardClick,
   } = props;
 
+  const starRating = card.rating * 10;
+
   return (
     <article
       className={`${className} place-card`}
@@ -23,7 +25,7 @@ const OfferCard = (props) => {
         : ``}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={`img/${card.pictures[0]}`} width={260} height={200} alt={card.title}/>
+          <img className="place-card__image" src={`img/${card.previewImage}`} width={260} height={200} alt={card.title}/>
         </a>
       </div>
       <div className="place-card__info">
@@ -33,17 +35,17 @@ const OfferCard = (props) => {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${card.isBookmarked ? `place-card__bookmark-button--active` : ``} button`}
+            className={`place-card__bookmark-button ${card.isFavorite ? `place-card__bookmark-button--active` : ``} button`}
             type="button">
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"/>
             </svg>
-            <span className="visually-hidden">{card.isBookmarked ? `In bookmarks` : `To bookmarks`}</span>
+            <span className="visually-hidden">{card.isFavorite ? `In bookmarks` : `To bookmarks`}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${card.rating}%`}}/>
+            <span style={{width: `${starRating}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -59,15 +61,13 @@ const OfferCard = (props) => {
 OfferCard.propTypes = {
   className: PropTypes.string.isRequired,
   card: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
+    previewImage: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    isBookmarked: PropTypes.bool.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
-    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+    rating: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
   }).isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,

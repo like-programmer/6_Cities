@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const CitiesListItem = (props) => {
   const {
-    name,
+    city,
     isActive,
     onActiveCityChange
   } = props;
@@ -13,17 +13,17 @@ const CitiesListItem = (props) => {
       <a className={`locations__item-link tabs__item ${isActive ? `tabs__item--active` : ``}`} href="#"
         onClick={(evt) => {
           evt.preventDefault();
-          onActiveCityChange(name);
+          onActiveCityChange(city);
         }}
       >
-        <span>{name}</span>
+        <span>{city.name}</span>
       </a>
     </li>
   );
 };
 
 CitiesListItem.propTypes = {
-  name: PropTypes.string.isRequired,
+  city: PropTypes.object.isRequired,
   isActive: PropTypes.bool.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
 };

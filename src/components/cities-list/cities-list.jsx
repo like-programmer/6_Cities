@@ -1,22 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CitiesListItem from "../cities-list-item/cities-list-item.jsx";
-import {City} from "../../const.js";
 
 const CitiesList = (props) => {
   const {
-    activeCity = City[0].name,
+    cities,
+    activeCity,
     onActiveCityChange,
   } = props;
 
   return (
     <ul className="locations__list tabs__list">
 
-      {Object.values(City).map((city, i) => {
+      {cities.map((city, i) => {
         return <CitiesListItem
           key={`${i}-${city.name}`}
-          name={city.name}
-          isActive={city.name === activeCity}
+          city={city}
+          isActive={city.name === activeCity.name}
           onActiveCityChange={onActiveCityChange}
         />;
       })}
@@ -26,7 +26,8 @@ const CitiesList = (props) => {
 };
 
 CitiesList.propTypes = {
-  activeCity: PropTypes.string,
+  cities: PropTypes.array.isRequired,
+  activeCity: PropTypes.object.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
 };
 

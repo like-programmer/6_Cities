@@ -7,11 +7,10 @@ import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
-import {getCityCoordinates} from "../../utils.js";
 
-const getFractionalRating = (relativeRating) => {
-  return (relativeRating / 20).toFixed(1);
-};
+const MAX_OFFER_AMOUNT = 2;
+
+// const MAX_OFFER_AMOUNT = 3;
 
 class OfferDetailsScreen extends PureComponent {
   constructor(props) {
@@ -19,15 +18,15 @@ class OfferDetailsScreen extends PureComponent {
 
     this._changeBookmarkStateHandler = this._changeBookmarkStateHandler.bind(this);
 
-    this.state = {
-      isBookmarked: this.props.offer.isBookmarked,
-    };
+    // this.state = {
+    //   isBookmarked: this.props.offer.isBookmarked,
+    // };
   }
 
   _changeBookmarkStateHandler() {
-    this.setState({
-      isBookmarked: !this.state.isBookmarked,
-    });
+    // this.setState({
+    //   isBookmarked: !this.state.isBookmarked,
+    // });
   }
 
   render() {
@@ -36,24 +35,20 @@ class OfferDetailsScreen extends PureComponent {
       offer,
       offers,
       reviews,
-      activeCity,
       hoveredCard,
       onCardHover,
       onCardClick,
     } = this.props;
 
-    const fractionalRating = getFractionalRating(offer.rating);
+    const starRating = offer.rating * 10;
 
-    const offerIndex = offers.indexOf(offer);
-    const nearbyOffers = [].concat(offers.slice(0, offerIndex), offers.slice(offerIndex + 1));
-    const slicedOffers = nearbyOffers.slice(0, 3);
-
-    const cityCoordinates = getCityCoordinates(activeCity);
+    const slicedOffers = offers.slice(0, MAX_OFFER_AMOUNT);
 
     return (
       <div className="page">
 
         <PageHeader/>
+
 
         <main className="page__main page__main--property">
           <section className="property">
@@ -61,12 +56,12 @@ class OfferDetailsScreen extends PureComponent {
             <div className="property__gallery-container container">
               <div className="property__gallery">
 
-                {offer.pictures.map((picture, i) => {
+                {offer.images.map((image, i) => {
                   return (
                     <div
                       className="property__image-wrapper"
-                      key={`${picture}-${i}`}>
-                      <img className="property__image" src={`img/${picture}`} alt="Photo studio"/>
+                      key={`${image}-${i}`}>
+                      <img className="property__image" src={`img/${image}`} alt="Photo studio"/>
                     </div>
                   );
                 })}
@@ -97,22 +92,22 @@ class OfferDetailsScreen extends PureComponent {
                       width="31"
                       height="33"
                       style={{
-                        stroke: (this.state.isBookmarked ? `#4481c3` : ``),
-                        fill: (this.state.isBookmarked ? `#4481c3` : ``)
+                        stroke: (offer.isFavorite ? `#4481c3` : ``),
+                        fill: (offer.isFavorite ? `#4481c3` : ``)
                       }}
                     >
                       <use xlinkHref="#icon-bookmark"/>
                     </svg>
-                    <span className="visually-hidden">{offer.isBookmarked ? `In bookmarks` : `To bookmarks`}</span>
+                    <span className="visually-hidden">{offer.isFavorite ? `In bookmarks` : `To bookmarks`}</span>
                   </button>
                 </div>
 
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: `${offer.rating}%`}}/>
+                    <span style={{width: `${starRating}%`}}/>
                     <span className="visually-hidden">Rating</span>
                   </div>
-                  <span className="property__rating-value rating__value">{fractionalRating}</span>
+                  <span className="property__rating-value rating__value">{offer.rating}</span>
                 </div>
 
                 <ul className="property__features">
@@ -120,10 +115,10 @@ class OfferDetailsScreen extends PureComponent {
                     {offer.type}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    {offer.bedroomsCount} Bedrooms
+                    {offer.bedrooms} Bedrooms
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {offer.guestsCount} adults
+                    Max {offer.maxAdults} adults
                   </li>
                 </ul>
 
@@ -136,7 +131,7 @@ class OfferDetailsScreen extends PureComponent {
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
 
-                    {offer.appliances.map((appliance, i) => {
+                    {offer.goods.map((appliance, i) => {
                       return (
                         <li
                           className="property__inside-item"
@@ -154,10 +149,10 @@ class OfferDetailsScreen extends PureComponent {
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
                     <div
-                      className={`property__avatar-wrapper ${offer.host.isSuper ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
+                      className={`property__avatar-wrapper ${offer.host.isPro ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
                       <img
                         className="property__avatar user__avatar"
-                        src={`img/${offer.host.picture}`}
+                        src={`img/${offer.host.avatarUrl}`}
                         width="74"
                         height="74"
                         alt="Host avatar"/>
@@ -193,7 +188,11 @@ class OfferDetailsScreen extends PureComponent {
                   <form className="reviews__form form" action="#" method="post">
                     <label className="reviews__label form__label" htmlFor="review">Your review</label>
                     <div className="reviews__rating-form form__rating">
-                      <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars"
+                      <input
+                        className="form__rating-input visually-hidden"
+                        name="rating"
+                        value="5"
+                        id="5-stars"
                         type="radio"/>
                       <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
                         <svg className="form__star-image" width="37" height="33">
@@ -201,7 +200,11 @@ class OfferDetailsScreen extends PureComponent {
                         </svg>
                       </label>
 
-                      <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars"
+                      <input
+                        className="form__rating-input visually-hidden"
+                        name="rating"
+                        value="4"
+                        id="4-stars"
                         type="radio"/>
                       <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
                         <svg className="form__star-image" width="37" height="33">
@@ -209,7 +212,11 @@ class OfferDetailsScreen extends PureComponent {
                         </svg>
                       </label>
 
-                      <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars"
+                      <input
+                        className="form__rating-input visually-hidden"
+                        name="rating"
+                        value="3"
+                        id="3-stars"
                         type="radio"/>
                       <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
                         <svg className="form__star-image" width="37" height="33">
@@ -217,7 +224,11 @@ class OfferDetailsScreen extends PureComponent {
                         </svg>
                       </label>
 
-                      <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars"
+                      <input
+                        className="form__rating-input visually-hidden"
+                        name="rating"
+                        value="2"
+                        id="2-stars"
                         type="radio"/>
                       <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
                         <svg className="form__star-image" width="37" height="33">
@@ -225,7 +236,11 @@ class OfferDetailsScreen extends PureComponent {
                         </svg>
                       </label>
 
-                      <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star"
+                      <input
+                        className="form__rating-input visually-hidden"
+                        name="rating"
+                        value="1"
+                        id="1-star"
                         type="radio"/>
                       <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
                         <svg className="form__star-image" width="37" height="33">
@@ -233,7 +248,10 @@ class OfferDetailsScreen extends PureComponent {
                         </svg>
                       </label>
                     </div>
-                    <textarea className="reviews__textarea form__textarea" id="review" name="review"
+                    <textarea
+                      className="reviews__textarea form__textarea"
+                      id="review"
+                      name="review"
                       placeholder="Tell how was your stay, what you like and what can be improved"/>
                     <div className="reviews__button-wrapper">
                       <p className="reviews__help">
@@ -252,7 +270,6 @@ class OfferDetailsScreen extends PureComponent {
             <Map
               className={mapClassName}
               offers={slicedOffers}
-              cityLocation={cityCoordinates}
               hoveredCard={hoveredCard}
             />
 
@@ -281,57 +298,65 @@ class OfferDetailsScreen extends PureComponent {
 
 OfferDetailsScreen.propTypes = {
   mapClassName: PropTypes.string.isRequired,
-  activeCity: PropTypes.string.isRequired,
-  hoveredCard: PropTypes.object.isRequired,
-  reviews: PropTypes.array.isRequired,
   offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
-    bedroomsCount: PropTypes.number.isRequired,
-    guestsCount: PropTypes.number.isRequired,
-    appliances: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    host: PropTypes.shape({
-      picture: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      isSuper: PropTypes.bool.isRequired,
-    }).isRequired,
+    images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    isBookmarked: PropTypes.bool.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
-    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+    rating: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    bedrooms: PropTypes.number.isRequired,
+    maxAdults: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    goods: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    host: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      isPro: PropTypes.bool.isRequired,
+      avatarUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    description: PropTypes.arrayOf(PropTypes.string).isRequired,
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired,
+    }).isRequired,
+    id: PropTypes.number.isRequired,
   }).isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    pictures: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
-    bedroomsCount: PropTypes.number.isRequired,
-    guestsCount: PropTypes.number.isRequired,
-    appliances: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    host: PropTypes.shape({
-      picture: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      isSuper: PropTypes.bool.isRequired,
-    }).isRequired,
+    images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    isBookmarked: PropTypes.bool.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
-    coordinates: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  }).isRequired),
+    rating: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    bedrooms: PropTypes.number.isRequired,
+    maxAdults: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    goods: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    host: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      isPro: PropTypes.bool.isRequired,
+      avatarUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    description: PropTypes.arrayOf(PropTypes.string).isRequired,
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired,
+    }).isRequired,
+    id: PropTypes.number.isRequired,
+  })).isRequired,
+  hoveredCard: PropTypes.object.isRequired,
+  reviews: PropTypes.array.isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: state.city,
+  offer: state.activeOffer,
   offers: state.offers,
   hoveredCard: state.hoveredCard,
+  reviews: state.reviews,
 });
 
 const mapDispatchToProps = (dispatch) => ({

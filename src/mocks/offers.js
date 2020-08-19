@@ -1,10 +1,15 @@
-import {RATING, City} from "../const.js";
-
 export default [
   {
-    id: 12,
-    city: City.PARIS,
-    pictures: [
+    city: {
+      name: `Paris`,
+      location: {
+        latitude: 48.857183,
+        longitude: 2.351556,
+        zoom: 16,
+      },
+    },
+    previewImage: `room.jpg`,
+    images: [
       `room.jpg`,
       `apartment-01.jpg`,
       `apartment-02.jpg`,
@@ -12,427 +17,133 @@ export default [
       `apartment-small-03.jpg`,
       `apartment-small-04.jpg`
     ],
+    title: `Cozy seaview apartment`,
+    isFavorite: true,
+    isPremium: true,
+    rating: 2.3,
+    type: `Apartment`,
+    bedrooms: 3,
+    maxAdults: 4,
     price: 230,
-    rating: RATING[2],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
+    goods: [
       `Wifi`,
       `Heating`,
       `Kitchen`,
       `Cable TV`
     ],
     host: {
-      picture: `avatar-angelina.jpg`,
+      id: 1,
       name: `Adam Smith`,
-      isSuper: true,
+      isPro: true,
+      avatarUrl: `avatar-angelina.jpg`,
     },
-    title: `Cozy seaview apartment`,
-    type: `Apartment`,
-    isBookmarked: true,
-    isPremium: true,
-    coordinates: City.PARIS.coordinates,
+    description: [
+      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
+    ],
+    location: {
+      latitude: 48.857183,
+      longitude: 2.351556,
+      zoom: 16,
+    },
+    id: 1,
   },
   {
+    city: {
+      name: `Paris`,
+      location: {
+        latitude: 48.857183,
+        longitude: 2.351556,
+        zoom: 16,
+      },
+    },
+    previewImage: `apartment-01.jpg`,
+    images: [
+      `room.jpg`,
+      `apartment-01.jpg`,
+      `apartment-02.jpg`,
+      `apartment-03.jpg`,
+      `apartment-small-03.jpg`,
+      `apartment-small-04.jpg`
+    ],
+    title: `An independent House`,
+    isFavorite: true,
+    isPremium: true,
+    rating: 3.3,
+    type: `Apartment`,
+    bedrooms: 3,
+    maxAdults: 4,
+    price: 30,
+    goods: [
+      `Wifi`,
+      `Heating`,
+      `Kitchen`,
+      `Cable TV`
+    ],
+    host: {
+      id: 1,
+      name: `Adam Smith`,
+      isPro: true,
+      avatarUrl: `avatar-angelina.jpg`,
+    },
+    description: [
+      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
+    ],
+    location: {
+      latitude: 48.858183,
+      longitude: 2.351556,
+      zoom: 16,
+    },
+    id: 2,
+  },
+  {
+    city: {
+      name: `Hamburg`,
+      location: {
+        latitude: 53.550645,
+        longitude: 9.999287,
+        zoom: 16,
+      },
+    },
+    previewImage: `apartment-01.jpg`,
+    images: [
+      `room.jpg`,
+      `apartment-01.jpg`,
+      `apartment-02.jpg`,
+      `apartment-03.jpg`,
+      `apartment-small-03.jpg`,
+      `apartment-small-04.jpg`
+    ],
+    title: `An independent House`,
+    isFavorite: true,
+    isPremium: true,
+    rating: 3.3,
+    type: `Apartment`,
+    bedrooms: 3,
+    maxAdults: 4,
+    price: 30,
+    goods: [
+      `Wifi`,
+      `Heating`,
+      `Kitchen`,
+      `Cable TV`
+    ],
+    host: {
+      id: 1,
+      name: `Adam Smith`,
+      isPro: true,
+      avatarUrl: `avatar-angelina.jpg`,
+    },
+    description: [
+      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
+      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
+    ],
+    location: {
+      latitude: 53.550645,
+      longitude: 9.999287,
+      zoom: 16,
+    },
     id: 3,
-    city: City.COLOGNE,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 90,
-    rating: RATING[3],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Beautiful place`,
-    type: `Private room`,
-    isBookmarked: true,
-    isPremium: false,
-    coordinates: City.COLOGNE.coordinates,
-  },
-  {
-    id: 56,
-    city: City.BRUSSELS,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 300,
-    rating: RATING[1],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Nice quiet stay with soft bed`,
-    type: `Apartment`,
-    isBookmarked: false,
-    isPremium: true,
-    coordinates: City.BRUSSELS.coordinates,
-  },
-  // {
-  //   id: 1,
-  //   city: City.AMSTERDAM,
-  //   pictures: [
-  //     `room.jpg`,
-  //     `apartment-01.jpg`,
-  //     `apartment-02.jpg`,
-  //     `apartment-03.jpg`,
-  //     `apartment-small-03.jpg`,
-  //     `apartment-small-04.jpg`
-  //   ],
-  //   price: 140,
-  //   rating: RATING[4],
-  //   description: [
-  //     `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-  //     `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-  //   ],
-  //   bedroomsCount: 3,
-  //   guestsCount: 4,
-  //   appliances: [
-  //     `Wifi`,
-  //     `Heating`,
-  //     `Kitchen`,
-  //     `Cable TV`
-  //   ],
-  //   host: {
-  //     picture: `avatar-angelina.jpg`,
-  //     name: `Adam Smith`,
-  //     isSuper: true,
-  //   },
-  //   title: `Wood and stone place`,
-  //   type: `Private room`,
-  //   isBookmarked: false,
-  //   isPremium: false,
-  //   coordinates: City.AMSTERDAM.coordinates,
-  // },
-  {
-    id: 16,
-    city: City.HAMBURG,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 300,
-    rating: RATING[1],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Nice quiet stay with soft bed`,
-    type: `Apartment`,
-    isBookmarked: false,
-    isPremium: true,
-    coordinates: City.HAMBURG.coordinates,
-  },
-  {
-    id: 34,
-    city: City.DUSSELDORF,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 300,
-    rating: RATING[1],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Nice quiet stay with soft bed`,
-    type: `Apartment`,
-    isBookmarked: false,
-    isPremium: true,
-    coordinates: City.DUSSELDORF.coordinates,
-  },
-
-
-  {
-    id: 13,
-    city: City.PARIS,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 20,
-    rating: RATING[3],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Cozy seaview apartment`,
-    type: `Apartment`,
-    isBookmarked: true,
-    isPremium: true,
-    coordinates: [48.867183, 2.341556],
-  },
-  {
-    id: 4,
-    city: City.COLOGNE,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 1290,
-    rating: RATING[4],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Beautiful place`,
-    type: `Private room`,
-    isBookmarked: true,
-    isPremium: false,
-    coordinates: [50.9301, 6.99489],
-  },
-  {
-    id: 57,
-    city: City.BRUSSELS,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 890,
-    rating: RATING[0],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Nice quiet stay with soft bed`,
-    type: `Apartment`,
-    isBookmarked: false,
-    isPremium: true,
-    coordinates: [50.886509, 4.368718],
-  },
-  // {
-  //   id: 2,
-  //   city: City.AMSTERDAM,
-  //   pictures: [
-  //     `room.jpg`,
-  //     `apartment-01.jpg`,
-  //     `apartment-02.jpg`,
-  //     `apartment-03.jpg`,
-  //     `apartment-small-03.jpg`,
-  //     `apartment-small-04.jpg`
-  //   ],
-  //   price: 190,
-  //   rating: RATING[2],
-  //   description: [
-  //     `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-  //     `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-  //   ],
-  //   bedroomsCount: 3,
-  //   guestsCount: 4,
-  //   appliances: [
-  //     `Wifi`,
-  //     `Heating`,
-  //     `Kitchen`,
-  //     `Cable TV`
-  //   ],
-  //   host: {
-  //     picture: `avatar-angelina.jpg`,
-  //     name: `Adam Smith`,
-  //     isSuper: true,
-  //   },
-  //   title: `Wood and stone place`,
-  //   type: `Private room`,
-  //   isBookmarked: false,
-  //   isPremium: false,
-  //   coordinates: [52.369057, 4.853557],
-  // },
-  {
-    id: 17,
-    city: City.HAMBURG,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 450,
-    rating: RATING[3],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Nice quiet stay with soft bed`,
-    type: `Apartment`,
-    isBookmarked: false,
-    isPremium: true,
-    coordinates: [53.506645, 9.975287],
-  },
-  {
-    id: 35,
-    city: City.DUSSELDORF,
-    pictures: [
-      `room.jpg`,
-      `apartment-01.jpg`,
-      `apartment-02.jpg`,
-      `apartment-03.jpg`,
-      `apartment-small-03.jpg`,
-      `apartment-small-04.jpg`
-    ],
-    price: 10,
-    rating: RATING[1],
-    description: [
-      `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.`,
-      `An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.`
-    ],
-    bedroomsCount: 3,
-    guestsCount: 4,
-    appliances: [
-      `Wifi`,
-      `Heating`,
-      `Kitchen`,
-      `Cable TV`
-    ],
-    host: {
-      picture: `avatar-angelina.jpg`,
-      name: `Adam Smith`,
-      isSuper: true,
-    },
-    title: `Nice quiet stay with soft bed`,
-    type: `Apartment`,
-    isBookmarked: false,
-    isPremium: true,
-    coordinates: [51.209969, 6.830428],
   },
 ];

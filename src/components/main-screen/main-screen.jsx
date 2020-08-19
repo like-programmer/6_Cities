@@ -9,14 +9,14 @@ import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
-import {getCityCoordinates, getSortedOffers} from "../../utils.js";
+import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
 const MainScreen = (props) => {
   const {
     mapClassName,
-    offers,
+    sortedOffers,
+    cityList,
     activeCity,
-    sortType,
     hoveredCard,
     onActiveCityChange,
     onSortTypeChange,
@@ -24,22 +24,19 @@ const MainScreen = (props) => {
     onCardClick,
   } = props;
 
-  const cityCoordinates = getCityCoordinates(activeCity);
-
-  const sortedOffers = getSortedOffers(offers, sortType);
-
   return (
     <div className="page page--gray page--main">
 
       <PageHeader/>
 
-      <main className={`page__main page__main--index ${offers.length === 0 ? `page__main--index-empty` : ``}`}>
+      <main className={`page__main page__main--index ${sortedOffers.length === 0 ? `page__main--index-empty` : ``}`}>
         <h1 className="visually-hidden">Cities</h1>
 
         <div className="tabs">
           <section className="locations container">
 
             <CitiesList
+              cities={cityList}
               activeCity={activeCity}
               onActiveCityChange={onActiveCityChange}
             />
@@ -49,11 +46,11 @@ const MainScreen = (props) => {
 
         <div className="cities">
 
-          {offers.length === 0 ? <NoOffers cityName={activeCity}/> :
+          {sortedOffers.length === 0 ? <NoOffers cityName={activeCity}/> :
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
 
                 <Sorting
                   onTypeChange={onSortTypeChange}
@@ -73,8 +70,7 @@ const MainScreen = (props) => {
 
                 <Map
                   className={mapClassName}
-                  offers={offers}
-                  cityLocation={cityCoordinates}
+                  offers={sortedOffers}
                   hoveredCard={hoveredCard}
                 />
 
@@ -83,16 +79,18 @@ const MainScreen = (props) => {
           }
 
         </div>
+
       </main>
+
     </div>
   );
 };
 
 MainScreen.propTypes = {
   mapClassName: PropTypes.string.isRequired,
-  offers: PropTypes.array.isRequired,
-  activeCity: PropTypes.string.isRequired,
-  sortType: PropTypes.string.isRequired,
+  sortedOffers: PropTypes.array.isRequired,
+  activeCity: PropTypes.object.isRequired,
+  cityList: PropTypes.array.isRequired,
   hoveredCard: PropTypes.object.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
@@ -100,17 +98,28 @@ MainScreen.propTypes = {
   onCardClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeCity: state.city,
-  offers: state.offers,
-  sortType: state.sortType,
-  hoveredCard: state.hoveredCard,
-});
+const mapStateToProps = (state) => {
+  const offers = state.offers;
+  const sortType = state.sortType;
+  const cityList = getCityList(offers).slice(0, 6);
+  const activeCity = state.city ? state.city : cityList[0];
+  const hoveredCard = state.hoveredCard;
+
+  const filteredOffers = getFilteredByCityOffers(offers, activeCity);
+  const sortedOffers = getSortedOffers(filteredOffers, sortType);
+
+
+  return {
+    sortedOffers,
+    activeCity,
+    cityList,
+    hoveredCard,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  onActiveCityChange(cityName) {
-    dispatch(ActionCreator.changeCity(cityName));
-    dispatch(ActionCreator.getOffers(cityName));
+  onActiveCityChange(city) {
+    dispatch(ActionCreator.changeCity(city));
   },
 
   onSortTypeChange(sortType) {

@@ -27,7 +27,7 @@ class Map extends PureComponent {
     });
 
     this._markers.push(
-        leaflet
+      leaflet
         .marker(pinCoords, {icon})
         .addTo(map)
     );
@@ -43,20 +43,26 @@ class Map extends PureComponent {
     });
 
     offers.forEach((offer) => {
+      const coordinates = [offer.location.latitude, offer.location.longitude];
+
       if (!isEmpty && offer.id === hoveredCard.id) {
-        this._addMarker(offer.coordinates, this._map, true);
+        this._addMarker(coordinates, this._map, true);
       } else {
-        this._addMarker(offer.coordinates, this._map, false);
+        this._addMarker(coordinates, this._map, false);
       }
     });
   }
 
   _initMap() {
-    const {cityLocation} = this.props;
+    const {offers, hoveredCard} = this.props;
+    const isEmpty = Object.values(hoveredCard).length === 0;
+
+    const city = isEmpty ? offers[0].city : hoveredCard.city;
 
     const container = this._mapRef.current;
 
-    const zoom = 12;
+    const zoom = city.location.zoom;
+    const cityLocation = [city.location.latitude, city.location.longitude];
 
     this._map = leaflet.map(container, {
       center: cityLocation,
@@ -78,8 +84,8 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    // console.log(prevProps, this.props);
-    if (this.props.cityLocation !== prevProps.cityLocation) {
+
+    if (this.props.offers[0].city.name !== prevProps.offers[0].city.name) {
       this._map.remove();
       this._initMap();
     }
@@ -93,7 +99,6 @@ class Map extends PureComponent {
 
   render() {
     const {className} = this.props;
-
     return (
       <section
         id={`${className}-map`}
@@ -108,7 +113,6 @@ class Map extends PureComponent {
 Map.propTypes = {
   className: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
-  cityLocation: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   hoveredCard: PropTypes.object.isRequired,
 };
 
