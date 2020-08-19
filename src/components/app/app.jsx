@@ -1,28 +1,17 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import {connect} from "react-redux";
-import {AuthorizationStatus} from "../../reducer/user/user.js";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
-import AuthScreen from "../auth-screen/auth-screen.jsx";
-import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
-import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
-import {getActiveOffer} from "../../reducer/website/selectors.js";
-import {getReviews} from "../../reducer/data/selectors.js";
+import {connect} from "react-redux";
+import reviews from "../../mocks/reviews";
 
 class App extends PureComponent {
   _renderMainScreen() {
-    const {
-      activeOffer,
-      reviews,
-      authorizationStatus,
-      login,
-    } = this.props;
+    const {activeOffer} = this.props;
 
-    // if (authorizationStatus === AuthorizationStatus.AUTH) {
-    if (activeOffer === null) {
+    if (activeOffer === undefined) {
       return (
         <MainScreen
           mapClassName={MapClassNames.CITY}
@@ -32,26 +21,15 @@ class App extends PureComponent {
       return (
         <OfferDetailsScreen
           mapClassName={MapClassNames.PROPERTY}
+          offer={activeOffer}
+          reviews={reviews}
         />
       );
     }
-    // } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-    //   return (
-    {/*<AuthScreen*/
-    }
-    // onSubmit={login}
-    // />
-    // );
-    // }
-
-    return null;
   }
 
   render() {
-    const {
-      activeOffer,
-      reviews
-    } = this.props;
+    const {activeOffer} = this.props;
     return (
       <BrowserRouter>
         <Switch>
@@ -62,13 +40,8 @@ class App extends PureComponent {
           <Route exact path="/details">
             <OfferDetailsScreen
               mapClassName={MapClassNames.PROPERTY}
-            />;
-          </Route>
-
-          <Route exact path="/dev-auth">
-            <AuthScreen
-              onSubmit={() => {
-              }}
+              offer={activeOffer}
+              reviews={reviews}
             />;
           </Route>
         </Switch>
@@ -79,22 +52,12 @@ class App extends PureComponent {
 
 App.propTypes = {
   activeOffer: PropTypes.object,
-  reviews: PropTypes.array.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  activeOffer: getActiveOffer(state),
-  reviews: getReviews(state),
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  login(authData) {
-    dispatch(UserOperation.login(authData));
-  },
+  activeOffer: state.activeOffer,
+  reviews: state.reviews,
 });
 
 export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

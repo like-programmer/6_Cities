@@ -1,16 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator as WebsiteActionCreator} from "../../reducer/website/website.js";
-import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
+import {ActionCreator} from "../../reducer.js";
 import PageHeader from "../page-header/page-header.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
 import Sorting from "../sorting/sorting.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
-import {getOffers} from "../../reducer/data/selectors.js";
-import {getCityName, getSortType, getHoveredCard} from "../../reducer/website/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getCityCoordinates, getSortedOffers} from "../../utils.js";
 
@@ -26,7 +23,6 @@ const MainScreen = (props) => {
     onCardHover,
     onCardClick,
   } = props;
-  console.log(offers);
 
   const cityCoordinates = getCityCoordinates(activeCity);
 
@@ -105,28 +101,28 @@ MainScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeCity: getCityName(state),
-  offers: getOffers(state),
-  sortType: getSortType(state),
-  hoveredCard: getHoveredCard(state),
+  activeCity: state.city,
+  offers: state.offers,
+  sortType: state.sortType,
+  hoveredCard: state.hoveredCard,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onActiveCityChange(cityName) {
-    dispatch(WebsiteActionCreator.changeCity(cityName));
-    dispatch(DataActionCreator.getOffersInCity(cityName));
+    dispatch(ActionCreator.changeCity(cityName));
+    dispatch(ActionCreator.getOffers(cityName));
   },
 
   onSortTypeChange(sortType) {
-    dispatch(WebsiteActionCreator.changeSortType(sortType));
+    dispatch(ActionCreator.changeSortType(sortType));
   },
 
   onCardHover(card) {
-    dispatch(WebsiteActionCreator.setHoveredCard(card));
+    dispatch(ActionCreator.setHoveredCard(card));
   },
 
   onCardClick(card) {
-    dispatch(WebsiteActionCreator.setActiveOffer(card));
+    dispatch(ActionCreator.setActiveOffer(card));
   },
 });
 
