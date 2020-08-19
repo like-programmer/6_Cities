@@ -17,6 +17,8 @@ const ActionType = {
   CHANGE_SORT_TYPE: `CHANGE_SORT_TYPE`,
   SET_ACTIVE_OFFER: `SET_ACTIVE_OFFER`,
   SET_HOVERED_CARD: `SET_HOVERED_CARD`,
+  REVERT_ACTIVE_OFFER_FAVORITE_FLAG: `REVERT_ACTIVE_OFFER_FAVORITE_FLAG`,
+  UPDATE_ACTIVE_OFFER_IN_OFFERS: `UPDATE_ACTIVE_OFFER_IN_OFFERS`,
 };
 
 const ActionCreator = {
@@ -38,6 +40,14 @@ const ActionCreator = {
   setActiveOffer: (card) => ({
     type: ActionType.SET_ACTIVE_OFFER,
     payload: card,
+  }),
+
+  revertActiveOfferFavoriteFlag: () => ({
+    type: ActionType.REVERT_ACTIVE_OFFER_FAVORITE_FLAG,
+  }),
+
+  updateActiveOfferInOffers: () => ({
+    type: ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS,
   }),
 };
 
@@ -61,6 +71,24 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_ACTIVE_OFFER:
       return extend(state, {
         activeOffer: action.payload,
+      });
+
+    case ActionType.REVERT_ACTIVE_OFFER_FAVORITE_FLAG:
+      const newActiveOffer = extend(state.activeOffer, {
+        isFavorite: !state.activeOffer.isFavorite,
+      });
+
+      return extend(state, {
+        activeOffer: newActiveOffer,
+      });
+
+    case ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS:
+      const activeOfferIndex = state.offers.map((offer) => offer.id).indexOf(state.activeOffer.id);
+
+      const newOffers = [].concat(state.offers.slice(0, activeOfferIndex), state.activeOffer, state.offers.slice(activeOfferIndex + 1));
+
+      return extend(state, {
+        offers: newOffers,
       });
   }
 

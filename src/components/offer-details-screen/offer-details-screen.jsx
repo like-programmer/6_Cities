@@ -15,18 +15,6 @@ const MAX_OFFER_AMOUNT = 2;
 class OfferDetailsScreen extends PureComponent {
   constructor(props) {
     super(props);
-
-    this._changeBookmarkStateHandler = this._changeBookmarkStateHandler.bind(this);
-
-    // this.state = {
-    //   isBookmarked: this.props.offer.isBookmarked,
-    // };
-  }
-
-  _changeBookmarkStateHandler() {
-    // this.setState({
-    //   isBookmarked: !this.state.isBookmarked,
-    // });
   }
 
   render() {
@@ -38,6 +26,7 @@ class OfferDetailsScreen extends PureComponent {
       hoveredCard,
       onCardHover,
       onCardClick,
+      onBookmarkClick,
     } = this.props;
 
     const starRating = offer.rating * 10;
@@ -85,7 +74,7 @@ class OfferDetailsScreen extends PureComponent {
                   <button
                     className="property__bookmark-button button"
                     type="button"
-                    onClick={this._changeBookmarkStateHandler}
+                    onClick={onBookmarkClick}
                   >
                     <svg
                       className="property__bookmark-icon"
@@ -350,6 +339,7 @@ OfferDetailsScreen.propTypes = {
   reviews: PropTypes.array.isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -366,6 +356,11 @@ const mapDispatchToProps = (dispatch) => ({
 
   onCardClick(card) {
     dispatch(ActionCreator.setActiveOffer(card));
+  },
+
+  onBookmarkClick() {
+    dispatch(ActionCreator.revertActiveOfferFavoriteFlag());
+    dispatch(ActionCreator.updateActiveOfferInOffers());
   },
 });
 
