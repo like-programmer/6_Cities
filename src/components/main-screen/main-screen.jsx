@@ -15,9 +15,11 @@ import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils
 
 const MainScreen = (props) => {
   const {
+    offers,
     mapClassName,
-    sortedOffers,
-    cityList,
+    // sortedOffers,
+    // cityList,
+    sortType,
     activeCity,
     hoveredCard,
     onActiveCityChange,
@@ -26,12 +28,18 @@ const MainScreen = (props) => {
     onCardClick,
   } = props;
 
+  const activeCityCopy = Object.assign({}, activeCity);
+
+  const cityList = getCityList(offers).slice(0, 6);
+  const filteredOffers = getFilteredByCityOffers(offers, activeCityCopy);
+  const sortedOffers = getSortedOffers(filteredOffers, sortType);
+
   return (
     <div className="page page--gray page--main">
 
       <PageHeader/>
 
-      <main className={`page__main page__main--index ${sortedOffers.length === 0 ? `page__main--index-empty` : ``}`}>
+      <main className={`page__main page__main--index`}>
         <h1 className="visually-hidden">Cities</h1>
 
         <div className="tabs">
@@ -39,7 +47,7 @@ const MainScreen = (props) => {
 
             <CitiesList
               cities={cityList}
-              activeCity={activeCity}
+              activeCity={activeCityCopy}
               onActiveCityChange={onActiveCityChange}
             />
 
@@ -48,11 +56,11 @@ const MainScreen = (props) => {
 
         <div className="cities">
 
-          {sortedOffers.length === 0 ? <NoOffers cityName={activeCity.name}/> :
+          {sortedOffers.length === 0 ? <NoOffers city={activeCityCopy}/> :
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
+                <b className="places__found">{sortedOffers.length} places to stay in {activeCityCopy.name}</b>
 
                 <Sorting
                   onTypeChange={onSortTypeChange}
@@ -89,10 +97,12 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
+  offers: PropTypes.array,
   mapClassName: PropTypes.string.isRequired,
-  sortedOffers: PropTypes.array.isRequired,
-  activeCity: PropTypes.object.isRequired,
-  cityList: PropTypes.array.isRequired,
+  // sortedOffers: PropTypes.array.isRequired,
+  sortType: PropTypes.string,
+  activeCity: PropTypes.object,
+  // cityList: PropTypes.array.isRequired,
   hoveredCard: PropTypes.object.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
@@ -100,25 +110,36 @@ MainScreen.propTypes = {
   onCardClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const offers = getOffers(state);
-  const sortType = getSortType(state);
-  const cityList = getCityList(offers).slice(0, 6);
-  const stateCity = getCity(state);
-  const activeCity = stateCity ? stateCity : cityList[0];
-  const hoveredCard = getHoveredCard(state);
+const mapStateToProps = (state) => ({
+  offers: getOffers(state),
+  sortType: getSortType(state),
+  activeCity: getCity(state),
+  hoveredCard: getHoveredCard(state),
+});
 
-  const filteredOffers = getFilteredByCityOffers(offers, activeCity);
-  const sortedOffers = getSortedOffers(filteredOffers, sortType);
+// const mapStateToProps = (state) => {
+//   console.log(state);
+  // const offers = getOffers(state);
+  // const sortType = getSortType(state);
+  // const cityList = getCityList(offers).slice(0, 6);
+  // const stateCity = getCity(state);
+  // const activeCity = stateCity ? stateCity : cityList[0];
+  // console.log(offers);
+  // console.log(stateCity ? stateCity : cityList[0]);
+  // const hoveredCard = getHoveredCard(state);
+
+  // const filteredOffers = getFilteredByCityOffers(offers, activeCity);
+  // const sortedOffers = getSortedOffers(filteredOffers, sortType);
 
 
-  return {
-    sortedOffers,
-    activeCity,
-    cityList,
-    hoveredCard,
-  };
-};
+  // return {
+    // offers,
+    // sortedOffers,
+    // activeCity,
+    // cityList,
+    // hoveredCard,
+  // };
+// };
 
 const mapDispatchToProps = (dispatch) => ({
   onActiveCityChange(city) {

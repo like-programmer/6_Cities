@@ -9,7 +9,7 @@ const PageHeader = (props) => {
     userData,
     authorizationStatus,
   } = props;
-  console.log(userData);
+  // console.log(userData);
 
   return (
     <header className="header">

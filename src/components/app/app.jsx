@@ -10,38 +10,42 @@ import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {getActiveOffer} from "../../reducer/app/selectors.js";
+import {getOffers} from "../../reducer/data/selectors.js";
 
 class App extends PureComponent {
   _renderMainScreen() {
     const {
+      // offers,
       activeOffer,
       authorizationStatus,
       login
     } = this.props;
 
-    if (authorizationStatus === AuthorizationStatus.AUTH) {
-      if (activeOffer === null) {
-        return (
-          <MainScreen
-            mapClassName={MapClassNames.CITY}
-          />
-        );
-      } else {
-        return (
-          <OfferDetailsScreen
-            mapClassName={MapClassNames.PROPERTY}
-          />
-        );
-      }
-    } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+    // console.log(offers);
+
+    // if (authorizationStatus === AuthorizationStatus.AUTH) {
+    if (activeOffer === null) {
       return (
-        <AuthScreen
-          onSubmit={login}
+        <MainScreen
+          mapClassName={MapClassNames.CITY}
+        />
+      );
+    } else {
+      return (
+        <OfferDetailsScreen
+          mapClassName={MapClassNames.PROPERTY}
         />
       );
     }
+    // } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+    //   return (
+    //     <AuthScreen
+    //       onSubmit={login}
+    //     />
+    //   );
+    // }
 
-    return null;
+    // return null;
   }
 
   render() {
@@ -52,7 +56,7 @@ class App extends PureComponent {
             {this._renderMainScreen()}
           </Route>
 
-          <Route exact path="/details">
+          <Route exact path="/dev-details">
             <OfferDetailsScreen
               mapClassName={MapClassNames.PROPERTY}
             />;
@@ -71,12 +75,14 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
+  // offers: PropTypes.array,
   activeOffer: PropTypes.object,
   authorizationStatus: PropTypes.string.isRequired,
   login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  // offers: getOffers(state),
   activeOffer: getActiveOffer(state),
   authorizationStatus: getAuthorizationStatus(state),
 });

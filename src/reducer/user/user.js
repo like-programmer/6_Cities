@@ -31,22 +31,6 @@ const ActionCreator = {
   },
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.SET_AUTHORIZATION_STATUS:
-      return extend(state, {
-        authorizarionStatus: action.payload,
-      });
-
-    case ActionType.SET_USER_DATA:
-      return extend(state, {
-        userData: action.payload,
-      });
-  }
-
-  return state;
-};
-
 const Operation = {
   checkAuth: () => (dispatch, getState, api) => {
     return api.get(`/login`)
@@ -68,6 +52,22 @@ const Operation = {
         dispatch(ActionCreator.setUserData(response));
       });
   },
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionType.SET_AUTHORIZATION_STATUS:
+      return extend(state, {
+        authorizarionStatus: action.payload,
+      });
+
+    case ActionType.SET_USER_DATA:
+      return extend(state, {
+        userData: action.payload,
+      });
+  }
+
+  return state;
 };
 
 export {

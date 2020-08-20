@@ -29,11 +29,11 @@ const ReviewItem = (props) => {
 
 ReviewItem.propTypes = {
   review: PropTypes.shape({
-    avatar: PropTypes.string.isRequired,
-    userName: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    date: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
+    userName: PropTypes.string,
+    text: PropTypes.string,
+    rating: PropTypes.number,
+    date: PropTypes.string,
   }).isRequired,
 };
 

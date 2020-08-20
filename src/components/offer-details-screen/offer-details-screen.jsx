@@ -31,6 +31,8 @@ class OfferDetailsScreen extends PureComponent {
       onBookmarkClick,
     } = this.props;
 
+    console.log(reviews);
+
     const starRating = offer.rating * 10;
 
     const slicedOffers = offers.slice(0, MAX_OFFER_AMOUNT);
@@ -52,7 +54,7 @@ class OfferDetailsScreen extends PureComponent {
                     <div
                       className="property__image-wrapper"
                       key={`${image}-${i}`}>
-                      <img className="property__image" src={`img/${image}`} alt="Photo studio"/>
+                      <img className="property__image" src={`${image}`} alt="Photo studio"/>
                     </div>
                   );
                 })}
@@ -143,7 +145,7 @@ class OfferDetailsScreen extends PureComponent {
                       className={`property__avatar-wrapper ${offer.host.isPro ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
                       <img
                         className="property__avatar user__avatar"
-                        src={`img/${offer.host.avatarUrl}`}
+                        src={`${offer.host.avatarUrl}`}
                         width="74"
                         height="74"
                         alt="Host avatar"/>
@@ -154,16 +156,18 @@ class OfferDetailsScreen extends PureComponent {
                   </div>
                   <div className="property__description">
 
-                    {offer.description.map((paragraph, i) => {
-                      return (
-                        <p
-                          className="property__text"
-                          key={`${paragraph}-${i}`}
-                        >
-                          {paragraph}
-                        </p>
-                      );
-                    })}
+                    <p className="property__text">{offer.description}</p>
+
+                    {/*{offer.description.map((paragraph, i) => {*/}
+                      {/*return (*/}
+                        {/*<p*/}
+                          {/*className="property__text"*/}
+                          {/*key={`${paragraph}-${i}`}*/}
+                        {/*>*/}
+                          {/*{paragraph}*/}
+                        {/*</p>*/}
+                      {/*);*/}
+                    {/*})}*/}
 
                   </div>
                 </div>
@@ -305,7 +309,7 @@ OfferDetailsScreen.propTypes = {
       isPro: PropTypes.bool.isRequired,
       avatarUrl: PropTypes.string.isRequired,
     }).isRequired,
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
+    description: PropTypes.string.isRequired,
     location: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
@@ -329,7 +333,7 @@ OfferDetailsScreen.propTypes = {
       isPro: PropTypes.bool.isRequired,
       avatarUrl: PropTypes.string.isRequired,
     }).isRequired,
-    description: PropTypes.arrayOf(PropTypes.string).isRequired,
+    description: PropTypes.string.isRequired,
     location: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,

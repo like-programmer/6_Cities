@@ -27,7 +27,7 @@ const CitiesList = (props) => {
 
 CitiesList.propTypes = {
   cities: PropTypes.array.isRequired,
-  activeCity: PropTypes.object.isRequired,
+  activeCity: PropTypes.object,
   onActiveCityChange: PropTypes.func.isRequired,
 };
 
