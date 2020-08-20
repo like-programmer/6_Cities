@@ -8,10 +8,10 @@ const ReviewItem = (props) => {
     <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src={`img/${review.avatar}`} width="54" height="54"
+          <img className="reviews__avatar user__avatar" src={`${review.user.avatarUrl}`} width="54" height="54"
             alt="Reviews avatar"/>
         </div>
-        <span className="reviews__user-name">{review.userName}</span>
+        <span className="reviews__user-name">{review.user.name}</span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
@@ -20,7 +20,7 @@ const ReviewItem = (props) => {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <p className="reviews__text">{review.text}</p>
+        <p className="reviews__text">{review.comment}</p>
         <time className="reviews__time" dateTime={review.date}>April 2019</time>
       </div>
     </li>
@@ -29,11 +29,16 @@ const ReviewItem = (props) => {
 
 ReviewItem.propTypes = {
   review: PropTypes.shape({
-    avatar: PropTypes.string,
-    userName: PropTypes.string,
-    text: PropTypes.string,
-    rating: PropTypes.number,
-    date: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      isPro: PropTypes.bool,
+      name: PropTypes.string.isRequired,
+      avatarUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    rating: PropTypes.number.isRequired,
+    comment: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
   }).isRequired,
 };
 

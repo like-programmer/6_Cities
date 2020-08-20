@@ -1,17 +1,20 @@
 import {extend} from "../../utils.js";
-import reviews from "../../mocks/reviews.js";
 import Offer from "../../adapters/offer.js";
-import {ActionCreator as AppActionCreator} from "../app/app.js";
+import Review from "../../adapters/review.js";
 
 const offersAdapter = new Offer();
+const reviewsAdapter = new Review();
 
 const initialState = {
   offers: [],
-  reviews,
+  reviews: [],
+  nearbyOffers: [],
 };
 
 const ActionType = {
   LOAD_OFFERS: `LOAD_OFFERS`,
+  LOAD_REVIEWS: `LOAD_REVIEWS`,
+  LOAD_NEARBY_OFFERS: `LOAD_NEARBY_OFFERS`,
 };
 
 const ActionCreator = {
@@ -19,6 +22,20 @@ const ActionCreator = {
     return {
       type: ActionType.LOAD_OFFERS,
       payload: offers,
+    };
+  },
+
+  loadReviews: (reviewList) => {
+    return {
+      type: ActionType.LOAD_REVIEWS,
+      payload: reviewList,
+    };
+  },
+
+  loadNearbyOffers: (offerList) => {
+    return {
+      type: ActionType.LOAD_NEARBY_OFFERS,
+      payload: offerList,
     };
   },
 };
@@ -30,7 +47,24 @@ const Operation = {
         const parsedOffers = response.data.map((offer) => offersAdapter.parse(offer));
 
         dispatch(ActionCreator.loadOffers(parsedOffers));
-        dispatch(AppActionCreator.changeCity(parsedOffers[0].city));
+      });
+  },
+
+  loadReviews: (id) => (dispatch, getState, api) => {
+    return api.get(`/comments/${id}`)
+      .then((response) => {
+        const parsedReviews = response.data.map((review) => reviewsAdapter.parse(review));
+
+        dispatch(ActionCreator.loadReviews(parsedReviews));
+      });
+  },
+
+  loadNearbyOffers: (id) => (dispatch, getState, api) => {
+    return api.get(`/hotels/${id}/nearby`)
+      .then((response) => {
+        const parsedOffers = response.data.map((offer) => offersAdapter.parse(offer));
+
+        dispatch(ActionCreator.loadNearbyOffers(parsedOffers));
       });
   },
 };
@@ -41,6 +75,16 @@ const reducer = (state = initialState, action) => {
 
       return extend(state, {
         offers: action.payload,
+      });
+
+    case ActionType.LOAD_REVIEWS:
+      return extend(state, {
+        reviews: action.payload,
+      });
+
+    case ActionType.LOAD_NEARBY_OFFERS:
+      return extend(state, {
+        nearbyOffers: action.payload,
       });
   }
 

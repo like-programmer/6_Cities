@@ -1,22 +1,39 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer/app/app.js";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
+import {ActionCreator as AppActionCreator} from "../../reducer/app/app.js";
 import PageHeader from "../page-header/page-header.jsx";
 import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
-import {getOffers, getReviews} from "../../reducer/data/selectors.js";
+import {getOffers, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getActiveOffer, getHoveredCard} from "../../reducer/app/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 
-const MAX_OFFER_AMOUNT = 2;
-
-// const MAX_OFFER_AMOUNT = 3;
+const MAX_OFFER_AMOUNT = 3;
 
 class OfferDetailsScreen extends PureComponent {
-  constructor(props) {
-    super(props);
+  _loadReviews() {
+    const {offer, loadReviews} = this.props;
+    loadReviews(offer.id);
+  }
+
+  _loadNearbyOffers() {
+    const {offer, loadNearbyOffers} = this.props;
+    loadNearbyOffers(offer.id);
+  }
+
+  componentDidMount() {
+    this._loadReviews();
+    this._loadNearbyOffers();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.offer.id !== this.props.offer.id) {
+      this._loadReviews();
+      this._loadNearbyOffers();
+    }
   }
 
   render() {
@@ -24,6 +41,7 @@ class OfferDetailsScreen extends PureComponent {
       mapClassName,
       offer,
       offers,
+      nearbyOffers,
       reviews,
       hoveredCard,
       onCardHover,
@@ -31,11 +49,9 @@ class OfferDetailsScreen extends PureComponent {
       onBookmarkClick,
     } = this.props;
 
-    console.log(reviews);
-
     const starRating = offer.rating * 10;
 
-    const slicedOffers = offers.slice(0, MAX_OFFER_AMOUNT);
+    const slicedOffers = nearbyOffers.slice(0, MAX_OFFER_AMOUNT);
 
     return (
       <div className="page">
@@ -159,14 +175,14 @@ class OfferDetailsScreen extends PureComponent {
                     <p className="property__text">{offer.description}</p>
 
                     {/*{offer.description.map((paragraph, i) => {*/}
-                      {/*return (*/}
-                        {/*<p*/}
-                          {/*className="property__text"*/}
-                          {/*key={`${paragraph}-${i}`}*/}
-                        {/*>*/}
-                          {/*{paragraph}*/}
-                        {/*</p>*/}
-                      {/*);*/}
+                    {/*return (*/}
+                    {/*<p*/}
+                    {/*className="property__text"*/}
+                    {/*key={`${paragraph}-${i}`}*/}
+                    {/*>*/}
+                    {/*{paragraph}*/}
+                    {/*</p>*/}
+                    {/*);*/}
                     {/*})}*/}
 
                   </div>
@@ -341,11 +357,37 @@ OfferDetailsScreen.propTypes = {
     }).isRequired,
     id: PropTypes.number.isRequired,
   })).isRequired,
+  nearbyOffers: PropTypes.arrayOf(PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    title: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    rating: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    bedrooms: PropTypes.number.isRequired,
+    maxAdults: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    goods: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    host: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      isPro: PropTypes.bool.isRequired,
+      avatarUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    description: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired,
+    }).isRequired,
+    id: PropTypes.number.isRequired,
+  })).isRequired,
   hoveredCard: PropTypes.object.isRequired,
   reviews: PropTypes.array.isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
+  loadReviews: PropTypes.func.isRequired,
+  loadNearbyOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -353,20 +395,29 @@ const mapStateToProps = (state) => ({
   offers: getOffers(state),
   hoveredCard: getHoveredCard(state),
   reviews: getReviews(state),
+  nearbyOffers: getNearbyOffers(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCardHover(card) {
-    dispatch(ActionCreator.setHoveredCard(card));
+    dispatch(AppActionCreator.setHoveredCard(card));
   },
 
   onCardClick(card) {
-    dispatch(ActionCreator.setActiveOffer(card));
+    dispatch(AppActionCreator.setActiveOffer(card));
   },
 
   onBookmarkClick() {
-    dispatch(ActionCreator.revertActiveOfferFavoriteFlag());
-    dispatch(ActionCreator.updateActiveOfferInOffers());
+    dispatch(AppActionCreator.revertActiveOfferFavoriteFlag());
+    dispatch(AppActionCreator.updateActiveOfferInOffers());
+  },
+
+  loadReviews(id) {
+    dispatch(DataOperation.loadReviews(id));
+  },
+
+  loadNearbyOffers(id) {
+    dispatch(DataOperation.loadNearbyOffers(id));
   },
 });
 

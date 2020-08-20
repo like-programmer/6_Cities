@@ -27,7 +27,7 @@ class Map extends PureComponent {
     });
 
     this._markers.push(
-      leaflet
+        leaflet
         .marker(pinCoords, {icon})
         .addTo(map)
     );
@@ -85,10 +85,10 @@ class Map extends PureComponent {
 
   componentDidUpdate(prevProps) {
 
-    if (this.props.offers[0].city.name !== prevProps.offers[0].city.name) {
-      this._map.remove();
-      this._initMap();
-    }
+    // if (this.props.offers[0].city.name !== prevProps.offers[0].city.name) {
+    this._map.remove();
+    this._initMap();
+    // }
 
     this._addMarkers();
   }
