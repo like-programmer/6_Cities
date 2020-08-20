@@ -2,12 +2,13 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {AuthorizationStatus} from "../../reducer/user/user.js";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
 import AuthScreen from "../auth-screen/auth-screen.jsx";
-import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {getActiveOffer} from "../../reducer/app/selectors.js";
 
 class App extends PureComponent {
@@ -18,19 +19,29 @@ class App extends PureComponent {
       login
     } = this.props;
 
-    if (activeOffer === null) {
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      if (activeOffer === null) {
+        return (
+          <MainScreen
+            mapClassName={MapClassNames.CITY}
+          />
+        );
+      } else {
+        return (
+          <OfferDetailsScreen
+            mapClassName={MapClassNames.PROPERTY}
+          />
+        );
+      }
+    } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return (
-        <MainScreen
-          mapClassName={MapClassNames.CITY}
-        />
-      );
-    } else {
-      return (
-        <OfferDetailsScreen
-          mapClassName={MapClassNames.PROPERTY}
+        <AuthScreen
+          onSubmit={login}
         />
       );
     }
+
+    return null;
   }
 
   render() {
@@ -49,7 +60,8 @@ class App extends PureComponent {
 
           <Route exact path="/dev-auth">
             <AuthScreen
-              onSubmit={() => {}}
+              onSubmit={() => {
+              }}
             />;
           </Route>
         </Switch>
