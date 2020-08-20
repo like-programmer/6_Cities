@@ -30,9 +30,19 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
+const Operation = {
+  loadOffers: () => (dispatch, getState, api) => {
+    return api.get(`/offers`)
+      .then((response) => {
+        dispatch(ActionCreator.loadOffers(response.data));
+      });
+  },
+};
+
 
 export {
   reducer,
   ActionType,
-  ActionCreator
+  ActionCreator,
+  Operation
 };
