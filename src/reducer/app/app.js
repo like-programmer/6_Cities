@@ -1,12 +1,8 @@
-import offers from "./mocks/offers.js";
-import reviews from "./mocks/reviews.js";
-import {SortType} from "./const.js";
-import {extend} from "./utils.js";
+import {SortType} from "../../const.js";
+import {extend} from "../../utils.js";
 
 const initialState = {
   city: null,
-  reviews,
-  offers,
   sortType: SortType.POPULAR.value,
   hoveredCard: {},
   activeOffer: null,
@@ -95,4 +91,8 @@ const reducer = (state = initialState, action) => {
   return state;
 };
 
-export {reducer, ActionType, ActionCreator};
+export {
+  reducer,
+  ActionType,
+  ActionCreator
+};
