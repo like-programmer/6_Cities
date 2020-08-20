@@ -63,7 +63,7 @@ const Operation = {
       email: authData.login,
       password: authData.password,
     })
-      .then((response) => {
+      .then(({response}) => {
         dispatch(ActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
         dispatch(ActionCreator.setUserData(response));
       });
