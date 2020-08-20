@@ -1,14 +1,21 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
+import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
-import {connect} from "react-redux";
+import {getActiveOffer} from "../../reducer/app/selectors.js";
 
 class App extends PureComponent {
   _renderMainScreen() {
-    const {activeOffer} = this.props;
+    const {
+      activeOffer,
+      authorizationStatus,
+      login
+    } = this.props;
 
     if (activeOffer === null) {
       return (
@@ -46,11 +53,20 @@ class App extends PureComponent {
 
 App.propTypes = {
   activeOffer: PropTypes.object,
+  authorizationStatus: PropTypes.string.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  activeOffer: state.activeOffer,
+  activeOffer: getActiveOffer(state),
+  authorizationStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  login(authData) {
+    dispatch(UserOperation.login(authData));
+  },
 });
 
 export {App};
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

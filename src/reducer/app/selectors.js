@@ -2,7 +2,7 @@ import NameSpace from "../name-space";
 
 const NAME_SPACE = NameSpace.APP;
 
-export const getCityName = (state) => {
+export const getCity = (state) => {
   return state[NAME_SPACE].city;
 };
 

@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator as AppActionCreator} from "../../reducer/app/app.js";
 import PageHeader from "../page-header/page-header.jsx";
 import CitiesList from "../cities-list/cities-list.jsx";
 import Sorting from "../sorting/sorting.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
+import {getOffers} from "../../reducer/data/selectors.js";
+import {getCity, getSortType, getHoveredCard} from "../../reducer/app/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
@@ -46,7 +48,7 @@ const MainScreen = (props) => {
 
         <div className="cities">
 
-          {sortedOffers.length === 0 ? <NoOffers cityName={activeCity}/> :
+          {sortedOffers.length === 0 ? <NoOffers cityName={activeCity.name}/> :
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
@@ -99,11 +101,12 @@ MainScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const offers = state.offers;
-  const sortType = state.sortType;
+  const offers = getOffers(state);
+  const sortType = getSortType(state);
   const cityList = getCityList(offers).slice(0, 6);
-  const activeCity = state.city ? state.city : cityList[0];
-  const hoveredCard = state.hoveredCard;
+  const stateCity = getCity(state);
+  const activeCity = stateCity ? stateCity : cityList[0];
+  const hoveredCard = getHoveredCard(state);
 
   const filteredOffers = getFilteredByCityOffers(offers, activeCity);
   const sortedOffers = getSortedOffers(filteredOffers, sortType);
@@ -119,19 +122,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onActiveCityChange(city) {
-    dispatch(ActionCreator.changeCity(city));
+    dispatch(AppActionCreator.changeCity(city));
   },
 
   onSortTypeChange(sortType) {
-    dispatch(ActionCreator.changeSortType(sortType));
+    dispatch(AppActionCreator.changeSortType(sortType));
   },
 
   onCardHover(card) {
-    dispatch(ActionCreator.setHoveredCard(card));
+    dispatch(AppActionCreator.setHoveredCard(card));
   },
 
   onCardClick(card) {
-    dispatch(ActionCreator.setActiveOffer(card));
+    dispatch(AppActionCreator.setActiveOffer(card));
   },
 });
 

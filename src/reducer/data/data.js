@@ -32,7 +32,7 @@ const reducer = (state = initialState, action) => {
 
 const Operation = {
   loadOffers: () => (dispatch, getState, api) => {
-    return api.get(`/offers`)
+    return api.get(`/hotels`)
       .then((response) => {
         dispatch(ActionCreator.loadOffers(response.data));
       });
