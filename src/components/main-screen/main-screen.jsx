@@ -1,4 +1,4 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ActionCreator as AppActionCreator} from "../../reducer/app/app.js";
@@ -13,101 +13,110 @@ import {getCity, getSortType, getHoveredCard} from "../../reducer/app/selectors.
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
-const MainScreen = (props) => {
-  const {
-    offers,
-    mapClassName,
-    // sortedOffers,
-    // cityList,
-    sortType,
-    activeCity,
-    hoveredCard,
-    onActiveCityChange,
-    onSortTypeChange,
-    onCardHover,
-    onCardClick,
-  } = props;
+class MainScreen extends PureComponent {
+  componentDidUpdate() {
+    const {activeCity, offers, setActiveCity} = this.props;
+     if (!activeCity) {
+       setActiveCity(offers[0].city);
+     }
+  }
 
-  const activeCityCopy = Object.assign({}, activeCity);
+  render() {
+    const {
+      offers,
+      mapClassName,
+      // sortedOffers,
+      // cityList,
+      sortType,
+      activeCity,
+      hoveredCard,
+      onActiveCityChange,
+      onSortTypeChange,
+      onCardHover,
+      onCardClick,
+    } = this.props;
 
-  const cityList = getCityList(offers).slice(0, 6);
-  const filteredOffers = getFilteredByCityOffers(offers, activeCityCopy);
-  const sortedOffers = getSortedOffers(filteredOffers, sortType);
+    const activeCityCopy = Object.assign({}, activeCity);
 
-  return (
-    <div className="page page--gray page--main">
+    const cityList = getCityList(offers).slice(0, 6);
+    const filteredOffers = getFilteredByCityOffers(offers, activeCityCopy);
+    const sortedOffers = getSortedOffers(filteredOffers, sortType);
 
-      <PageHeader/>
+    return (
+      <div className="page page--gray page--main">
 
-      <main className={`page__main page__main--index`}>
-        <h1 className="visually-hidden">Cities</h1>
+        <PageHeader/>
 
-        <div className="tabs">
-          <section className="locations container">
+        <main className={`page__main page__main--index`}>
+          <h1 className="visually-hidden">Cities</h1>
 
-            <CitiesList
-              cities={cityList}
-              activeCity={activeCityCopy}
-              onActiveCityChange={onActiveCityChange}
-            />
+          <div className="tabs">
+            <section className="locations container">
 
-          </section>
-        </div>
+              <CitiesList
+                cities={cityList}
+                activeCity={activeCityCopy}
+                onActiveCityChange={onActiveCityChange}
+              />
 
-        <div className="cities">
+            </section>
+          </div>
 
-          {sortedOffers.length === 0 ? <NoOffers city={activeCityCopy}/> :
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in {activeCityCopy.name}</b>
+          <div className="cities">
 
-                <Sorting
-                  onTypeChange={onSortTypeChange}
-                />
+            {sortedOffers.length === 0 ? <NoOffers city={activeCityCopy}/> :
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{sortedOffers.length} places to stay in {activeCityCopy.name}</b>
 
-                <OfferList
-                  className={OfferListClassNames.MAIN_PAGE}
-                  offerCardClassName={OfferCardClassNames.MAIN_PAGE}
-                  offers={sortedOffers}
-                  onCardHover={onCardHover}
-                  onCardClick={onCardClick}
-                />
+                  <Sorting
+                    onTypeChange={onSortTypeChange}
+                  />
 
-              </section>
+                  <OfferList
+                    className={OfferListClassNames.MAIN_PAGE}
+                    offerCardClassName={OfferCardClassNames.MAIN_PAGE}
+                    offers={sortedOffers}
+                    onCardHover={onCardHover}
+                    onCardClick={onCardClick}
+                  />
 
-              <div className="cities__right-section">
+                </section>
 
-                <Map
-                  className={mapClassName}
-                  offers={sortedOffers}
-                  hoveredCard={hoveredCard}
-                />
+                <div className="cities__right-section">
 
+                  <Map
+                    className={mapClassName}
+                    offers={sortedOffers}
+                    activeCIty={activeCityCopy}
+                    hoveredCard={hoveredCard}
+                  />
+
+                </div>
               </div>
-            </div>
-          }
+            }
 
-        </div>
+          </div>
 
-      </main>
+        </main>
 
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 MainScreen.propTypes = {
   offers: PropTypes.array,
   mapClassName: PropTypes.string.isRequired,
-  // sortedOffers: PropTypes.array.isRequired,
   sortType: PropTypes.string,
   activeCity: PropTypes.object,
-  // cityList: PropTypes.array.isRequired,
   hoveredCard: PropTypes.object.isRequired,
   onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
+  setActiveCity: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -116,30 +125,6 @@ const mapStateToProps = (state) => ({
   activeCity: getCity(state),
   hoveredCard: getHoveredCard(state),
 });
-
-// const mapStateToProps = (state) => {
-//   console.log(state);
-  // const offers = getOffers(state);
-  // const sortType = getSortType(state);
-  // const cityList = getCityList(offers).slice(0, 6);
-  // const stateCity = getCity(state);
-  // const activeCity = stateCity ? stateCity : cityList[0];
-  // console.log(offers);
-  // console.log(stateCity ? stateCity : cityList[0]);
-  // const hoveredCard = getHoveredCard(state);
-
-  // const filteredOffers = getFilteredByCityOffers(offers, activeCity);
-  // const sortedOffers = getSortedOffers(filteredOffers, sortType);
-
-
-  // return {
-    // offers,
-    // sortedOffers,
-    // activeCity,
-    // cityList,
-    // hoveredCard,
-  // };
-// };
 
 const mapDispatchToProps = (dispatch) => ({
   onActiveCityChange(city) {
@@ -156,6 +141,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   onCardClick(card) {
     dispatch(AppActionCreator.setActiveOffer(card));
+  },
+
+  setActiveCity(city) {
+    dispatch(AppActionCreator.changeCity(city));
   },
 });
 

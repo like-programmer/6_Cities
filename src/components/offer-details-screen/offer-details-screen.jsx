@@ -8,7 +8,7 @@ import ReviewList from "../review-list/review-list.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {getOffers, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
-import {getActiveOffer, getHoveredCard} from "../../reducer/app/selectors.js";
+import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 
 const MAX_OFFER_AMOUNT = 3;
@@ -43,11 +43,14 @@ class OfferDetailsScreen extends PureComponent {
       offers,
       nearbyOffers,
       reviews,
+      activeCity,
       hoveredCard,
       onCardHover,
       onCardClick,
       onBookmarkClick,
     } = this.props;
+
+    const activeCityCopy = Object.assign({}, activeCity);
 
     const starRating = offer.rating * 10;
 
@@ -281,6 +284,7 @@ class OfferDetailsScreen extends PureComponent {
             <Map
               className={mapClassName}
               offers={slicedOffers}
+              activeCity={activeCityCopy}
               hoveredCard={hoveredCard}
             />
 
@@ -383,6 +387,7 @@ OfferDetailsScreen.propTypes = {
   })).isRequired,
   hoveredCard: PropTypes.object.isRequired,
   reviews: PropTypes.array.isRequired,
+  activeCity: PropTypes.object,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
@@ -395,6 +400,7 @@ const mapStateToProps = (state) => ({
   offers: getOffers(state),
   hoveredCard: getHoveredCard(state),
   reviews: getReviews(state),
+  activeCity: getCity(state),
   nearbyOffers: getNearbyOffers(state),
 });
 

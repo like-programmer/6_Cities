@@ -1,4 +1,7 @@
 import {extend} from "../../utils.js";
+import UserData from "../../adapters/userData.js";
+
+const userDataAdapter = new UserData();
 
 const AuthorizationStatus = {
   AUTH: `AUTH`,
@@ -34,6 +37,11 @@ const ActionCreator = {
 const Operation = {
   checkAuth: () => (dispatch, getState, api) => {
     return api.get(`/login`)
+      .then((response) => {
+        const parsedUserData = userDataAdapter.parse(response.data);
+
+        dispatch(ActionCreator.setUserData(parsedUserData));
+      })
       .then(() => {
         dispatch(ActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
       })
@@ -47,9 +55,13 @@ const Operation = {
       email: authData.login,
       password: authData.password,
     })
-      .then(({response}) => {
+      .then((response) => {
+        const parsedUserData = userDataAdapter.parse(response.data);
+
+        dispatch(ActionCreator.setUserData(parsedUserData));
+      })
+      .then(() => {
         dispatch(ActionCreator.setAuthorizationStatus(AuthorizationStatus.AUTH));
-        dispatch(ActionCreator.setUserData(response));
       });
   },
 };

@@ -84,11 +84,13 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    const isHoveredCard = Object.values(this.props.hoveredCard).length !== 0;
+    const isPrevHoveredCard = Object.values(prevProps.hoveredCard).length !== 0;
 
-    // if (this.props.offers[0].city.name !== prevProps.offers[0].city.name) {
-    this._map.remove();
-    this._initMap();
-    // }
+    if (!isHoveredCard && !isPrevHoveredCard) {
+      this._map.remove();
+      this._initMap();
+    }
 
     this._addMarkers();
   }
