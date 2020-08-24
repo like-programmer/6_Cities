@@ -37,3 +37,18 @@ export const ReviewSettings = {
   MAX_LENGTH: 300,
   RATINGS: [`perfect`, `good`, `not-bad`, `badly`, `terribly`],
 };
+
+export const MONTH_NAMES = [
+  `January`,
+  `February`,
+  `March`,
+  `April`,
+  `May`,
+  `June`,
+  `July`,
+  `August`,
+  `September`,
+  `October`,
+  `November`,
+  `December`
+];

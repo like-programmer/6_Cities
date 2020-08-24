@@ -1,8 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {MONTH_NAMES} from "../../const.js";
 
 const ReviewItem = (props) => {
   const {review} = props;
+
+  const monthNumber = parseInt(review.date.split(`-`)[1], 10);
+  const monthName = MONTH_NAMES[monthNumber - 1];
+  const year = review.date.split(`-`)[0];
 
   return (
     <li className="reviews__item">
@@ -21,7 +26,7 @@ const ReviewItem = (props) => {
           </div>
         </div>
         <p className="reviews__text">{review.comment}</p>
-        <time className="reviews__time" dateTime={review.date}>April 2019</time>
+        <time className="reviews__time" dateTime={review.date}>{monthName} {year}</time>
       </div>
     </li>
   );
