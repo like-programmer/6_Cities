@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Operation as DataOperation} from "../../reducer/data/data.js";
 import {ActionCreator as AppActionCreator} from "../../reducer/app/app.js";
+import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
 import PageHeader from "../page-header/page-header.jsx";
 import ReviewList from "../review-list/review-list.jsx";
 import ReviewForm from "../review-form/review-form.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
-import {getOffers, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
+import {getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import withReviewForm from "../../hocs/with-review-form/with-review-form.js";
@@ -28,6 +29,12 @@ class OfferDetailsScreen extends PureComponent {
     loadNearbyOffers(offer.id);
   }
 
+  _updateOffers() {
+    const {offer, updateActiveOfferInOffers} = this.props;
+
+    updateActiveOfferInOffers(offer);
+  }
+
   componentDidMount() {
     this._loadReviews();
     this._loadNearbyOffers();
@@ -38,13 +45,16 @@ class OfferDetailsScreen extends PureComponent {
       this._loadReviews();
       this._loadNearbyOffers();
     }
+
+    if (prevProps.offer.isFavorite !== this.props.offer.isFavorite) {
+      this._updateOffers();
+    }
   }
 
   render() {
     const {
       mapClassName,
       offer,
-      offers,
       nearbyOffers,
       reviews,
       activeCity,
@@ -183,17 +193,6 @@ class OfferDetailsScreen extends PureComponent {
 
                     <p className="property__text">{offer.description}</p>
 
-                    {/*{offer.description.map((paragraph, i) => {*/}
-                    {/*return (*/}
-                    {/*<p*/}
-                    {/*className="property__text"*/}
-                    {/*key={`${paragraph}-${i}`}*/}
-                    {/*>*/}
-                    {/*{paragraph}*/}
-                    {/*</p>*/}
-                    {/*);*/}
-                    {/*})}*/}
-
                   </div>
                 </div>
 
@@ -269,30 +268,6 @@ OfferDetailsScreen.propTypes = {
     }).isRequired,
     id: PropTypes.number.isRequired,
   }).isRequired,
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    title: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    rating: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    bedrooms: PropTypes.number.isRequired,
-    maxAdults: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    goods: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    host: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      isPro: PropTypes.bool.isRequired,
-      avatarUrl: PropTypes.string.isRequired,
-    }).isRequired,
-    description: PropTypes.string.isRequired,
-    location: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-      zoom: PropTypes.number.isRequired,
-    }).isRequired,
-    id: PropTypes.number.isRequired,
-  })).isRequired,
   nearbyOffers: PropTypes.arrayOf(PropTypes.shape({
     images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     title: PropTypes.string.isRequired,
@@ -325,11 +300,11 @@ OfferDetailsScreen.propTypes = {
   onBookmarkClick: PropTypes.func.isRequired,
   loadReviews: PropTypes.func.isRequired,
   loadNearbyOffers: PropTypes.func.isRequired,
+  updateActiveOfferInOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offer: getActiveOffer(state),
-  offers: getOffers(state),
   hoveredCard: getHoveredCard(state),
   reviews: getReviews(state),
   activeCity: getCity(state),
@@ -347,7 +322,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   onBookmarkClick() {
     dispatch(AppActionCreator.revertActiveOfferFavoriteFlag());
-    dispatch(AppActionCreator.updateActiveOfferInOffers());
+    // dispatch(DataActionCreator.updateActiveOfferInOffers(offer));
   },
 
   loadReviews(id) {
@@ -356,6 +331,10 @@ const mapDispatchToProps = (dispatch) => ({
 
   loadNearbyOffers(id) {
     dispatch(DataOperation.loadNearbyOffers(id));
+  },
+
+  updateActiveOfferInOffers(offer) {
+    dispatch(DataActionCreator.updateActiveOfferInOffers(offer));
   },
 });
 

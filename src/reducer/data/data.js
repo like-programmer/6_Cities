@@ -15,6 +15,7 @@ const ActionType = {
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   LOAD_NEARBY_OFFERS: `LOAD_NEARBY_OFFERS`,
+  UPDATE_ACTIVE_OFFER_IN_OFFERS: `UPDATE_ACTIVE_OFFER_IN_OFFERS`,
 };
 
 const ActionCreator = {
@@ -38,6 +39,11 @@ const ActionCreator = {
       payload: offerList,
     };
   },
+
+  updateActiveOfferInOffers: (offer) => ({
+    type: ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS,
+    payload: offer,
+  }),
 };
 
 const Operation = {
@@ -85,6 +91,16 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_NEARBY_OFFERS:
       return extend(state, {
         nearbyOffers: action.payload,
+      });
+
+    case ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS:
+      const activeOfferIndex = state.offers.map((offer) => offer.id).indexOf(action.payload.id);
+      console.log(action.payload.isFavorite);
+
+      const newOffers = [].concat(state.offers.slice(0, activeOfferIndex), action.payload, state.offers.slice(activeOfferIndex + 1));
+
+      return extend(state, {
+        offers: newOffers,
       });
   }
 
