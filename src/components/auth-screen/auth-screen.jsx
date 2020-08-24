@@ -6,8 +6,8 @@ class AuthScreen extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.loginRef = createRef();
-    this.passwordRef = createRef();
+    this._loginRef = createRef();
+    this._passwordRef = createRef();
 
     this.submitHandler = this.submitHandler.bind(this);
   }
@@ -18,8 +18,8 @@ class AuthScreen extends PureComponent {
     evt.preventDefault();
 
     onSubmit({
-      login: this.loginRef.current.value,
-      password: this.passwordRef.current.value,
+      login: this._loginRef.current.value,
+      password: this._passwordRef.current.value,
     });
   }
 
@@ -49,7 +49,7 @@ class AuthScreen extends PureComponent {
                     name="email"
                     placeholder="Email"
                     required=""
-                    ref={this.loginRef}
+                    ref={this._loginRef}
                   />
                 </div>
                 <div className="login__input-wrapper form__input-wrapper">
@@ -60,7 +60,7 @@ class AuthScreen extends PureComponent {
                     name="password"
                     placeholder="Password"
                     required=""
-                    ref={this.passwordRef}
+                    ref={this._passwordRef}
                   />
                 </div>
                 <button className="login__submit form__submit button" type="submit">Sign in</button>

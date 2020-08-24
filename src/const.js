@@ -31,3 +31,9 @@ export const SortType = {
     value: `top-rated`,
   },
 };
+
+export const ReviewSettings = {
+  MIN_LENGTH: 50,
+  MAX_LENGTH: 300,
+  RATINGS: [`perfect`, `good`, `not-bad`, `badly`, `terribly`],
+};

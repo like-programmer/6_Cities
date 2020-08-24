@@ -11,6 +11,9 @@ import Map from "../map/map.jsx";
 import {getOffers, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
+import withReviewForm from "../../hocs/with-review-form/with-review-form.js";
+
+const ReviewFormWrapped = withReviewForm(ReviewForm);
 
 const MAX_OFFER_AMOUNT = 3;
 
@@ -95,6 +98,7 @@ class OfferDetailsScreen extends PureComponent {
                   <h1 className="property__name">
                     {offer.title}
                   </h1>
+
                   <button
                     className="property__bookmark-button button"
                     type="button"
@@ -113,6 +117,7 @@ class OfferDetailsScreen extends PureComponent {
                     </svg>
                     <span className="visually-hidden">{offer.isFavorite ? `In bookmarks` : `To bookmarks`}</span>
                   </button>
+
                 </div>
 
                 <div className="property__rating rating">
@@ -200,7 +205,8 @@ class OfferDetailsScreen extends PureComponent {
                     reviews={reviews}
                   />
 
-                  <ReviewForm/>
+                  <ReviewFormWrapped
+                  />
 
                 </section>
 
