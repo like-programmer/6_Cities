@@ -11,7 +11,7 @@ const ReviewList = (props) => {
       {reviews.map((review, i) => {
         return (
           <ReviewItem
-            key={`${review.text}-${i}`}
+            key={`${review.comment}-${i}`}
             review={review}
           />
         );

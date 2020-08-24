@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 
 
 const ReviewFormRating = (props) => {
-  const {name, value} = props;
+  const {
+    name,
+    value,
+    isChecked,
+    onRatingChange,
+  } = props;
 
   return (
     <Fragment>
@@ -13,6 +18,8 @@ const ReviewFormRating = (props) => {
         value={value}
         id={`${value}-stars`}
         type="radio"
+        checked={isChecked}
+        onChange={onRatingChange}
       />
       <label
         htmlFor={`${value}-stars`}
@@ -32,6 +39,8 @@ const ReviewFormRating = (props) => {
 ReviewFormRating.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  onRatingChange: PropTypes.func.isRequired,
 };
 
 export default ReviewFormRating;

@@ -73,6 +73,20 @@ const Operation = {
         dispatch(ActionCreator.loadNearbyOffers(parsedOffers));
       });
   },
+
+  uploadReview: (id, message, onSuccess, onError) => (dispatch, getState, api) => {
+    return api.post(`/comments/${id}`, message)
+      .then((response) => {
+        const parsedReviews = response.data.map((review) => reviewsAdapter.parse(review));
+
+        dispatch(ActionCreator.loadReviews(parsedReviews));
+        onSuccess();
+      })
+      .catch((error) => {
+        console.log(error);
+    // //     onError(error);
+      });
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -95,7 +109,6 @@ const reducer = (state = initialState, action) => {
 
     case ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS:
       const activeOfferIndex = state.offers.map((offer) => offer.id).indexOf(action.payload.id);
-      console.log(action.payload.isFavorite);
 
       const newOffers = [].concat(state.offers.slice(0, activeOfferIndex), action.payload, state.offers.slice(activeOfferIndex + 1));
 

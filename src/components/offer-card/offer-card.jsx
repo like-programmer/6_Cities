@@ -9,7 +9,7 @@ const OfferCard = (props) => {
     onCardClick,
   } = props;
 
-  const starRating = card.rating * 10;
+  const starRating = card.rating * 20;
 
   return (
     <article

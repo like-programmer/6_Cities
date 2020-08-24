@@ -5,6 +5,8 @@ import {MONTH_NAMES} from "../../const.js";
 const ReviewItem = (props) => {
   const {review} = props;
 
+  const starRating = review.rating * 20;
+
   const monthNumber = parseInt(review.date.split(`-`)[1], 10);
   const monthName = MONTH_NAMES[monthNumber - 1];
   const year = review.date.split(`-`)[0];
@@ -21,7 +23,7 @@ const ReviewItem = (props) => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${review.rating}%`}}/>
+            <span style={{width: `${starRating}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

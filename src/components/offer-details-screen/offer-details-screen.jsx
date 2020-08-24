@@ -11,6 +11,8 @@ import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
+import {AuthorizationStatus} from "../../reducer/user/user.js";
 import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
 import withReviewForm from "../../hocs/with-review-form/with-review-form.js";
 
@@ -59,6 +61,7 @@ class OfferDetailsScreen extends PureComponent {
       reviews,
       activeCity,
       hoveredCard,
+      authorizationStatus,
       onCardHover,
       onCardClick,
       onBookmarkClick,
@@ -206,8 +209,11 @@ class OfferDetailsScreen extends PureComponent {
                     reviews={reviews}
                   />
 
-                  <ReviewFormWrapped
-                  />
+                  {authorizationStatus === AuthorizationStatus.AUTH ?
+                    <ReviewFormWrapped
+                      offerId={offer.id}
+                    />
+                    : ``}
 
                 </section>
 
@@ -297,6 +303,7 @@ OfferDetailsScreen.propTypes = {
   hoveredCard: PropTypes.object.isRequired,
   reviews: PropTypes.array.isRequired,
   activeCity: PropTypes.object,
+  authorizationStatus: PropTypes.oneOf([AuthorizationStatus.AUTH, AuthorizationStatus.NO_AUTH]).isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
@@ -311,6 +318,7 @@ const mapStateToProps = (state) => ({
   reviews: getReviews(state),
   activeCity: getCity(state),
   nearbyOffers: getNearbyOffers(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
