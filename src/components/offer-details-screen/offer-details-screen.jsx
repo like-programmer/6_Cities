@@ -66,7 +66,7 @@ class OfferDetailsScreen extends PureComponent {
 
     const activeCityCopy = Object.assign({}, activeCity);
 
-    const capitalisedHousingType = offer.type.slice(0, 1).toUpperCase() + offer.type.slice(1);
+    const capitalizedHousingType = offer.type.slice(0, 1).toUpperCase() + offer.type.slice(1);
 
     const starRating = offer.rating * 10;
 
@@ -142,7 +142,7 @@ class OfferDetailsScreen extends PureComponent {
 
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    {capitalisedHousingType}
+                    {capitalizedHousingType}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
                     {offer.bedrooms} Bedrooms
