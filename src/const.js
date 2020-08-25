@@ -52,3 +52,10 @@ export const MONTH_NAMES = [
   `November`,
   `December`
 ];
+
+export const AppRoute = {
+  LOGIN: `/login`,
+  FAVORITES: `/favorites`,
+  PROPERTY: `/offer`,
+  ROOT: `/`,
+};
