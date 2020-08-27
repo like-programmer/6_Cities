@@ -12,6 +12,9 @@ import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {getActiveOffer} from "../../reducer/app/selectors.js";
 import {getOffers} from "../../reducer/data/selectors.js";
 
+import FavoritesScreen from "../favorites-screen/favorites-screen.jsx";
+
+
 class App extends PureComponent {
   _renderMainScreen() {
     const {
@@ -36,9 +39,7 @@ class App extends PureComponent {
       }
     } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return (
-        <AuthScreen
-          onSubmit={login}
-        />
+        <FavoritesScreen/>
       );
     }
 
