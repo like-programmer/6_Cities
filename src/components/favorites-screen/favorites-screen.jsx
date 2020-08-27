@@ -4,6 +4,7 @@ import PageHeader from "../page-header/page-header.jsx";
 import NoFavorites from "../no-favorites/no-favorites.jsx";
 import FavoritesList from "../favorites-list/favorites-list.jsx";
 import PageFooter from "../page-footer/page-footer.jsx";
+import {OfferType} from "../../const.js";
 
 import offers from "../../mocks/offers";
 
@@ -27,6 +28,7 @@ const FavoritesScreen = () => {
               <h1 className="favorites__title">Saved listing</h1>
 
               <FavoritesList
+                offerType={OfferType.FAVORITES}
                 offers={favoriteOffers}
               />
 

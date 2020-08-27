@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {OfferType} from "../../const.js";
 
 const OfferCard = (props) => {
   const {
-    className,
+    offerType,
     card,
     onCardHover,
     onCardClick,
@@ -13,7 +14,7 @@ const OfferCard = (props) => {
 
   return (
     <article
-      className={`${className} place-card`}
+      className={`${offerType === OfferType.CITIES ? `${OfferType.CITIES}__place-card` : `${offerType}__card`} place-card`}
       onMouseEnter={() => onCardHover(card)}
       onMouseLeave={() => onCardHover({})}
       onClick={() => onCardClick(card)}
@@ -23,7 +24,7 @@ const OfferCard = (props) => {
           <span>Premium</span>
         </div>
         : ``}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${offerType}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={`${card.previewImage}`} width={260} height={200} alt={card.title}/>
         </a>
@@ -59,7 +60,7 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
-  className: PropTypes.string.isRequired,
+  offerType: PropTypes.oneOf([OfferType.CITIES, OfferType.NEARBY, OfferType.FAVORITES]).isRequired,
   card: PropTypes.shape({
     previewImage: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

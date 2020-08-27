@@ -13,7 +13,7 @@ import {getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
-import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
+import {OfferListClassNames, OfferType} from "../../const.js";
 import withReviewForm from "../../hocs/with-review-form/with-review-form.js";
 
 const ReviewFormWrapped = withReviewForm(ReviewForm);
@@ -235,7 +235,7 @@ class OfferDetailsScreen extends PureComponent {
 
               <OfferList
                 className={OfferListClassNames.NEARBY}
-                offerCardClassName={OfferCardClassNames.NEARBY}
+                offerType={OfferType.NEARBY}
                 offers={slicedOffers}
                 onCardClick={onCardClick}
                 onCardHover={onCardHover}

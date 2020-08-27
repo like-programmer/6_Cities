@@ -8,9 +8,10 @@ export const OfferListClassNames = {
   NEARBY: `near-places__list`,
 };
 
-export const OfferCardClassNames = {
-  MAIN_PAGE: `cities__place-card`,
-  NEARBY: `near-places__card`,
+export const OfferType = {
+  CITIES: `cities`,
+  NEARBY: `near-places`,
+  FAVORITES: `favorites`,
 };
 
 export const SortType = {

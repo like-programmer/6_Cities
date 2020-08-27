@@ -10,7 +10,7 @@ import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
 import {getOffers} from "../../reducer/data/selectors.js";
 import {getCity, getSortType, getHoveredCard} from "../../reducer/app/selectors.js";
-import {OfferListClassNames, OfferCardClassNames} from "../../const.js";
+import {OfferListClassNames, OfferType} from "../../const.js";
 import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
 class MainScreen extends PureComponent {
@@ -76,7 +76,7 @@ class MainScreen extends PureComponent {
 
                   <OfferList
                     className={OfferListClassNames.MAIN_PAGE}
-                    offerCardClassName={OfferCardClassNames.MAIN_PAGE}
+                    offerType={OfferType.CITIES}
                     offers={sortedOffers}
                     onCardHover={onCardHover}
                     onCardClick={onCardClick}
