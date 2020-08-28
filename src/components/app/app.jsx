@@ -6,13 +6,12 @@ import {AuthorizationStatus} from "../../reducer/user/user.js";
 import MainScreen from "../main-screen/main-screen.jsx";
 import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx";
 import AuthScreen from "../auth-screen/auth-screen.jsx";
+import FavoritesScreen from "../favorites-screen/favorites-screen.jsx";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {MapClassNames} from "../../const.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {getActiveOffer} from "../../reducer/app/selectors.js";
 import {getOffers} from "../../reducer/data/selectors.js";
-
-import FavoritesScreen from "../favorites-screen/favorites-screen.jsx";
 
 
 class App extends PureComponent {
@@ -39,7 +38,9 @@ class App extends PureComponent {
       }
     } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return (
-        <FavoritesScreen/>
+        <AuthScreen
+          onSubmit={login}
+        />
       );
     }
 
