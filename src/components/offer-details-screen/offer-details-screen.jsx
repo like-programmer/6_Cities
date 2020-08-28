@@ -10,7 +10,6 @@ import ReviewForm from "../review-form/review-form.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import {getOfferById, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
-import {getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
 import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
@@ -58,15 +57,11 @@ class OfferDetailsScreen extends PureComponent {
       offer,
       nearbyOffers,
       reviews,
-      activeCity,
-      hoveredCard,
       authorizationStatus,
       onCardHover,
       onCardClick,
       onBookmarkClick,
     } = this.props;
-
-    const activeCityCopy = Object.assign({}, activeCity);
 
     const capitalizedHousingType = offer.type.slice(0, 1).toUpperCase() + offer.type.slice(1);
 
@@ -184,7 +179,7 @@ class OfferDetailsScreen extends PureComponent {
                       className={`property__avatar-wrapper ${offer.host.isPro ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
                       <img
                         className="property__avatar user__avatar"
-                        src={`${offer.host.avatarUrl}`}
+                        src={`/${offer.host.avatarUrl}`}
                         width="74"
                         height="74"
                         alt="Host avatar"/>
@@ -222,8 +217,6 @@ class OfferDetailsScreen extends PureComponent {
             <Map
               className={MapClassNames.PROPERTY}
               offers={slicedOffers}
-              activeCity={activeCityCopy}
-              hoveredCard={hoveredCard}
             />
 
           </section>
@@ -298,9 +291,7 @@ OfferDetailsScreen.propTypes = {
     }).isRequired,
     id: PropTypes.number.isRequired,
   })).isRequired,
-  hoveredCard: PropTypes.object.isRequired,
   reviews: PropTypes.array.isRequired,
-  activeCity: PropTypes.object,
   authorizationStatus: PropTypes.oneOf([AuthorizationStatus.AUTH, AuthorizationStatus.NO_AUTH]).isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
@@ -312,9 +303,7 @@ OfferDetailsScreen.propTypes = {
 
 const mapStateToProps = (state, props) => ({
   offer: getOfferById(state, props.match.params.id),
-  hoveredCard: getHoveredCard(state),
   reviews: getReviews(state),
-  activeCity: getCity(state),
   nearbyOffers: getNearbyOffers(state),
   authorizationStatus: getAuthorizationStatus(state),
 });

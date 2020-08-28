@@ -9,34 +9,24 @@ import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
 import {getOffers} from "../../reducer/data/selectors.js";
-import {getCity, getSortType, getHoveredCard} from "../../reducer/app/selectors.js";
+import {getCity, getSortType} from "../../reducer/app/selectors.js";
 import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
 import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
 class MainScreen extends PureComponent {
-  componentDidMount() {
-    const {activeCity, offers, setActiveCity} = this.props;
-    if (!activeCity) {
-      setActiveCity(offers[0].city);
-    }
-  }
-
   render() {
     const {
       offers,
       sortType,
       activeCity,
-      hoveredCard,
-      onActiveCityChange,
+      setActiveCity,
       onSortTypeChange,
       onCardHover,
       onCardClick,
     } = this.props;
 
-    const activeCityCopy = Object.assign({}, activeCity);
-
     const cityList = getCityList(offers).slice(0, 6);
-    const filteredOffers = getFilteredByCityOffers(offers, activeCityCopy);
+    const filteredOffers = getFilteredByCityOffers(offers, activeCity);
     const sortedOffers = getSortedOffers(filteredOffers, sortType);
 
     return (
@@ -52,8 +42,8 @@ class MainScreen extends PureComponent {
 
               <CitiesList
                 cities={cityList}
-                activeCity={activeCityCopy}
-                onActiveCityChange={onActiveCityChange}
+                activeCity={activeCity}
+                onActiveCityChange={setActiveCity}
               />
 
             </section>
@@ -62,12 +52,12 @@ class MainScreen extends PureComponent {
           <div className="cities">
 
             {sortedOffers.length === 0 ?
-              <NoOffers city={activeCityCopy}/>
+              <NoOffers city={activeCity}/>
               :
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{sortedOffers.length} places to stay in {activeCityCopy.name}</b>
+                  <b className="places__found">{sortedOffers.length} places to stay in {activeCity.name}</b>
 
                   <Sorting
                     onTypeChange={onSortTypeChange}
@@ -88,8 +78,6 @@ class MainScreen extends PureComponent {
                   <Map
                     className={MapClassNames.CITY}
                     offers={sortedOffers}
-                    activeCIty={activeCityCopy}
-                    hoveredCard={hoveredCard}
                   />
 
                 </div>
@@ -109,8 +97,6 @@ MainScreen.propTypes = {
   offers: PropTypes.array,
   sortType: PropTypes.string,
   activeCity: PropTypes.object,
-  hoveredCard: PropTypes.object.isRequired,
-  onActiveCityChange: PropTypes.func.isRequired,
   onSortTypeChange: PropTypes.func.isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
@@ -121,14 +107,9 @@ const mapStateToProps = (state) => ({
   offers: getOffers(state),
   sortType: getSortType(state),
   activeCity: getCity(state),
-  hoveredCard: getHoveredCard(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onActiveCityChange(city) {
-    dispatch(AppActionCreator.changeCity(city));
-  },
-
   onSortTypeChange(sortType) {
     dispatch(AppActionCreator.changeSortType(sortType));
   },

@@ -1,5 +1,7 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {getCity, getHoveredCard} from "../../reducer/app/selectors.js";
 import leaflet from 'leaflet';
 
 class Map extends PureComponent {
@@ -54,15 +56,12 @@ class Map extends PureComponent {
   }
 
   _initMap() {
-    const {offers, hoveredCard} = this.props;
-    const isEmpty = Object.values(hoveredCard).length === 0;
-
-    const city = isEmpty ? offers[0].city : hoveredCard.city;
+    const {activeCity} = this.props;
 
     const container = this._mapRef.current;
 
-    const zoom = city.location.zoom;
-    const cityLocation = [city.location.latitude, city.location.longitude];
+    const zoom = activeCity.location.zoom;
+    const cityLocation = [activeCity.location.latitude, activeCity.location.longitude];
 
     this._map = leaflet.map(container, {
       center: cityLocation,
@@ -75,7 +74,7 @@ class Map extends PureComponent {
 
     this._addLayer(this._map);
 
-    // this._addMarkers();
+    this._addMarkers();
   }
 
   componentDidMount() {
@@ -84,10 +83,7 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const isHoveredCard = Object.values(this.props.hoveredCard).length !== 0;
-    const isPrevHoveredCard = Object.values(prevProps.hoveredCard).length !== 0;
-
-    if (!isHoveredCard && !isPrevHoveredCard) {
+    if (prevProps.activeCity.name !== this.props.activeCity.name) {
       this._map.remove();
       this._initMap();
     }
@@ -101,6 +97,7 @@ class Map extends PureComponent {
 
   render() {
     const {className} = this.props;
+
     return (
       <section
         id={`${className}-map`}
@@ -116,6 +113,13 @@ Map.propTypes = {
   className: PropTypes.string.isRequired,
   offers: PropTypes.array.isRequired,
   hoveredCard: PropTypes.object.isRequired,
+  activeCity: PropTypes.object.isRequired,
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  activeCity: getCity(state),
+  hoveredCard: getHoveredCard(state),
+});
+
+export {Map};
+export default connect(mapStateToProps)(Map);
