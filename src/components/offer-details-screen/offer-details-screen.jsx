@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Operation as DataOperation} from "../../reducer/data/data.js";
 import {ActionCreator as AppActionCreator} from "../../reducer/app/app.js";
-import {ActionCreator as DataActionCreator} from "../../reducer/data/data.js";
 import PageHeader from "../page-header/page-header.jsx";
 import ReviewList from "../review-list/review-list.jsx";
 import ReviewForm from "../review-form/review-form.jsx";
@@ -12,7 +11,7 @@ import Map from "../map/map.jsx";
 import {getOfferById, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
-import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
+import {MapClassNames, OfferListClassNames, OfferType, AppRoute} from "../../const.js";
 import withReviewForm from "../../hocs/with-review-form/with-review-form.js";
 
 const ReviewFormWrapped = withReviewForm(ReviewForm);
@@ -30,12 +29,6 @@ class OfferDetailsScreen extends PureComponent {
     loadNearbyOffers(offer.id);
   }
 
-  _updateOffers() {
-    const {offer, updateActiveOfferInOffers} = this.props;
-
-    updateActiveOfferInOffers(offer);
-  }
-
   componentDidMount() {
     this._loadReviews();
     this._loadNearbyOffers();
@@ -45,10 +38,6 @@ class OfferDetailsScreen extends PureComponent {
     if (prevProps.offer.id !== this.props.offer.id) {
       this._loadReviews();
       this._loadNearbyOffers();
-    }
-
-    if (prevProps.offer.isFavorite !== this.props.offer.isFavorite) {
-      this._updateOffers();
     }
   }
 
@@ -111,7 +100,13 @@ class OfferDetailsScreen extends PureComponent {
                   <button
                     className="property__bookmark-button button"
                     type="button"
-                    onClick={onBookmarkClick}
+                    onClick={() => {
+                      if (authorizationStatus === AuthorizationStatus.AUTH) {
+                        onBookmarkClick(offer);
+                      } else {
+                        history.push(AppRoute.LOGIN);
+                      }
+                    }}
                   >
                     <svg
                       className="property__bookmark-icon"
@@ -298,7 +293,6 @@ OfferDetailsScreen.propTypes = {
   onBookmarkClick: PropTypes.func.isRequired,
   loadReviews: PropTypes.func.isRequired,
   loadNearbyOffers: PropTypes.func.isRequired,
-  updateActiveOfferInOffers: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -317,11 +311,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(AppActionCreator.setActiveOffer(card));
   },
 
-  onBookmarkClick() {
-    dispatch(AppActionCreator.revertActiveOfferFavoriteFlag());
-    // dispatch(DataActionCreator.updateActiveOfferInOffers(offer));
-  },
-
   loadReviews(id) {
     dispatch(DataOperation.loadReviews(id));
   },
@@ -330,8 +319,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(DataOperation.loadNearbyOffers(id));
   },
 
-  updateActiveOfferInOffers(offer) {
-    dispatch(DataActionCreator.updateActiveOfferInOffers(offer));
+  onBookmarkClick(offer) {
+    dispatch(DataOperation.updateFavorite(offer));
   },
 });
 

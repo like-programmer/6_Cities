@@ -5,6 +5,16 @@ import Review from "../../adapters/review.js";
 const offersAdapter = new Offer();
 const reviewsAdapter = new Review();
 
+const replaceItemInArray = (offers, item) => {
+  const itemIndex = offers.indexOf(item);
+
+  const newItem = extend(item, {
+    isFavorite: !item.isFavorite,
+  });
+
+  return [].concat(offers.slice(0, itemIndex), newItem, offers.slice(itemIndex + 1));
+};
+
 const initialState = {
   offers: [],
   reviews: [],
@@ -17,7 +27,7 @@ const ActionType = {
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   LOAD_NEARBY_OFFERS: `LOAD_NEARBY_OFFERS`,
   LOAD_FAVORITE_OFFERS: `LOAD_FAVORITE_OFFERS`,
-  UPDATE_ACTIVE_OFFER_IN_OFFERS: `UPDATE_ACTIVE_OFFER_IN_OFFERS`,
+  UPDATE_FAVORITE: `UPDATE_FAVORITE`,
 };
 
 const ActionCreator = {
@@ -49,10 +59,12 @@ const ActionCreator = {
     };
   },
 
-  updateActiveOfferInOffers: (offer) => ({
-    type: ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS,
-    payload: offer,
-  }),
+  updateFavorite: (offer) => {
+    return {
+      type: ActionType.UPDATE_FAVORITE,
+      payload: offer,
+    };
+  },
 };
 
 const Operation = {
@@ -106,6 +118,15 @@ const Operation = {
         // //     onError(error);
       });
   },
+
+  updateFavorite: (offer) => (dispatch, getState, api) => {
+    const status = offer.isFavorite ? 0 : 1;
+
+    return api.post(`/favorite/${offer.id}/${status}`, offersAdapter.toRAW(offer))
+      .then(() => {
+        dispatch(ActionCreator.updateFavorite(offer));
+      });
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -131,13 +152,30 @@ const reducer = (state = initialState, action) => {
         favoriteOffers: action.payload,
       });
 
-    case ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS:
-      const activeOfferIndex = state.offers.map((offer) => offer.id).indexOf(action.payload.id);
+    case ActionType.UPDATE_FAVORITE:
+      let newFavoriteOffers = state.favoriteOffers;
 
-      const newOffers = [].concat(state.offers.slice(0, activeOfferIndex), action.payload, state.offers.slice(activeOfferIndex + 1));
+      if (action.payload.isFavorite === false) {
+        const newOffer = extend(action.payload, {
+          isFavorite: true,
+        });
+
+        newFavoriteOffers.push(newOffer);
+      } else {
+        const index = newFavoriteOffers.findIndex((offer) => offer.id === action.payload.id);
+
+        if (index !== -1) {
+          newFavoriteOffers.splice(index, 1);
+        }
+      }
+
+      const newOffers = replaceItemInArray(state.offers, action.payload);
+      const newNearbyOffers = replaceItemInArray(state.nearbyOffers, action.payload);
 
       return extend(state, {
         offers: newOffers,
+        nearbyOffers: newNearbyOffers,
+        favoriteOffers: newFavoriteOffers,
       });
   }
 

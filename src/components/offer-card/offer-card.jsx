@@ -1,15 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
+import {AuthorizationStatus} from "../../reducer/user/user.js";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {AppRoute, OfferType} from "../../const.js";
 
 const OfferCard = (props) => {
   const {
     offerType,
     card,
+    authorizationStatus,
     onCardHover,
-    onCardClick,
+    onBookmarkClick,
   } = props;
+
+  const capitalizedHousingType = card.type.slice(0, 1).toUpperCase() + card.type.slice(1);
 
   const starRating = card.rating * 20;
 
@@ -36,8 +43,16 @@ const OfferCard = (props) => {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${card.isFavorite ? `place-card__bookmark-button--active` : ``} button`}
-            type="button">
+            className={`place-card__bookmark-button button ${card.isFavorite ? `place-card__bookmark-button--active` : ``}`}
+            type="button"
+            onClick={() => {
+              if (authorizationStatus === AuthorizationStatus.AUTH) {
+                onBookmarkClick(card);
+              } else {
+                history.pushState(AppRoute.LOGIN);
+              }
+            }}
+          >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark"/>
             </svg>
@@ -57,7 +72,7 @@ const OfferCard = (props) => {
             {card.title}
           </Link>
         </h2>
-        <p className="place-card__type">{card.type}</p>
+        <p className="place-card__type">{capitalizedHousingType}</p>
       </div>
     </article>
   );
@@ -74,8 +89,21 @@ OfferCard.propTypes = {
     type: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   }).isRequired,
+  authorizationStatus: PropTypes.oneOf([AuthorizationStatus.AUTH, AuthorizationStatus.NO_AUTH]).isRequired,
   onCardHover: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
 };
 
-export default OfferCard;
+const mapStateToProps = (state) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onBookmarkClick(offer) {
+    dispatch(DataOperation.updateFavorite(offer));
+  },
+});
+
+export {OfferCard};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);
