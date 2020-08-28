@@ -1,49 +1,72 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import PageHeader from "../page-header/page-header.jsx";
 import NoFavorites from "../no-favorites/no-favorites.jsx";
 import FavoritesList from "../favorites-list/favorites-list.jsx";
 import PageFooter from "../page-footer/page-footer.jsx";
+import {Operation as DataOperation} from "../../reducer/data/data.js";
+import {getFavoriteOffers} from "../../reducer/data/selectors.js";
 import {OfferType} from "../../const.js";
 
-import offers from "../../mocks/offers";
+class FavoritesScreen extends PureComponent {
+  componentDidMount() {
+    const {loadFavoriteOffers} = this.props;
+    loadFavoriteOffers();
+  }
 
-const favoriteOffers = offers;
+  render() {
+    const {favoriteOffers} = this.props;
 
-const FavoritesScreen = () => {
+    return (
+      <div className="page page--gray page--main">
 
-  return (
-    <div className="page page--gray page--main">
+        <PageHeader/>
 
-      <PageHeader/>
+        <main
+          className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? `page__main--favorites-empty` : ``}`}>
+          <div className="page__favorites-container container">
 
-      <main
-        className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? `page__main--favorites-empty` : ``}`}>
-        <div className="page__favorites-container container">
+            {favoriteOffers.length === 0 ?
+              <NoFavorites/>
+              :
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
 
-          {favoriteOffers.length === 0 ?
-            <NoFavorites/>
-            :
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
+                <FavoritesList
+                  offerType={OfferType.FAVORITES}
+                  offers={favoriteOffers}
+                />
 
-              <FavoritesList
-                offerType={OfferType.FAVORITES}
-                offers={favoriteOffers}
-              />
+              </section>
+            }
 
-            </section>
-          }
+          </div>
+        </main>
 
-        </div>
-      </main>
+        <PageFooter/>
 
-      <PageFooter/>
+      </div>
+    );
+  }
+}
 
-    </div>
-  );
+FavoritesScreen.propTypes = {
+  loadFavoriteOffers: PropTypes.func.isRequired,
+  favoriteOffers: PropTypes.array.isRequired,
+  // userName: PropTypes.string.isRequired,
 };
 
-FavoritesScreen.propTypes = {};
+const mapStateToProps = (state) => ({
+  favoriteOffers: getFavoriteOffers(state),
+  // userName: getUserName(state),
+});
 
-export default FavoritesScreen;
+const mapDispatchToProps = (dispatch) => ({
+  loadFavoriteOffers: () => {
+    dispatch(DataOperation.loadFavoriteOffers());
+  }
+});
+
+export {FavoritesScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);

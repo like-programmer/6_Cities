@@ -19,3 +19,7 @@ export const getOfferById = (state, id) => {
   const [activeOffer] = offers.filter((offer) => offer.id === parseInt(id, 10));
   return activeOffer;
 };
+
+export const getFavoriteOffers = (state) => {
+  return state[NAME_SPACE].favoriteOffers;
+};

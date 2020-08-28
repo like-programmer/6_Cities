@@ -9,12 +9,14 @@ const initialState = {
   offers: [],
   reviews: [],
   nearbyOffers: [],
+  favoriteOffers: [],
 };
 
 const ActionType = {
   LOAD_OFFERS: `LOAD_OFFERS`,
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   LOAD_NEARBY_OFFERS: `LOAD_NEARBY_OFFERS`,
+  LOAD_FAVORITE_OFFERS: `LOAD_FAVORITE_OFFERS`,
   UPDATE_ACTIVE_OFFER_IN_OFFERS: `UPDATE_ACTIVE_OFFER_IN_OFFERS`,
 };
 
@@ -36,6 +38,13 @@ const ActionCreator = {
   loadNearbyOffers: (offerList) => {
     return {
       type: ActionType.LOAD_NEARBY_OFFERS,
+      payload: offerList,
+    };
+  },
+
+  loadFavoriteOffers: (offerList) => {
+    return {
+      type: ActionType.LOAD_FAVORITE_OFFERS,
       payload: offerList,
     };
   },
@@ -75,6 +84,15 @@ const Operation = {
       });
   },
 
+  loadFavoriteOffers: () => (dispatch, getState, api) => {
+    return api.get(`/favorite`)
+      .then((response) => {
+        const parsedOffers = response.data.map((offer) => offersAdapter.parse(offer));
+
+        dispatch(ActionCreator.loadFavoriteOffers(parsedOffers));
+      });
+  },
+
   uploadReview: (id, message, onSuccess, onError) => (dispatch, getState, api) => {
     return api.post(`/comments/${id}`, message)
       .then((response) => {
@@ -85,7 +103,7 @@ const Operation = {
       })
       .catch((error) => {
         console.log(error);
-    // //     onError(error);
+        // //     onError(error);
       });
   },
 };
@@ -106,6 +124,11 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_NEARBY_OFFERS:
       return extend(state, {
         nearbyOffers: action.payload,
+      });
+
+    case ActionType.LOAD_FAVORITE_OFFERS:
+      return extend(state, {
+        favoriteOffers: action.payload,
       });
 
     case ActionType.UPDATE_ACTIVE_OFFER_IN_OFFERS:
