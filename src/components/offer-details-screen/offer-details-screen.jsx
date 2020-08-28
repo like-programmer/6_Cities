@@ -13,7 +13,7 @@ import {getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
 import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
-import {OfferListClassNames, OfferType} from "../../const.js";
+import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
 import withReviewForm from "../../hocs/with-review-form/with-review-form.js";
 
 const ReviewFormWrapped = withReviewForm(ReviewForm);
@@ -55,7 +55,6 @@ class OfferDetailsScreen extends PureComponent {
 
   render() {
     const {
-      mapClassName,
       offer,
       nearbyOffers,
       reviews,
@@ -221,7 +220,7 @@ class OfferDetailsScreen extends PureComponent {
             </div>
 
             <Map
-              className={mapClassName}
+              className={MapClassNames.PROPERTY}
               offers={slicedOffers}
               activeCity={activeCityCopy}
               hoveredCard={hoveredCard}
@@ -251,7 +250,6 @@ class OfferDetailsScreen extends PureComponent {
 }
 
 OfferDetailsScreen.propTypes = {
-  mapClassName: PropTypes.string.isRequired,
   offer: PropTypes.shape({
     images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     title: PropTypes.string.isRequired,

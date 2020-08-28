@@ -10,7 +10,7 @@ import Map from "../map/map.jsx";
 import NoOffers from "../no-offers/no-offers.jsx";
 import {getOffers} from "../../reducer/data/selectors.js";
 import {getCity, getSortType, getHoveredCard} from "../../reducer/app/selectors.js";
-import {OfferListClassNames, OfferType} from "../../const.js";
+import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
 import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
 class MainScreen extends PureComponent {
@@ -24,7 +24,6 @@ class MainScreen extends PureComponent {
   render() {
     const {
       offers,
-      mapClassName,
       // sortedOffers,
       // cityList,
       sortType,
@@ -87,7 +86,7 @@ class MainScreen extends PureComponent {
                 <div className="cities__right-section">
 
                   <Map
-                    className={mapClassName}
+                    className={MapClassNames.CITY}
                     offers={sortedOffers}
                     activeCIty={activeCityCopy}
                     hoveredCard={hoveredCard}
@@ -108,7 +107,6 @@ class MainScreen extends PureComponent {
 
 MainScreen.propTypes = {
   offers: PropTypes.array,
-  mapClassName: PropTypes.string.isRequired,
   sortType: PropTypes.string,
   activeCity: PropTypes.object,
   hoveredCard: PropTypes.object.isRequired,

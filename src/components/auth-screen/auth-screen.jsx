@@ -1,5 +1,7 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {Operation as UserOperation} from "../../reducer/user/user.js";
 import PageHeader from "../page-header/page-header.jsx";
 
 class AuthScreen extends PureComponent {
@@ -86,4 +88,11 @@ AuthScreen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default AuthScreen;
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(authData) {
+    dispatch(UserOperation.login(authData));
+  },
+});
+
+export {AuthScreen};
+export default connect(null, mapDispatchToProps)(AuthScreen);

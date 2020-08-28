@@ -8,65 +8,27 @@ import OfferDetailsScreen from "../offer-details-screen/offer-details-screen.jsx
 import AuthScreen from "../auth-screen/auth-screen.jsx";
 import FavoritesScreen from "../favorites-screen/favorites-screen.jsx";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
-import {MapClassNames} from "../../const.js";
+import {AppRoute} from "../../const.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {getActiveOffer} from "../../reducer/app/selectors.js";
 import {getOffers} from "../../reducer/data/selectors.js";
 
 
 class App extends PureComponent {
-  _renderMainScreen() {
-    const {
-      activeOffer,
-      authorizationStatus,
-      login
-    } = this.props;
-
-    if (authorizationStatus === AuthorizationStatus.AUTH) {
-      if (activeOffer === null) {
-        return (
-          <MainScreen
-            mapClassName={MapClassNames.CITY}
-          />
-        );
-      } else {
-        return (
-          <OfferDetailsScreen
-            mapClassName={MapClassNames.PROPERTY}
-          />
-        );
-      }
-    } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-      return (
-        <AuthScreen
-          onSubmit={login}
-        />
-      );
-    }
-
-    return null;
-  }
-
   render() {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
-            {this._renderMainScreen()}
-          </Route>
-
-          <Route exact path="/dev-details">
-            <OfferDetailsScreen
-              mapClassName={MapClassNames.PROPERTY}
-            />;
-          </Route>
-
-          <Route exact path="/dev-auth">
-            <AuthScreen
-              onSubmit={() => {
-              }}
-            />;
-          </Route>
+          <Route
+            exact
+            path={AppRoute.ROOT}
+            component={MainScreen}
+          />
+          <Route
+            exact
+            path={AppRoute.LOGIN}
+            component={AuthScreen}
+          />
         </Switch>
       </BrowserRouter>
     );
@@ -77,7 +39,6 @@ App.propTypes = {
   offers: PropTypes.array,
   activeOffer: PropTypes.object,
   authorizationStatus: PropTypes.string.isRequired,
-  login: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
