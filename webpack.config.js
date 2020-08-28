@@ -3,15 +3,14 @@ const path = require(`path`);
 module.exports = {
   entry: `./src/index.js`,
   output: {
+    publicPath: `/`,
     filename: `bundle.js`,
     path: path.join(__dirname, `public`)
   },
   devServer: {
     contentBase: path.join(__dirname, `public`),
     open: true,
-    compress: false,
-    inline: false,
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   module: {
     rules: [

@@ -30,17 +30,23 @@ const PageHeader = (props) => {
               <li className="header__nav-item user">
 
                 {authorizationStatus === AuthorizationStatus.AUTH ?
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link
+                    to={AppRoute.FAVORITES}
+                    className="header__nav-link header__nav-link--profile"
+                  >
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">{`${userData.email}`}</span>
-                  </a>
+                  </Link>
                   :
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link
+                    to={AppRoute.LOGIN}
+                    className="header__nav-link header__nav-link--profile"
+                  >
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__login">Sign in</span>
-                  </a>
+                  </Link>
                 }
 
               </li>
