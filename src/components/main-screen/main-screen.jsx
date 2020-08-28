@@ -44,7 +44,7 @@ class MainScreen extends PureComponent {
 
         <PageHeader/>
 
-        <main className={`page__main page__main--index`}>
+        <main className={`page__main page__main--index ${sortedOffers.length === 0 ? `page__main--index-empty` : ``}`}>
           <h1 className="visually-hidden">Cities</h1>
 
           <div className="tabs">
@@ -61,7 +61,9 @@ class MainScreen extends PureComponent {
 
           <div className="cities">
 
-            {sortedOffers.length === 0 ? <NoOffers city={activeCityCopy}/> :
+            {sortedOffers.length === 0 ?
+              <NoOffers city={activeCityCopy}/>
+              :
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
