@@ -13,3 +13,9 @@ export const getReviews = (state) => {
 export const getNearbyOffers = (state) => {
   return state[NAME_SPACE].nearbyOffers;
 };
+
+export const getOfferById = (state, id) => {
+  const offers = getOffers(state);
+  const [activeOffer] = offers.filter((offer) => offer.id === parseInt(id, 10));
+  return activeOffer;
+};

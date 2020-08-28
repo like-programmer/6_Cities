@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {OfferType} from "../../const.js";
+import {Link} from "react-router-dom";
+import {AppRoute, OfferType} from "../../const.js";
 
 const OfferCard = (props) => {
   const {
@@ -17,7 +18,6 @@ const OfferCard = (props) => {
       className={`${offerType === OfferType.CITIES ? `${OfferType.CITIES}__place-card` : `${offerType}__card`} place-card`}
       onMouseEnter={() => onCardHover(card)}
       onMouseLeave={() => onCardHover({})}
-      onClick={() => onCardClick(card)}
     >
       {card.isPremium ?
         <div className="place-card__mark">
@@ -51,7 +51,11 @@ const OfferCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{card.title}</a>
+          <Link
+            to={`${AppRoute.PROPERTY}/${card.id}`}
+          >
+            {card.title}
+          </Link>
         </h2>
         <p className="place-card__type">{card.type}</p>
       </div>

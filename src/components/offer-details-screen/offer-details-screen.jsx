@@ -9,8 +9,8 @@ import ReviewList from "../review-list/review-list.jsx";
 import ReviewForm from "../review-form/review-form.jsx";
 import OfferList from "../offer-list/offer-list.jsx";
 import Map from "../map/map.jsx";
-import {getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
-import {getActiveOffer, getHoveredCard, getCity} from "../../reducer/app/selectors.js";
+import {getOfferById, getReviews, getNearbyOffers} from "../../reducer/data/selectors.js";
+import {getHoveredCard, getCity} from "../../reducer/app/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
 import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
@@ -310,8 +310,8 @@ OfferDetailsScreen.propTypes = {
   updateActiveOfferInOffers: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  offer: getActiveOffer(state),
+const mapStateToProps = (state, props) => ({
+  offer: getOfferById(state, props.match.params.id),
   hoveredCard: getHoveredCard(state),
   reviews: getReviews(state),
   activeCity: getCity(state),

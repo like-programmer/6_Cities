@@ -22,7 +22,7 @@ class Map extends PureComponent {
   _addMarker(pinCoords, map, isHovered) {
 
     const icon = leaflet.icon({
-      iconUrl: isHovered ? `img/pin-active.svg` : `img/pin.svg`,
+      iconUrl: isHovered ? `/img/pin-active.svg` : `/img/pin.svg`,
       iconSize: [30, 40]
     });
 
