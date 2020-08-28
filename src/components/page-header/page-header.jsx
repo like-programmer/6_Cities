@@ -33,7 +33,7 @@ const PageHeader = (props) => {
                   <a className="header__nav-link header__nav-link--profile" href="#">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">{userData ? `${userData.email} ` : `Sign in`}</span>
+                    <span className="header__user-name user__name">{`${userData.email}`}</span>
                   </a>
                   :
                   <a className="header__nav-link header__nav-link--profile" href="#">

@@ -6,9 +6,9 @@ import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import App from "./components/app/app.jsx";
 import reducer from "./reducer/reducer.js";
-import {Operation as DataOperation} from "./reducer/data/data.js";
 import {Operation as UserOperation, ActionCreator, AuthorizationStatus} from "./reducer/user/user.js";
 import {createAPI} from "./api.js";
+import withLoader from "./hocs/with-loader/with-loader.js";
 
 const onUnauthorized = () => {
   store.dispatch(ActionCreator.setAuthorizationStatus(AuthorizationStatus.NO_AUTH));
@@ -23,12 +23,13 @@ const store = createStore(
     )
 );
 
-store.dispatch(DataOperation.loadOffers());
+const WrappedApp = withLoader(App);
+
 store.dispatch(UserOperation.checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App/>
+      <WrappedApp/>
     </Provider>,
     document.querySelector(`#root`)
 );

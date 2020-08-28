@@ -47,12 +47,13 @@ const ActionCreator = {
 };
 
 const Operation = {
-  loadOffers: () => (dispatch, getState, api) => {
+  loadOffers: (onSuccess) => (dispatch, getState, api) => {
     return api.get(`/hotels`)
       .then((response) => {
         const parsedOffers = response.data.map((offer) => offersAdapter.parse(offer));
 
         dispatch(ActionCreator.loadOffers(parsedOffers));
+        onSuccess();
       });
   },
 

@@ -14,18 +14,16 @@ import {MapClassNames, OfferListClassNames, OfferType} from "../../const.js";
 import {getSortedOffers, getCityList, getFilteredByCityOffers} from "../../utils.js";
 
 class MainScreen extends PureComponent {
-  componentDidUpdate() {
+  componentDidMount() {
     const {activeCity, offers, setActiveCity} = this.props;
-     if (!activeCity) {
-       setActiveCity(offers[0].city);
-     }
+    if (!activeCity) {
+      setActiveCity(offers[0].city);
+    }
   }
 
   render() {
     const {
       offers,
-      // sortedOffers,
-      // cityList,
       sortType,
       activeCity,
       hoveredCard,
