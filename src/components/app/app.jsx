@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router} from "react-router-dom";
 import {connect} from "react-redux";
 import MainScreen from "../main-screen/main-screen.jsx";
 import AuthScreen from "../auth-screen/auth-screen.jsx";
@@ -18,7 +18,7 @@ class App extends PureComponent {
     setActiveCity(offers[0].city);
 
     return (
-      <BrowserRouter history={history}>
+      <Router history={history}>
         <Switch>
           <Route
             exact
@@ -39,7 +39,7 @@ class App extends PureComponent {
             component={OfferDetailsScreen}
           />
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
